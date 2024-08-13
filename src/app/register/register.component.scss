@@ -17,7 +17,7 @@ main {
     flex-direction: column;
     width: 100%;
   }
-  .login-button {
+  .register-button {
     flex-direction: row-reverse;
   }
 }
@@ -26,12 +26,12 @@ main {
   background-color: var(--grn-card-color);
 }
 
-.login-failed {
+.register-failed {
   color: red;
   font-size: 12px;
 }
 
-.registerLink {
+.loginLink {
   color: var(--grn-card-color);
   cursor: pointer;
 }
