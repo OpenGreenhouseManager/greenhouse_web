@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
@@ -6,13 +6,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiaryService } from '../services/diary-service';
+import { Diary } from '../models/diary';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'grn-diary-detail',
+  selector: 'grn-diary-edit',
   standalone: true,
   imports: [
     NavBarComponent,
@@ -22,14 +23,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
     InputTextModule,
     ButtonModule,
     InputGroupModule,
-    InputGroupAddonModule,
+    InputTextareaModule,
   ],
-  templateUrl: './diary-detail.component.html',
-  styleUrl: './diary-detail.component.scss',
+  templateUrl: './diary-edit.component.html',
+  styleUrl: './diary-edit.component.scss',
 })
-export class DiaryDetailComponent {
+export class DiaryEditComponent {
   private id = this.route.snapshot.paramMap.get('id');
-  diary = toSignal(this.diaryService.getDiary(this.id?.toString() || ''));
+  edit = computed(() => this.id !== null);
+  diary = toSignal(this.diaryService.getDiary(this.id as string), {
+    initialValue: new Diary(new Date(), '', '', new Date(), new Date()),
+    rejectErrors: true,
+  });
 
   constructor(
     private router: Router,
@@ -37,7 +42,12 @@ export class DiaryDetailComponent {
     private diaryService: DiaryService
   ) {}
 
-  editEntry() {
-    this.router.navigate(['diary', this.id, 'edit']);
+  saveEntry() {
+    if (this.edit()) {
+      this.diaryService.updateDiaryEntry(this.id ?? '', this.diary());
+    } else {
+      this.diaryService.addDiaryEntry(this.diary());
+    }
+    this.router.navigate(['/diary']);
   }
 }
