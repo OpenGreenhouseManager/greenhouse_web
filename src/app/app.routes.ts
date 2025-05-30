@@ -7,6 +7,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { DiaryOverviewComponent } from './diary/diary-overview/diary-overview.component';
 import { DiaryDetailComponent } from './diary/diary-detail/diary-detail.component';
 import { DiaryEditComponent } from './diary/diary-edit/diary-edit.component';
+import { AlertOverviewComponent } from './alert/alert-overview/alert-overview.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,7 +26,7 @@ export const routes: Routes = [
   },
   {
     path: 'alerts',
-    component: DashboardComponent,
+    component: AlertOverviewComponent,
     canActivate: [AuthGuard],
   },
   {
