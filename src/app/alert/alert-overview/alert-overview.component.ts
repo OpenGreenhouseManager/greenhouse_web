@@ -107,15 +107,12 @@ export class AlertOverviewComponent implements OnInit {
 
   display(identifier: string): string {
     const alias = this.searchForAlias(identifier);
-    if (alias) {
-      return alias;
-    }
-
-    const maxLength = 16;
-    if (identifier.length <= maxLength) {
-      return identifier;
-    }
-    return identifier.substring(0, maxLength - 3) + '...';
+    return (
+      alias ||
+      (identifier.length <= 16
+        ? identifier
+        : `${identifier.substring(0, 13)}...`)
+    );
   }
 
   searchForAlias(identifier: string): string | null {
@@ -135,8 +132,7 @@ export class AlertOverviewComponent implements OnInit {
   }
 
   severityToColor(severity: string): string {
-    const a = Severity[severity as keyof typeof Severity];
-    switch (a) {
+    switch (Severity[severity as keyof typeof Severity]) {
       case Severity.Info:
         return 'info';
       case Severity.Warning:
