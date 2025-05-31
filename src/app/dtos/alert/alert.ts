@@ -1,8 +1,8 @@
 export enum Severity {
-  Info,
-  Warning,
-  Error,
-  Fatal,
+  Info = 0,
+  Warning = 1,
+  Error = 2,
+  Fatal = 3,
 }
 
 export interface AlertDto {

@@ -2,12 +2,12 @@
 <main>
   <div class="heading">
     <h1>Alert</h1>
+  </div>
+  <div class="content">
     <p-dropdown
       [options]="intervals"
       [(ngModel)]="selectedInterval"
       optionLabel="label" />
-  </div>
-  <div class="content">
     <p-table
       #dt2
       [value]="alerts()"
@@ -23,6 +23,8 @@
         'last',
         'severity',
       ]"
+      [customSort]="true"
+      (sortFunction)="customSort($event)"
       [tableStyle]="{ width: '75rem' }">
       <ng-template #header>
         <tr>
@@ -103,10 +105,15 @@
             {{ alert.count }}
           </td>
           <td>
-            {{ shortenUUID(alert.identifier) }}
+            {{ alert.identifier }}
           </td>
           <td>
-            {{ shortenUUID(alert.source) }}
+            {{ display(alert.source) }}
+            <p-button
+              icon="pi pi-pencil"
+              label="Alias"
+              variant="text"
+              (onClick)="editAlias(alert.source)" />
           </td>
           <td>
             {{ prittyDate(alert.first) }}
@@ -115,7 +122,10 @@
             {{ prittyDate(alert.last) }}
           </td>
           <td>
-            {{ alert.severity }}
+            <p-tag
+              [value]="alert.severity"
+              [severity]="severityToColor(alert.severity)">
+            </p-tag>
           </td>
         </tr>
       </ng-template>

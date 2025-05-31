@@ -18,6 +18,9 @@ const MyTheme = definePreset(Lara, {
       lg: '8px',
       xl: '12px',
     },
+    colors: {
+      error: '#f44336',
+    },
     emerald: {
       50: '#ecfdf5',
       100: '#d1fae5',

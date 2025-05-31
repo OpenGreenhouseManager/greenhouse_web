@@ -15,7 +15,8 @@ import { TableModule } from 'primeng/table';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { SortEvent } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'grn-alert-overview',
   standalone: true,
@@ -31,6 +32,7 @@ import { DropdownModule } from 'primeng/dropdown';
     CommonModule,
     NavBarComponent,
     DropdownModule,
+    ButtonModule,
   ],
   templateUrl: './alert-overview.component.html',
   styleUrl: './alert-overview.component.scss',
@@ -103,11 +105,62 @@ export class AlertOverviewComponent implements OnInit {
     });
   }
 
-  shortenUUID(identifier: string): string {
-    const maxLength = 17;
+  display(identifier: string): string {
+    const alias = this.searchForAlias(identifier);
+    if (alias) {
+      return alias;
+    }
+
+    const maxLength = 16;
     if (identifier.length <= maxLength) {
       return identifier;
     }
     return identifier.substring(0, maxLength - 3) + '...';
+  }
+
+  searchForAlias(identifier: string): string | null {
+    return localStorage.getItem(`alias_${identifier}`);
+  }
+
+  editAlias(identifier: string) {
+    const alias = this.searchForAlias(identifier);
+    const newAlias = prompt('Edit Alias', alias || '');
+    if (newAlias !== null) {
+      if (newAlias.trim() === '') {
+        localStorage.removeItem(`alias_${identifier}`);
+      } else {
+        localStorage.setItem(`alias_${identifier}`, newAlias);
+      }
+    }
+  }
+
+  severityToColor(severity: string): string {
+    const a = Severity[severity as keyof typeof Severity];
+    switch (a) {
+      case Severity.Info:
+        return 'info';
+      case Severity.Warning:
+        return 'warn';
+      case Severity.Error:
+        return 'error';
+      case Severity.Fatal:
+        return 'fatal';
+      default:
+        return 'gray';
+    }
+  }
+
+  customSort(event: SortEvent) {
+    event.data!.sort((data1, data2) => {
+      let value1 = data1[event.field!];
+      let value2 = data2[event.field!];
+
+      if (event.field! == 'severity') {
+        value1 = Severity[value1 as keyof typeof Severity];
+        value2 = Severity[value2 as keyof typeof Severity];
+      }
+      const result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+      return event.order! * result;
+    });
   }
 }
