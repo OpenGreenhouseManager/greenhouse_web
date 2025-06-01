@@ -6,8 +6,7 @@
   [paginator]="true"
   [globalFilterFields]="['created_at', 'value', 'note', 'severity']"
   [customSort]="true"
-  (sortFunction)="customSort($event)"
-  [tableStyle]="{ width: '85rem' }">
+  (sortFunction)="customSort($event)">
   <ng-template #header>
     <tr>
       <th pSortableColumn="created_at" style="width: 20rem">

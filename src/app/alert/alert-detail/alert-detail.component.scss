@@ -28,6 +28,7 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    gap: 16px;
     .container {
       width: 50vw;
     }
