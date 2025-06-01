@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  computed,
   inject,
   input,
   OnInit,
@@ -15,7 +16,14 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Alert, Severity } from '../models/alert';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { addDays, endOfDay, isSameDay, startOfDay, subDays } from 'date-fns';
+import {
+  addDays,
+  endOfDay,
+  formatDistance,
+  isSameDay,
+  startOfDay,
+  subDays,
+} from 'date-fns';
 
 @Component({
   selector: 'grn-alert-detail-info',
@@ -39,6 +47,30 @@ export class AlertDetailInfoComponent implements OnInit {
   platformId = inject(PLATFORM_ID);
 
   alerts = input.required<Alert[]>();
+
+  lastSeen = computed(() => {
+    if (this.alerts().length === 0) {
+      return 'No alerts';
+    }
+    const lastAlert = this.alerts().reduce((latest, current) => {
+      const currentDate = new Date(current.created_at);
+      const latestDate = new Date(latest.created_at);
+      return currentDate > latestDate ? current : latest;
+    });
+    return formatDistance(lastAlert.created_at, new Date());
+  });
+
+  firstSeen = computed(() => {
+    if (this.alerts().length === 0) {
+      return 'No alerts';
+    }
+    const firstAlert = this.alerts().reduce((earliest, current) => {
+      const currentDate = new Date(current.created_at);
+      const earliestDate = new Date(earliest.created_at);
+      return currentDate < earliestDate ? current : earliest;
+    });
+    return formatDistance(firstAlert.created_at, new Date());
+  });
 
   constructor(private cd: ChangeDetectorRef) {}
 
