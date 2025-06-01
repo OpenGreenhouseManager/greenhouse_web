@@ -16,6 +16,7 @@ describe('AlertDetailListComponent', () => {
 
     fixture = TestBed.createComponent(AlertDetailListComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('alerts', []);
     fixture.detectChanges();
   });
 
