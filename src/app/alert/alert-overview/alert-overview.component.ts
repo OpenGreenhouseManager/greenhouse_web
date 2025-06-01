@@ -4,7 +4,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert-service';
 import { endOfDay, startOfDay, subDays, subHours } from 'date-fns';
-import { AggregatedAlert, Severity } from '../models/aggregated-alert';
+import { AggregatedAlert } from '../models/aggregated-alert';
 import { AlertInterval } from '../models/alert-interval';
 import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { SortEvent } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { Severity } from '../models/alert';
 @Component({
   selector: 'grn-alert-overview',
   standalone: true,
@@ -38,6 +39,8 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './alert-overview.component.scss',
 })
 export class AlertOverviewComponent implements OnInit {
+  Severity = Severity;
+
   alerts = signal<AggregatedAlert[]>([]);
   alerts_effect = effect(() => {
     this.alertService
@@ -64,7 +67,7 @@ export class AlertOverviewComponent implements OnInit {
   severityOptions = Object.keys(Severity)
     .filter(key => isNaN(Number(key)))
     .map(key => ({
-      label: key,
+      label: Severity[key as keyof typeof Severity],
       value: key,
     }));
 
@@ -119,7 +122,8 @@ export class AlertOverviewComponent implements OnInit {
     return localStorage.getItem(`alias_${identifier}`);
   }
 
-  editAlias(identifier: string) {
+  editAlias(event: MouseEvent, identifier: string) {
+    event.stopPropagation();
     const alias = this.searchForAlias(identifier);
     const newAlias = prompt('Edit Alias', alias || '');
     if (newAlias !== null) {
@@ -131,8 +135,8 @@ export class AlertOverviewComponent implements OnInit {
     }
   }
 
-  severityToColor(severity: string): string {
-    switch (Severity[severity as keyof typeof Severity]) {
+  severityToColor(severity: Severity): string {
+    switch (severity) {
       case Severity.Info:
         return 'info';
       case Severity.Warning:
@@ -148,15 +152,15 @@ export class AlertOverviewComponent implements OnInit {
 
   customSort(event: SortEvent) {
     event.data!.sort((data1, data2) => {
-      let value1 = data1[event.field!];
-      let value2 = data2[event.field!];
+      const value1 = data1[event.field!];
+      const value2 = data2[event.field!];
 
-      if (event.field! == 'severity') {
-        value1 = Severity[value1 as keyof typeof Severity];
-        value2 = Severity[value2 as keyof typeof Severity];
-      }
       const result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
       return event.order! * result;
     });
+  }
+
+  showDetails(alert: AggregatedAlert) {
+    this.router.navigate(['/alert', alert.identifier, alert.source]);
   }
 }

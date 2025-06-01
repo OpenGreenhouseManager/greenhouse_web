@@ -8,6 +8,7 @@ import { DiaryOverviewComponent } from './diary/diary-overview/diary-overview.co
 import { DiaryDetailComponent } from './diary/diary-detail/diary-detail.component';
 import { DiaryEditComponent } from './diary/diary-edit/diary-edit.component';
 import { AlertOverviewComponent } from './alert/alert-overview/alert-overview.component';
+import { AlertDetailComponent } from './alert/alert-detail/alert-detail.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,12 @@ export const routes: Routes = [
   {
     path: 'alerts',
     component: AlertOverviewComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'alert/:identifier/:data-source',
+    component: AlertDetailComponent,
     canActivate: [AuthGuard],
   },
   {

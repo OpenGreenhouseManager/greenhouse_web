@@ -90,7 +90,7 @@
                     <ng-template let-option #item>
                       <p-tag
                         [value]="option.value"
-                        [severity]="severityToColor(option.value)" />
+                        [severity]="severityToColor(option.label)" />
                     </ng-template>
                   </p-select>
                 </ng-template>
@@ -99,34 +99,34 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template #body let-alert>
-        <tr>
+      <ng-template #body let-item>
+        <tr (click)="showDetails(item)">
           <td>
-            {{ alert.count }}
+            {{ item.count }}
           </td>
           <td>
-            {{ alert.identifier }}
+            {{ item.identifier }}
           </td>
           <td>
             <div class="tableCell">
-              <span>{{ display(alert.source) }}</span>
+              <span>{{ display(item.source) }}</span>
               <p-button
                 icon="pi pi-pencil"
                 label="Alias"
                 variant="text"
-                (onClick)="editAlias(alert.source)" />
+                (click)="editAlias($event, item.source)" />
             </div>
           </td>
           <td>
-            {{ prittyDate(alert.first) }}
+            {{ prittyDate(item.first) }}
           </td>
           <td>
-            {{ prittyDate(alert.last) }}
+            {{ prittyDate(item.last) }}
           </td>
           <td>
             <p-tag
-              [value]="alert.severity"
-              [severity]="severityToColor(alert.severity)">
+              [value]="Severity[item.severity]"
+              [severity]="severityToColor(item.severity)">
             </p-tag>
           </td>
         </tr>
