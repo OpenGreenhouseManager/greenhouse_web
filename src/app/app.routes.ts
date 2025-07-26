@@ -10,6 +10,7 @@ import { DiaryEditComponent } from './diary/diary-edit/diary-edit.component';
 import { AlertOverviewComponent } from './alert/alert-overview/alert-overview.component';
 import { AlertDetailComponent } from './alert/alert-detail/alert-detail.component';
 import { DeviceOverviewComponent } from './device/device-overview/device-overview.component';
+import { DeviceDetailComponent } from './device/device-detail/device-detail.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,6 +25,11 @@ export const routes: Routes = [
   {
     path: 'smart_devices',
     component: DeviceOverviewComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'smart_devices/:id',
+    component: DeviceDetailComponent,
     canActivate: [AuthGuard],
   },
   {

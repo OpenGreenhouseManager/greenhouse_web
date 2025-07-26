@@ -1,0 +1,80 @@
+<grn-nav-bar></grn-nav-bar>
+<main>
+    <div class="heading">
+        <h1>Device Details</h1>
+      </div>
+<div class="device-detail-container">
+  <div *ngIf="loading" class="loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Loading device details...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p-message severity="error" [text]="error"></p-message>
+  </div>
+
+  <div *ngIf="!loading && !error" class="content">
+    <div class="device-info-card">
+      <grn-card title="Device Information" icon="pi-info-circle">
+        <div *ngIf="device" class="device-info">
+          <div class="info-row">
+            <span class="label">ID:</span>
+            <span class="value">{{ device.id }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Name:</span>
+            <span class="value">{{ device.name }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Address:</span>
+            <span class="value">{{ device.address }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Description:</span>
+            <span class="value">{{ device.description }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Can Script:</span>
+            <span class="value">
+              <i [class]="device.canscript ? 'pi pi-check text-green-500' : 'pi pi-times text-red-500'"></i>
+              {{ device.canscript ? 'Yes' : 'No' }}
+            </span>
+          </div>
+        </div>
+      </grn-card>
+    </div>
+
+    <div class="device-config-card">
+      <grn-card title="Device Configuration" icon="pi-cog">
+        <div *ngIf="deviceConfig" class="device-config">
+          <div class="info-row">
+            <span class="label">Mode:</span>
+            <span class="value">
+              <span class="mode-badge">
+                {{ deviceConfig.mode }}
+              </span>
+            </span>
+          </div>
+          <div class="info-row" *ngIf="deviceConfig.input_type">
+            <span class="label">Input Type:</span>
+            <span class="value">{{ deviceConfig.input_type }}</span>
+          </div>
+          <div class="info-row" *ngIf="deviceConfig.output_type">
+            <span class="label">Output Type:</span>
+            <span class="value">{{ deviceConfig.output_type }}</span>
+          </div>
+          <div class="info-row" *ngIf="deviceConfig.additional_config">
+            <span class="label">Additional Config:</span>
+            <div class="value">
+              <ngx-json-viewer [json]="deviceConfig.additional_config"></ngx-json-viewer>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!deviceConfig" class="no-config">
+          <p>No configuration data available for this device.</p>
+        </div>
+      </grn-card>
+    </div>
+  </div>
+</div> 
+</main>

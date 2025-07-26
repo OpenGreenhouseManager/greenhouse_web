@@ -10,6 +10,7 @@ import { SortEvent } from 'primeng/api';
 import { forkJoin, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'grn-device-overview',
@@ -35,7 +36,10 @@ export class DeviceOverviewComponent implements OnInit {
   loading = signal(true);
   searchTerm = signal('');
 
-  constructor(private deviceService: DeviceService) {}
+  constructor(
+    private deviceService: DeviceService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadDevices();
@@ -112,6 +116,10 @@ export class DeviceOverviewComponent implements OnInit {
   addNewDevice() {
     // TODO: Implement add new device functionality
     console.log('Add new device clicked');
+  }
+
+  navigateToDeviceDetail(device: DeviceResponseDto) {
+    this.router.navigate(['/smart_devices', device.id]);
   }
 
   customSort(event: SortEvent) {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DeviceResponseDto, DeviceStatusResponseDto } from '../../dtos/device';
+import { DeviceResponseDto, DeviceStatusResponseDto, ConfigResponseDto } from '../../dtos/device';
 import { device } from '../../urls/urls';
 
 @Injectable({
@@ -16,6 +16,12 @@ export class DeviceService {
     });
   }
 
+  getDeviceById(deviceId: string): Observable<DeviceResponseDto> {
+    return this.http.get<DeviceResponseDto>(`${device}/${deviceId}`, {
+      withCredentials: true,
+    });
+  }
+
   getDeviceStatus(deviceId: string): Observable<DeviceStatusResponseDto> {
     return this.http.get<DeviceStatusResponseDto>(
       `${device}/${deviceId}/status`,
@@ -23,5 +29,11 @@ export class DeviceService {
         withCredentials: true,
       }
     );
+  }
+
+  getDeviceConfig(deviceId: string): Observable<ConfigResponseDto> {
+    return this.http.get<ConfigResponseDto>(`${device}/${deviceId}/config`, {
+      withCredentials: true,
+    });
   }
 }
