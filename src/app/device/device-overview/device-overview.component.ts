@@ -123,8 +123,8 @@ export class DeviceOverviewComponent implements OnInit {
 
   customSort(event: SortEvent) {
     event.data!.sort((data1, data2) => {
-      let value1: any;
-      let value2: any;
+      let value1: unknown;
+      let value2: unknown;
 
       if (event.field === 'status') {
         value1 = data1.status || 'Unknown';
@@ -134,7 +134,7 @@ export class DeviceOverviewComponent implements OnInit {
         value2 = data2[event.field!];
       }
 
-      const result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
+      const result = (value1 as number) < (value2 as number) ? -1 : (value1 as number) > (value2 as number) ? 1 : 0;
       return event.order! * result;
     });
   }

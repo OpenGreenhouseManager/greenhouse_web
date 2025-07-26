@@ -38,7 +38,7 @@ export enum Mode {
   Unknown = 'Unknown',
 }
 
-export interface ConfigResponseDto<T = any> {
+export interface ConfigResponseDto<T = unknown> {
   mode: Mode;
   input_type?: Type;
   output_type?: Type;

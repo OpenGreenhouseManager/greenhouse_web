@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
@@ -21,8 +21,8 @@ import { ButtonModule } from 'primeng/button';
 export class DeviceDetailComponent implements OnInit {
   device: DeviceResponseDto | null = null;
   deviceConfig: ConfigResponseDto | null = null;
-  loading = true;
-  error: string | null = null;
+  loading = signal(true);
+  error = signal<string | null>(null);
 
   constructor(
     private route: ActivatedRoute,
@@ -35,14 +35,14 @@ export class DeviceDetailComponent implements OnInit {
     if (deviceId) {
       this.loadDeviceData(deviceId);
     } else {
-      this.error = 'Device ID not found';
-      this.loading = false;
+      this.error.set('Device ID not found');
+      this.loading.set(false);
     }
   }
 
   private loadDeviceData(deviceId: string): void {
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
 
     forkJoin({
       device: this.deviceService.getDeviceById(deviceId).pipe(
@@ -61,16 +61,16 @@ export class DeviceDetailComponent implements OnInit {
       next: (result) => {
         this.device = result.device;
         this.deviceConfig = result.config;
-        this.loading = false;
+        this.loading.set(false);
         
         if (!result.device && !result.config) {
-          this.error = 'Failed to load device data';
+          this.error.set('Failed to load device data');
         }
       },
       error: (error) => {
         console.error('Error loading device data:', error);
-        this.error = 'An error occurred while loading device data';
-        this.loading = false;
+        this.error.set('An error occurred while loading device data');
+        this.loading.set(false);
       }
     });
   }
