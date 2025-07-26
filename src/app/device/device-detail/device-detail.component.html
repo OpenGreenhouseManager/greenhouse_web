@@ -2,6 +2,17 @@
 <main>
   <div class="heading">
       <h1>Device Details</h1>
+      <div class="status-indicator">
+        <div
+          class="status-dot"
+          [style.background-color]="
+            getStatusColor(device?.status)
+          "
+          [title]="getStatusText(device?.status)"></div>
+        <span class="status-text">{{
+          getStatusText(device?.status)
+        }}</span>
+      </div>
       <p-button
         label="Edit Device"
         icon="pi pi-pencil"

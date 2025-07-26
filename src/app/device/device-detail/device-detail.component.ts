@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
-import { DeviceResponseDto, ConfigResponseDto } from '../../dtos/device';
+import { DeviceResponseDto, ConfigResponseDto, DeviceStatusResponseDto, DeviceStatusDto } from '../../dtos/device';
 import { catchError, forkJoin, of } from 'rxjs';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageModule } from 'primeng/message';
@@ -56,11 +56,20 @@ export class DeviceDetailComponent implements OnInit {
           console.error('Error loading device config:', error);
           return of(null);
         })
+      ),
+      status: this.deviceService.getDeviceStatus(deviceId).pipe(
+        catchError(error => {
+          console.error('Error loading device status:', error);
+          return of(null);
+        })
       )
     }).subscribe({
       next: (result) => {
         this.device = result.device;
         this.deviceConfig = result.config;
+        if(this.device) {
+          this.device.status = result.status?.status;
+        }
         this.loading.set(false);
         
         if (!result.device && !result.config) {
@@ -78,6 +87,34 @@ export class DeviceDetailComponent implements OnInit {
   editDevice(): void {
     if (this.device) {
       this.router.navigate(['/smart_devices', this.device.id, 'edit']);
+    }
+  }
+
+  getStatusColor(status?: DeviceStatusDto): string {
+    if (!status) {
+      return 'gray';
+    }
+    switch (status) {
+      case DeviceStatusDto.Online:
+        return 'green';
+      case DeviceStatusDto.Panic:
+        return 'red';
+      default:
+        return 'gray';
+    }
+  }
+
+  getStatusText(status?: DeviceStatusDto): string {
+    if (!status) {
+      return 'Offline';
+    }
+    switch (status) {
+      case DeviceStatusDto.Online:
+        return 'Online';
+      case DeviceStatusDto.Panic:
+        return 'Panic';
+      default:
+        return 'Offline';
     }
   }
 } 
