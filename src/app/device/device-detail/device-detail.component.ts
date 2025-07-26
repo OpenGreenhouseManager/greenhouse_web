@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
@@ -9,11 +9,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageModule } from 'primeng/message';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-device-detail',
   standalone: true,
-  imports: [CommonModule, CardComponent, ProgressSpinnerModule, MessageModule, NavBarComponent, NgxJsonViewerModule],
+  imports: [CommonModule, CardComponent, ProgressSpinnerModule, MessageModule, NavBarComponent, NgxJsonViewerModule, ButtonModule],
   templateUrl: './device-detail.component.html',
   styleUrl: './device-detail.component.scss'
 })
@@ -25,6 +26,7 @@ export class DeviceDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private deviceService: DeviceService
   ) {}
 
@@ -71,5 +73,11 @@ export class DeviceDetailComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  editDevice(): void {
+    if (this.device) {
+      this.router.navigate(['/smart_devices', this.device.id, 'edit']);
+    }
   }
 } 

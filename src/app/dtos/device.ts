@@ -7,6 +7,20 @@ export interface DeviceResponseDto {
   status?: DeviceStatusDto;
 }
 
+export interface PutDeviceDtoRequest {
+  name: string;
+  description: string;
+  address: string;
+  can_script: boolean;
+}
+
+export interface PostDeviceDtoRequest {
+  name: string;
+  description: string;
+  address: string;
+  can_script: boolean;
+}
+
 export enum DeviceStatusDto {
   Online = 'Online',
   Panic = 'Panic',

@@ -2,6 +2,11 @@
 <main>
     <div class="heading">
         <h1>Device Details</h1>
+        <p-button
+          label="Edit Device"
+          icon="pi pi-pencil"
+          (onClick)="editDevice()"
+          class="edit-button" />
       </div>
 <div class="device-detail-container">
   <div *ngIf="loading" class="loading">

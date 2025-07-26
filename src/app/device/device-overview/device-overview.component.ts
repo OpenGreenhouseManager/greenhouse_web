@@ -114,8 +114,7 @@ export class DeviceOverviewComponent implements OnInit {
   }
 
   addNewDevice() {
-    // TODO: Implement add new device functionality
-    console.log('Add new device clicked');
+    this.router.navigate(['/smart_devices/add']);
   }
 
   navigateToDeviceDetail(device: DeviceResponseDto) {
