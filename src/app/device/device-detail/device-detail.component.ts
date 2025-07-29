@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
-import { DeviceResponseDto, ConfigResponseDto, DeviceStatusResponseDto, DeviceStatusDto } from '../../dtos/device';
+import { DeviceResponseDto, ConfigResponseDto, DeviceStatusDto } from '../../dtos/device';
 import { catchError, forkJoin, of } from 'rxjs';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageModule } from 'primeng/message';
