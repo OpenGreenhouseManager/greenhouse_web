@@ -34,18 +34,23 @@ import { map, of } from 'rxjs';
 export class DeviceEditComponent {
   private id = this.route.snapshot.paramMap.get('id');
   edit = computed(() => this.id !== null);
-  
+
   // Create a reactive device object for editing
   device = toSignal(
-    this.edit() 
-      ? this.deviceService.getDeviceById(this.id ?? '').pipe(
-          map(deviceDto => new Device(
-            deviceDto.name,
-            deviceDto.description,
-            deviceDto.address,
-            deviceDto.canscript
-          ))
-        )
+    this.edit()
+      ? this.deviceService
+          .getDeviceById(this.id ?? '')
+          .pipe(
+            map(
+              deviceDto =>
+                new Device(
+                  deviceDto.name,
+                  deviceDto.description,
+                  deviceDto.address,
+                  deviceDto.canscript
+                )
+            )
+          )
       : of(new Device()),
     {
       initialValue: new Device(),
@@ -65,23 +70,22 @@ export class DeviceEditComponent {
 
     let observable;
     if (this.edit()) {
-      observable = this.deviceService.updateDevice(
-        this.id ?? '',
-        {
-          name: deviceData.name,
-          description: deviceData.description,
-          address: deviceData.address,
-          can_script: deviceData.can_script
-        }
-      );
+      observable = this.deviceService.updateDevice(this.id ?? '', {
+        name: deviceData.name,
+        description: deviceData.description,
+        address: deviceData.address,
+        can_script: deviceData.can_script,
+      });
     } else {
       observable = this.deviceService.addDevice({
         name: deviceData.name,
         description: deviceData.description,
         address: deviceData.address,
-        can_script: deviceData.can_script
+        can_script: deviceData.can_script,
       });
     }
-    observable.subscribe((response) => this.router.navigate(['/smart_devices', response.id]));
+    observable.subscribe(response =>
+      this.router.navigate(['/smart_devices', response.id])
+    );
   }
-} 
+}

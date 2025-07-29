@@ -3,7 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
-import { DeviceResponseDto, ConfigResponseDto, DeviceStatusDto } from '../../dtos/device';
+import {
+  DeviceResponseDto,
+  ConfigResponseDto,
+  DeviceStatusDto,
+} from '../../dtos/device';
 import { catchError, forkJoin, of } from 'rxjs';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageModule } from 'primeng/message';
@@ -14,9 +18,17 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-device-detail',
   standalone: true,
-  imports: [CommonModule, CardComponent, ProgressSpinnerModule, MessageModule, NavBarComponent, NgxJsonViewerModule, ButtonModule],
+  imports: [
+    CommonModule,
+    CardComponent,
+    ProgressSpinnerModule,
+    MessageModule,
+    NavBarComponent,
+    NgxJsonViewerModule,
+    ButtonModule,
+  ],
   templateUrl: './device-detail.component.html',
-  styleUrl: './device-detail.component.scss'
+  styleUrl: './device-detail.component.scss',
 })
 export class DeviceDetailComponent implements OnInit {
   device: DeviceResponseDto | null = null;
@@ -62,25 +74,25 @@ export class DeviceDetailComponent implements OnInit {
           console.error('Error loading device status:', error);
           return of(null);
         })
-      )
+      ),
     }).subscribe({
-      next: (result) => {
+      next: result => {
         this.device = result.device;
         this.deviceConfig = result.config;
-        if(this.device) {
+        if (this.device) {
           this.device.status = result.status?.status;
         }
         this.loading.set(false);
-        
+
         if (!result.device && !result.config) {
           this.error.set('Failed to load device data');
         }
       },
-      error: (error) => {
+      error: error => {
         console.error('Error loading device data:', error);
         this.error.set('An error occurred while loading device data');
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -117,4 +129,4 @@ export class DeviceDetailComponent implements OnInit {
         return 'Offline';
     }
   }
-} 
+}

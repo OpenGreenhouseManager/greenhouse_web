@@ -134,7 +134,12 @@ export class DeviceOverviewComponent implements OnInit {
         value2 = data2[event.field!];
       }
 
-      const result = (value1 as number) < (value2 as number) ? -1 : (value1 as number) > (value2 as number) ? 1 : 0;
+      const result =
+        (value1 as number) < (value2 as number)
+          ? -1
+          : (value1 as number) > (value2 as number)
+            ? 1
+            : 0;
       return event.order! * result;
     });
   }

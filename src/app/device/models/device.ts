@@ -5,4 +5,4 @@ export class Device {
     public address: string = '',
     public can_script: boolean = false
   ) {}
-} 
+}

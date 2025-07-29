@@ -8,10 +8,9 @@ describe('DeviceEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeviceEditComponent]
-    })
-    .compileComponents();
-    
+      imports: [DeviceEditComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DeviceEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -20,4 +19,4 @@ describe('DeviceEditComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-}); 
+});
