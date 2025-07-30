@@ -1,13 +1,16 @@
 <grn-nav-bar></grn-nav-bar>
 <main>
   <div class="heading">
-    <h1>Device Details</h1>
-    <div class="status-indicator">
-      <div
-        class="status-dot"
-        [style.background-color]="getStatusColor(device?.status)"
-        [title]="getStatusText(device?.status)"></div>
-      <span class="status-text">{{ getStatusText(device?.status) }}</span>
+    <div class="heading-left">
+      <p-button type="button" (click)="goBack()" icon="pi pi-arrow-left" styleClass="p-button-text"></p-button>
+      <h1>Device Details</h1>
+      <div class="status-indicator">
+        <div
+          class="status-dot"
+          [style.background-color]="getStatusColor(device?.status)"
+          [title]="getStatusText(device?.status)"></div>
+        <span class="status-text">{{ getStatusText(device?.status) }}</span>
+      </div>
     </div>
     <p-button
       label="Edit Device"

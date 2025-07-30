@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
 import {
@@ -37,9 +37,10 @@ export class DeviceDetailComponent implements OnInit {
   error = signal<string | null>(null);
 
   constructor(
-    private route: ActivatedRoute,
+    private deviceService: DeviceService,
     private router: Router,
-    private deviceService: DeviceService
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -100,6 +101,10 @@ export class DeviceDetailComponent implements OnInit {
     if (this.device) {
       this.router.navigate(['/smart_devices', this.device.id, 'edit']);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   getStatusColor(status?: DeviceStatusDto): string {
