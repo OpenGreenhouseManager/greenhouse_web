@@ -2,7 +2,11 @@
 <main>
   <div class="heading">
     <div class="heading-left">
-      <p-button type="button" (click)="goBack()" icon="pi pi-arrow-left" styleClass="p-button-text"></p-button>
+      <p-button
+        type="button"
+        (click)="goBack()"
+        icon="pi pi-arrow-left"
+        styleClass="p-button-text"></p-button>
       <h1>Device Details</h1>
       <div class="status-indicator">
         <div
@@ -102,14 +106,17 @@
               @if (deviceConfig()!.scripting_api) {
                 <div class="info-row">
                   <span class="label">Scripting API:</span>
-                  <span class="value">{{ deviceConfig()!.scripting_api?.url }}</span>
+                  <span class="value">{{
+                    deviceConfig()!.scripting_api?.url
+                  }}</span>
                 </div>
                 <div class="info-row">
                   <span class="label">Token:</span>
-                  <span class="value">{{ deviceConfig()!.scripting_api?.token }}</span>
+                  <span class="value">{{
+                    deviceConfig()!.scripting_api?.token
+                  }}</span>
                 </div>
-              }
-              @else {
+              } @else {
                 <div class="info-row">
                   <p-button
                     label="Register Device"
@@ -123,7 +130,9 @@
                   <span class="label">Additional Config:</span>
                   <div class="value">
                     <ngx-json-viewer
-                      [json]="deviceConfig()!.additional_config"></ngx-json-viewer>
+                      [json]="
+                        deviceConfig()!.additional_config
+                      "></ngx-json-viewer>
                   </div>
                 </div>
               }

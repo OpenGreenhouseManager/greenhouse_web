@@ -141,12 +141,12 @@ export class DeviceDetailComponent implements OnInit {
       this.deviceService.registerDevice(this.device()!.id);
       this.loadingActivation.set(true);
       setTimeout(() => {
-      this.deviceService.getDeviceConfig(this.device()!.id).subscribe({
-        next: (response) => {
-          this.deviceConfig()!.scripting_api = response.scripting_api;
-          this.loadingActivation.set(true);
-        },
-        error: (error) => {
+        this.deviceService.getDeviceConfig(this.device()!.id).subscribe({
+          next: response => {
+            this.deviceConfig()!.scripting_api = response.scripting_api;
+            this.loadingActivation.set(true);
+          },
+          error: error => {
             console.error(error);
             this.loadingActivation.set(false);
           },
