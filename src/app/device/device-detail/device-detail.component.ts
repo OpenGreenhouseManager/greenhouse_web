@@ -31,10 +31,11 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './device-detail.component.scss',
 })
 export class DeviceDetailComponent implements OnInit {
-  device: DeviceResponseDto | null = null;
-  deviceConfig: ConfigResponseDto | null = null;
+  device = signal<DeviceResponseDto | null>(null);
+  deviceConfig = signal<ConfigResponseDto | null>(null);
   loading = signal(true);
   error = signal<string | null>(null);
+  loadingActivation = signal(false);
 
   constructor(
     private deviceService: DeviceService,
@@ -78,10 +79,10 @@ export class DeviceDetailComponent implements OnInit {
       ),
     }).subscribe({
       next: result => {
-        this.device = result.device;
-        this.deviceConfig = result.config;
-        if (this.device) {
-          this.device.status = result.status?.status;
+        this.device.set(result.device);
+        this.deviceConfig.set(result.config);
+        if (this.device()) {
+          this.device()!.status = result.status?.status;
         }
         this.loading.set(false);
 
@@ -98,13 +99,13 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   editDevice(): void {
-    if (this.device) {
-      this.router.navigate(['/smart_devices', this.device.id, 'edit']);
+    if (this.device()) {
+      this.router.navigate(['/smart_devices', this.device()!.id, 'edit']);
     }
   }
 
-  goBack(): void {
-    this.location.back();
+  goBack() {
+    this.router.navigate(['/smart_devices']);
   }
 
   getStatusColor(status?: DeviceStatusDto): string {
@@ -132,6 +133,25 @@ export class DeviceDetailComponent implements OnInit {
         return 'Panic';
       default:
         return 'Offline';
+    }
+  }
+
+  registerDevice(): void {
+    if (this.device()) {
+      this.deviceService.registerDevice(this.device()!.id);
+      this.loadingActivation.set(true);
+      setTimeout(() => {
+      this.deviceService.getDeviceConfig(this.device()!.id).subscribe({
+        next: (response) => {
+          this.deviceConfig()!.scripting_api = response.scripting_api;
+          this.loadingActivation.set(true);
+        },
+        error: (error) => {
+            console.error(error);
+            this.loadingActivation.set(false);
+          },
+        });
+      }, 1000);
     }
   }
 }

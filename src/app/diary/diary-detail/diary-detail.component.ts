@@ -43,7 +43,7 @@ export class DiaryDetailComponent {
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['diary']);
   }
 
   getDate(date: Date | undefined): string {
