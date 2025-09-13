@@ -15,8 +15,6 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
 
     steps:
       - name: Checkout
@@ -39,32 +37,16 @@ jobs:
           images: |
             ghcr.io/opengreenhousemanager/greenhouse_web
           tags: |
-            type=raw,value=${{ matrix.environment }}
-            type=raw,value=${{ matrix.environment }}-${{ github.sha }}
-            type=ref,event=tag,suffix=-${{ matrix.environment }}
+            type=raw,value=latest
+            type=raw,value=${{ github.sha }}
 
-      - name: Set environment variables for staging
-        if: matrix.environment == 'staging'
-        run: |
-          echo "API_BASE_URL=${{ secrets.STAGING_API_BASE_URL }}" >> $GITHUB_ENV
-          echo "ANGULAR_CONFIGURATION=staging" >> $GITHUB_ENV
-
-      - name: Set environment variables for production
-        if: matrix.environment == 'production'
-        run: |
-          echo "API_BASE_URL=${{ secrets.PROD_API_BASE_URL }}" >> $GITHUB_ENV
-          echo "ANGULAR_CONFIGURATION=production" >> $GITHUB_ENV
-
-      - name: Build and push ${{ matrix.environment }}
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: .
-          target: production
+          target: builder
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            API_BASE_URL=${{ env.API_BASE_URL }}
-            ANGULAR_CONFIGURATION=${{ env.ANGULAR_CONFIGURATION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max 
