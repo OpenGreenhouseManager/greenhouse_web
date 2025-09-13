@@ -26,18 +26,20 @@ RUN if [ ! -z "$API_BASE_URL" ]; then \
 # Build the Angular application
 RUN ng build --configuration=$ANGULAR_CONFIGURATION
 
-# Production stage with nginx
-FROM nginx:alpine as production
+# Production stage - serve static files
+FROM node:23.6.1-bullseye-slim as production
+
+# Install a simple HTTP server for serving static files
+RUN npm install -g serve
 
 # Copy built application from builder stage
-COPY --from=builder /greenhouse_web/dist/greenhouse_web /usr/share/nginx/html
+COPY --from=builder /greenhouse_web/dist/greenhouse_web /app
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+WORKDIR /app
 
-EXPOSE 80
+EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", ".", "-l", "3000"]
 
 # Development stage (keeping the original dev setup)
 FROM builder as dev-envs
