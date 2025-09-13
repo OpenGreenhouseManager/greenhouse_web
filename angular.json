@@ -76,15 +76,19 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "disableHostCheck": true
+          },
           "configurations": {
             "production": {
               "buildTarget": "greenhouse_web:build:production"
             },
             "staging": {
-              "buildTarget": "greenhouse_web:build:staging"
-            },
+              "buildTarget": "greenhouse_web:build:staging",
+              "proxyConfig": "src/proxy.conf.json"            },
             "development": {
-              "buildTarget": "greenhouse_web:build:development"
+              "buildTarget": "greenhouse_web:build:development",
+              "proxyConfig": "src/proxy.conf.dev.json"
             }
           },
           "defaultConfiguration": "development"
