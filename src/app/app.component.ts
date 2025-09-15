@@ -14,11 +14,5 @@ import { environment } from '../environments/environment';
 export class AppComponent {
   public str: string = $localize`:@@HOME-TEXT1:Add some content to get startedd!`;
   public str2: string = $localize`:@@HOME-TEXT2:this is some more localization!`;
-
-  constructor() {
-    console.log(environment.production); // Logs false for development environment
-    console.log('using api: ' + environment.baseUrl);
-  }
-
   title = 'greenhouse_web';
 }
