@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*.*.*'
-    branches:
-      - 'add-staging-env'
   workflow_dispatch: {}
 
 permissions:
