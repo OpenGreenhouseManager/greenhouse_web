@@ -9,6 +9,7 @@ import { chartOptions } from './chart_option';
 import { of } from 'rxjs';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageModule } from 'primeng/message';
 
 export interface GraphConfig {
   device_id: string;
@@ -18,7 +19,7 @@ export interface GraphConfig {
 @Component({
   selector: 'grn-graph',
   standalone: true,
-  imports: [CommonModule, CardComponent, ChartModule, ProgressSpinnerModule],
+  imports: [CommonModule, CardComponent, ChartModule, ProgressSpinnerModule, MessageModule],
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.scss',
 })

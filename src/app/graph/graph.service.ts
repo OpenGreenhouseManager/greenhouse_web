@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { TimeseriesDto } from '../dtos/timeseries';
 import { device } from '../urls/urls';
 
@@ -25,7 +25,6 @@ export class GraphService {
     if (query.step) {
       params.set('step', query.step);
     }
-
     return this.http.get<TimeseriesDto[]>(`${device}/${deviceId}/timeseries`, {
         withCredentials: true,
         params,
