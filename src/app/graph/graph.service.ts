@@ -18,13 +18,14 @@ export class GraphService {
   constructor(private http: HttpClient) {}
 
   getTimeseries(deviceId: string, query: TimeseriesQuery): Observable<TimeseriesDto[]> {
-    const params = new HttpParams().set('start', query.start.toISOString()).set('end', query.end.toISOString());
+    let params = new HttpParams().set('start', query.start.toISOString()).set('end', query.end.toISOString());
     if (query.sub_property) {
-      params.set('sub_property', query.sub_property);
+      params = params.set('sub_property', query.sub_property);
     }
     if (query.step) {
-      params.set('step', query.step);
+      params = params.set('step', query.step);
     }
+
     return this.http.get<TimeseriesDto[]>(`${device}/${deviceId}/timeseries`, {
         withCredentials: true,
         params,
