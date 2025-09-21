@@ -1,0 +1,6 @@
+<grn-card title="Device Information" icon="pi-info-circle">
+    <div class="graph" style="height: 100%; width: 100%;">
+        <p-chart type="line" [data]="timeseries()" [options]="chartOptions"></p-chart> 
+        <p-progress-spinner ariaLabel="loading" *ngIf="loading()" class="loadingSpinner" />
+    </div>
+</grn-card>
