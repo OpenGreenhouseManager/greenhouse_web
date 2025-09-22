@@ -3,7 +3,7 @@ import { Component, computed, effect, inject, input, output, signal } from '@ang
 import { GraphService } from './graph.service';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { CardComponent } from "../card/card.component";
+import { CardComponent } from "../../card/card.component";
 import { ChartModule } from 'primeng/chart';
 import { chartOptions } from './chart_option';
 import { combineLatest, of } from 'rxjs';
@@ -29,7 +29,7 @@ const MAX_DATA_POINTS = 1000;
   styleUrl: './graph.component.scss',
 })
 export class GraphComponent {
-  public device = input.required<GraphConfig>();
+  public config = input.required<GraphConfig>();
   private graphService = inject(GraphService);
   public chartOptions = chartOptions;
 
@@ -74,7 +74,7 @@ export class GraphComponent {
   // Convert the device signal to an observable, then switch to the timeseries observable
   public timeseries = toSignal(
     combineLatest([
-      toObservable(this.device),
+      toObservable(this.config),
       toObservable(this.startDate),
       toObservable(this.endDate),
       toObservable(this.steps)

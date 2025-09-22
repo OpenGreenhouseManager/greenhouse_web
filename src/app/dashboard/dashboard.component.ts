@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
-import { GraphComponent, GraphConfig } from '../graph/graph.component';
+import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
 
 @Component({
   selector: 'grn-dashboard',
   standalone: true,
-  imports: [NavBarComponent, GraphComponent],
+  imports: [NavBarComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

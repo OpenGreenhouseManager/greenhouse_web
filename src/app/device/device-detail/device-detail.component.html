@@ -145,5 +145,11 @@
         </grn-card>
       </div>
     </div>
+
+    @if (isSupported()) {
+      <div class="content">
+        <grn-graph [config]="config()!"></grn-graph>
+      </div>
+    }
   </div>
 </main>
