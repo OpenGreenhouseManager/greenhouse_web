@@ -54,9 +54,10 @@ main {
 
 .device-detail-container {
   padding: 1rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: masonry; /* ⚠️ not supported in Chrome/Edge yet */
+  gap: 1rem;
   align-items: start;
   justify-content: space-evenly;
   gap: 1rem;
@@ -81,12 +82,10 @@ main {
   }
 
   .content {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: space-evenly;
-    gap: 2rem;
-    margin-top: 1rem;
+    display: inline-block;  /* necessary for column flow */
+    width: 100%;            /* take full column width */
+    break-inside: avoid;    /* prevent splitting */
+    margin-bottom: 1rem;    /* spacing */
   }
 
   .device-info-card,
