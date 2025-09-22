@@ -11,9 +11,9 @@
       <div class="status-indicator">
         <div
           class="status-dot"
-          [style.background-color]="getStatusColor(device()!.status)"
-          [title]="getStatusText(device()!.status)"></div>
-        <span class="status-text">{{ getStatusText(device()!.status) }}</span>
+          [style.background-color]="getStatusColor(device()?.status)"
+          [title]="getStatusText(device()?.status)"></div>
+        <span class="status-text">{{ getStatusText(device()?.status) }}</span>
       </div>
     </div>
     <p-button
@@ -146,7 +146,13 @@
       </div>
     </div>
 
-    @if (isSupported()) {
+    @if (hasAlert()) {
+      <div class="content">
+        <grn-alert-list [dataSourceId]="dataSourceId()!"></grn-alert-list>
+      </div>
+    }
+
+    @if (hasGraph()) {
       <div class="content">
         <grn-graph [config]="config()!"></grn-graph>
       </div>
