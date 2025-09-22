@@ -1,0 +1,11 @@
+<grn-card title="Alert List" icon="pi-bell">
+    <div class="alert-list">
+        <div class="alert-item" *ngFor="let alert of alerts()">
+            <div class="alert-item-header">
+                <div class="alert-item-header-title">
+                    {{ alert.identifier }}
+                </div>
+            </div>
+        </div>
+    </div>
+</grn-card>
