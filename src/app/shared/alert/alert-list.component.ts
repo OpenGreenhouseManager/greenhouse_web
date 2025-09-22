@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, Signal, signal } from '@angular/core';
 import { AlertService } from './alert.service';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -7,11 +7,12 @@ import { CardComponent } from "../../card/card.component";
 import { combineLatest, of } from 'rxjs';
 import { subHours } from 'date-fns';
 import { Alert, Severity } from '../../alert/models/alert';
+import { AlertDetailListComponent } from '../../alert/alert-detail-list/alert-detail-list.component';
 
 @Component({
   selector: 'grn-alert-list',
   standalone: true,
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule, CardComponent, AlertDetailListComponent],
   templateUrl: './alert-list.component.html',
   styleUrl: './alert-list.component.scss',
 })
@@ -24,6 +25,16 @@ export class AlertListComponent {
   
   public startDate = signal(subHours(new Date(), 1));
 
+  public alertsSplitByIdentifier = computed(() => {
+    let alerts: Map<String,Alert[]> = new Map();
+    for (const alert of this.alerts()!) {
+      if (!alerts.has(alert.identifier)) {
+        alerts.set(alert.identifier, []);
+      }
+      alerts.get(alert.identifier)!.push(alert);
+    }
+    return alerts;
+  });
 
   // Convert the device signal to an observable, then switch to the timeseries observable
   public alerts = toSignal(

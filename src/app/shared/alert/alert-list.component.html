@@ -1,11 +1,5 @@
 <grn-card title="Alert List" icon="pi-bell">
-    <div class="alert-list">
-        <div class="alert-item" *ngFor="let alert of alerts()">
-            <div class="alert-item-header">
-                <div class="alert-item-header-title">
-                    {{ alert.identifier }}
-                </div>
-            </div>
-        </div>
-    </div>
+    @for (alert of alertsSplitByIdentifier(); track alert[0]) {
+        <grn-alert-detail-list [alerts]="alert[1]"></grn-alert-detail-list>
+    }
 </grn-card>
