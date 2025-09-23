@@ -6,91 +6,7 @@
 }
 
 ::ng-deep {
-  .p-datatable {
-    width: 100% !important;
-    min-width: 0 !important; /* Allow table to shrink below content width */
-    background: transparent;
-    border: 1px solid var(--grn-card-color);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .p-datatable .p-datatable-header {
-    background: var(--grn-secondary-color);
-    color: var(--grn-background-color);
-    border: none;
-  }
-
-  .p-datatable .p-datatable-thead > tr > th {
-    background: var(--grn-secondary-color);
-    color: var(--grn-background-color);
-    border: none;
-    border-bottom: 1px solid var(--grn-card-color);
-    font-weight: 600;
-  }
-
-  .p-datatable .p-datatable-tbody > tr {
-    background: var(--grn-background-color);
-    border-bottom: 1px solid var(--grn-card-color);
-  }
-
-  .p-datatable .p-datatable-tbody > tr:hover {
-    background: rgba(113, 119, 68, 0.1);
-  }
-
-  .p-datatable .p-datatable-tbody > tr > td {
-    border: none;
-    color: var(--grn-text-color);
-  }
-
-  /* Paginator styling */
-  .p-paginator {
-    background: var(--grn-card-color);
-    border: none;
-    border-top: 1px solid var(--grn-card-color);
-  }
-
-  .p-paginator .p-paginator-pages .p-paginator-page {
-    color: var(--grn-text-color);
-    background: transparent;
-    border: 1px solid var(--grn-card-color);
-  }
-
-  .p-paginator .p-paginator-pages .p-paginator-page:hover {
-    background: var(--grn-accent-color);
-    color: var(--grn-background-color);
-  }
-
-  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    background: var(--grn-secondary-color);
-    color: var(--grn-background-color);
-  }
-
-  .p-datatable-wrapper {
-    overflow-x: auto !important; /* Enable horizontal scrolling when needed */
-    width: 100% !important;
-    /* Hide scrollbar when not needed */
-    scrollbar-width: thin;
-    scrollbar-color: var(--grn-accent-color) transparent;
-  }
-
-  .p-datatable-wrapper::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .p-datatable-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .p-datatable-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--grn-accent-color);
-    border-radius: 3px;
-  }
-
-  .p-datatable-wrapper::-webkit-scrollbar-thumb:hover {
-    background-color: var(--grn-secondary-color);
-  }
-
+  /* Component-specific table layout fixes */
   .p-datatable-table {
     width: 100% !important;
     min-width: 0 !important; /* Allow table to shrink to container size */
@@ -115,37 +31,12 @@
     max-width: none !important; /* Remove fixed max-width to allow flexibility */
   }
 
-  /* Filter styling */
-  .p-column-filter-menu {
-    background: var(--grn-background-color);
-    border: 1px solid var(--grn-card-color);
-    border-radius: 6px;
-  }
-
-  .p-column-filter-menu .p-column-filter-menu-button {
-    color: var(--grn-text-color);
-  }
-
-  .p-column-filter-menu .p-column-filter-menu-button:hover {
-    background: var(--grn-card-color);
-  }
-
-  /* Sort icon styling */
-  .p-sortable-column-icon {
-    color: var(--grn-background-color);
-  }
-
   /* Make the table more compact on smaller screens */
   @media (max-width: 1200px) {
     .p-datatable-thead > tr > th,
     .p-datatable-tbody > tr > td {
       padding: 0.25rem !important;
       font-size: 0.875rem !important;
-    }
-
-    .p-accordion .p-accordion-panel .p-accordion-header .p-accordion-header-content {
-      font-size: 1rem;
-      padding: 0.75rem;
     }
   }
 }

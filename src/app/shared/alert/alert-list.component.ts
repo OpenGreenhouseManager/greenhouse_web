@@ -28,6 +28,9 @@ export class AlertListComponent {
 
   public alertsSplitByIdentifier = computed(() => {
     let alerts: Map<string,Alert[]> = new Map();
+    if (!this.alerts()) {
+      return new Map();
+    }
     for (const alert of this.alerts()!) {
       if (!alerts.has(alert.identifier)) {
         alerts.set(alert.identifier, []);
