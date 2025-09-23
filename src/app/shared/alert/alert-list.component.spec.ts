@@ -15,14 +15,7 @@ describe('AlertListComponent', () => {
 
     fixture = TestBed.createComponent(AlertListComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('device', {
-      id: '1',
-      name: 'test',
-      address: 'test',
-      description: 'test',
-      canscript: true,
-      scraping: true,
-    });
+    fixture.componentRef.setInput('dataSourceId', 'test-device-id');
     fixture.detectChanges();
   });
 

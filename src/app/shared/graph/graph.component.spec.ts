@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GraphComponent } from './graph.component';
 import { provideHttpClient } from '@angular/common/http';
+import { GraphComponent } from './graph.component';
 
 describe('GraphComponent', () => {
   let component: GraphComponent;
@@ -15,13 +15,9 @@ describe('GraphComponent', () => {
 
     fixture = TestBed.createComponent(GraphComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('device', {
-      id: '1',
-      name: 'test',
-      address: 'test',
-      description: 'test',
-      canscript: true,
-      scraping: true,
+    fixture.componentRef.setInput('config', {
+      device_id: 'test-device-id',
+      sub_property: 'test-property',
     });
     fixture.detectChanges();
   });
