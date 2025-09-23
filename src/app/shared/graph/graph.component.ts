@@ -43,33 +43,23 @@ export class GraphComponent {
   // output should be prometeus steps example 1s, 5s, 10s, 15s, 30s, 1m, 2m, 5m, 10m, 1h, 1d
   public steps = computed(() => {
     let raw_pint_count = differenceInSeconds(this.endDate(), this.startDate()) / 5;
-    console.log(raw_pint_count);
     let step_count = raw_pint_count / MAX_DATA_POINTS;
 
-    console.log(step_count);
 
     if (step_count < 1) {
       return '1s';
     } else if (step_count < 60) {
-      console.log(Math.floor(step_count) + 's');
       return Math.floor(step_count) + 's';
     } else if (step_count < 3600) {
-      console.log(Math.floor(step_count / 60) + 'm');
       return Math.floor(step_count / 60) + 'm';
     } else if (step_count < 86400) {
-      console.log(Math.floor(step_count / 3600) + 'h');
       return Math.floor(step_count / 3600) + 'h';
     } else {
-      console.log('1d');
       return '1d';
     }
   });
 
   public now = signal(new Date());
-
-  public e = effect(() => {
-    console.log("data length", this.timeseries()?.datasets[0].data.length);
-  });
 
   // Convert the device signal to an observable, then switch to the timeseries observable
   public timeseries = toSignal(

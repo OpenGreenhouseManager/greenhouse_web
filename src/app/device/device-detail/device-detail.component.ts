@@ -70,10 +70,6 @@ export class DeviceDetailComponent implements OnInit {
     private location: Location
   ) {}
 
-  public e = effect(() => {
-    console.log(this.device());
-  });
-
   ngOnInit(): void {
     const deviceId = this.route.snapshot.paramMap.get('id');
     if (deviceId) {

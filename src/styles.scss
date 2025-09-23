@@ -267,6 +267,7 @@ p-accordion-content {
 .p-paginator {
   background: var(--grn-card-color);
   border: none;
+  border-radius: 0 !important;
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page {
