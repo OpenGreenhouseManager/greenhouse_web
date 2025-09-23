@@ -19,7 +19,7 @@ export interface GraphConfig {
   sub_property?: string;
 }
 
-const MAX_DATA_POINTS = 1000;
+const MAX_DATA_POINTS = 100;
 
 @Component({
   selector: 'grn-graph',
