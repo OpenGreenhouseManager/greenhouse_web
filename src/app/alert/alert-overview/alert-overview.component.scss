@@ -21,23 +21,13 @@ main {
     align-items: center;
     justify-content: center;
   }
+  .p-dropdown {
+    margin-bottom: 1rem;
+  }
   .tableCell {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-  }
-
-  /* Component-specific styles only */
-  ::ng-deep {
-    /* Add cursor pointer for clickable rows */
-    .p-datatable .p-datatable-tbody > tr {
-      cursor: pointer;
-    }
-
-    /* Dropdown margin for this page */
-    .p-dropdown {
-      margin-bottom: 1rem;
-    }
   }
 }
