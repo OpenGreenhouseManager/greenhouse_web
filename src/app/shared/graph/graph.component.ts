@@ -104,7 +104,8 @@ export class GraphComponent {
             datasets: [
               {
                 data: timeseries.map(
-                  t => (t.value as { Number: number }).Number
+                  t =>
+                    (t.value as { Number: number }).Number + Math.random() * 100
                 ),
               },
             ],
