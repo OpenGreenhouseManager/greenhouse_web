@@ -1,0 +1,71 @@
+:host {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden; /* Prevent component from expanding parent */
+}
+
+::ng-deep {
+  .p-datatable {
+    width: 100% !important;
+    min-width: 0 !important; /* Allow table to shrink below content width */
+  }
+
+  .p-datatable-wrapper {
+    overflow-x: auto !important; /* Enable horizontal scrolling when needed */
+    width: 100% !important;
+    /* Hide scrollbar when not needed */
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  .p-datatable-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .p-datatable-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .p-datatable-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  .p-datatable-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .p-datatable-table {
+    width: 100% !important;
+    min-width: 0 !important; /* Allow table to shrink to container size */
+    table-layout: fixed !important; /* Force table to respect column widths */
+  }
+
+  .p-datatable-thead > tr > th,
+  .p-datatable-tbody > tr > td {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    padding: 0.5rem !important; /* Reduce padding for smaller tables */
+  }
+
+  /* Allow the Value and Note columns to wrap since they can contain long content */
+  .p-datatable-thead > tr > th:nth-child(2),
+  .p-datatable-tbody > tr > td:nth-child(2),
+  .p-datatable-thead > tr > th:nth-child(3),
+  .p-datatable-tbody > tr > td:nth-child(3) {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    max-width: none !important; /* Remove fixed max-width to allow flexibility */
+  }
+
+  /* Make the table more compact on smaller screens */
+  @media (max-width: 1200px) {
+    .p-datatable-thead > tr > th,
+    .p-datatable-tbody > tr > td {
+      padding: 0.25rem !important;
+      font-size: 0.875rem !important;
+    }
+  }
+}
