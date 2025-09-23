@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { GraphService } from './graph.service';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -7,10 +7,8 @@ import { CardComponent } from "../../card/card.component";
 import { ChartModule } from 'primeng/chart';
 import { chartOptions } from './chart_option';
 import { combineLatest, of } from 'rxjs';
-import { SkeletonModule } from 'primeng/skeleton';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageModule } from 'primeng/message';  
-import { CalendarModule } from 'primeng/calendar';
 import { differenceInSeconds, subHours } from 'date-fns';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -42,8 +40,8 @@ export class GraphComponent {
   // calculate the step size based on the duration and the max data points
   // output should be prometeus steps example 1s, 5s, 10s, 15s, 30s, 1m, 2m, 5m, 10m, 1h, 1d
   public steps = computed(() => {
-    let raw_pint_count = differenceInSeconds(this.endDate(), this.startDate()) / 5;
-    let step_count = raw_pint_count / MAX_DATA_POINTS;
+    const raw_pint_count = differenceInSeconds(this.endDate(), this.startDate()) / 5;
+    const step_count = raw_pint_count / MAX_DATA_POINTS;
 
 
     if (step_count < 1) {

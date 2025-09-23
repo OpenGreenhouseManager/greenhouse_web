@@ -1,6 +1,6 @@
-import { Component, computed, effect, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../card/card.component';
 import { DeviceService } from '../services/device-service';
 import {
@@ -16,7 +16,7 @@ import { MessageModule } from 'primeng/message';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ButtonModule } from 'primeng/button';
-import { GraphComponent, GraphConfig } from '../../shared/graph/graph.component';
+import { GraphComponent } from '../../shared/graph/graph.component';
 import { AlertListComponent } from '../../shared/alert/alert-list.component';
 
 @Component({
@@ -67,7 +67,6 @@ export class DeviceDetailComponent implements OnInit {
     private deviceService: DeviceService,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location
   ) {}
 
   ngOnInit(): void {

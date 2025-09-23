@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
-import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
+import { GraphConfig } from '../shared/graph/graph.component';
 
 @Component({
   selector: 'grn-dashboard',

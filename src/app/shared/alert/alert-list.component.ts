@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, input, output, Signal, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { AlertService } from './alert.service';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -27,7 +27,7 @@ export class AlertListComponent {
   public startDate = signal(subHours(new Date(), 1));
 
   public alertsSplitByIdentifier = computed(() => {
-    let alerts: Map<string,Alert[]> = new Map();
+    const alerts: Map<string,Alert[]> = new Map();
     if (!this.alerts()) {
       return new Map();
     }
