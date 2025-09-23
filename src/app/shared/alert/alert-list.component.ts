@@ -66,7 +66,7 @@ export class AlertListComponent {
         this.loading.set(false);
         return alerts.map(a => ({
           id: a.id,
-          severity: a.severity as unknown as Severity,
+          severity: this.convertSeverity(a.severity),
           identifier: a.identifier,
           value: a.value,
           note: a.note,
@@ -76,4 +76,19 @@ export class AlertListComponent {
       })
     )
   );
+
+  convertSeverity(severity: string): Severity {
+    switch (severity) {
+      case 'Info':
+        return Severity.Info;
+      case 'Warning':
+        return Severity.Warning;
+      case 'Error':
+        return Severity.Error;
+      case 'Fatal':
+        return Severity.Fatal;
+      default:
+        throw new Error(`Unknown severity: ${severity}`);
+    }
+  }
 }
