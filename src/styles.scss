@@ -306,6 +306,26 @@ p-accordion-content {
   border-radius: 6px;
 }
 
+/* Fix for dropdown panels appended to body (prevents table layout shifts) */
+body > .p-dropdown-panel,
+body > .p-connected-overlay {
+  position: fixed !important;
+  z-index: 10000 !important;
+  will-change: auto !important;
+  transform: none !important;
+}
+
+/* Ensure paginator dropdown doesn't cause reflow */
+.p-paginator .p-dropdown {
+  contain: layout !important;
+}
+
+/* Prevent table from jumping when dropdown opens */
+.p-datatable-wrapper {
+  contain: layout !important;
+  isolation: isolate !important;
+}
+
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:hover {
   background: var(--grn-card-color);
 }
