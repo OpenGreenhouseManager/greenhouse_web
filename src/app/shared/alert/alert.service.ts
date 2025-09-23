@@ -32,8 +32,8 @@ export class AlertService {
       params = params.set('datasource_id', query.datasource_id);
     }
     return this.http.get<AlertDto[]>(`${alert}/filter`, {
-        withCredentials: true,
-        params,
-      });
+      withCredentials: true,
+      params,
+    });
   }
 }

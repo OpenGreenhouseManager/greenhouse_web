@@ -42,7 +42,7 @@ export class DeviceDetailComponent implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
   loadingActivation = signal(false);
-  
+
   public hasAlert = computed(() => {
     return this.dataSourceId() !== null;
   });
@@ -57,16 +57,20 @@ export class DeviceDetailComponent implements OnInit {
   });
 
   public hasGraph = computed(() => {
-    return this.device()?.scraping && this.deviceConfig()?.output_type === Type.Number && (this.deviceConfig()?.mode === Mode.Output || this.deviceConfig()?.mode === Mode.InputOutput);
+    return (
+      this.device()?.scraping &&
+      this.deviceConfig()?.output_type === Type.Number &&
+      (this.deviceConfig()?.mode === Mode.Output ||
+        this.deviceConfig()?.mode === Mode.InputOutput)
+    );
   });
 
-
   public dataSourceId = signal<string | null>(null);
-  
+
   constructor(
     private deviceService: DeviceService,
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

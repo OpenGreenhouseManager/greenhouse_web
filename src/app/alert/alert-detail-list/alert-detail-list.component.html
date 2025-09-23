@@ -50,7 +50,10 @@
             matchMode="equals"
             display="menu"
             class="ml-auto">
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback">
               <p-select
                 [(ngModel)]="selectedSeverity"
                 [options]="severityOptions"

@@ -48,7 +48,7 @@ main {
   height: 100%;
 
   overflow: hidden; /* Prevent grid overflow */
-    
+
   /* Ensure grid items can shrink */
   > * {
     min-width: 0;
@@ -62,9 +62,9 @@ main {
   }
 
   .content {
-    display: inline-block;  /* necessary for column flow */
-    width: 100%;            /* take full column width */
-    break-inside: avoid;    /* prevent splitting */
-    margin-bottom: 1rem;    /* spacing */
+    display: inline-block; /* necessary for column flow */
+    width: 100%; /* take full column width */
+    break-inside: avoid; /* prevent splitting */
+    margin-bottom: 1rem; /* spacing */
   }
 }

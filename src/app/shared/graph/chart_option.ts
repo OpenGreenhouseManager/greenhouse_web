@@ -9,32 +9,32 @@ export const baseChartOptions = {
       ticks: {
         font: {
           size: 8,
-          family: 'sans-serif'
+          family: 'sans-serif',
         },
         color: '#080b05',
-        maxTicksLimit: 5
+        maxTicksLimit: 5,
       },
       grid: {
         color: '#71774456',
-        drawBorder: false
-      }
+        drawBorder: false,
+      },
     },
     y: {
       display: true,
       ticks: {
         font: {
           size: 8,
-          family: 'sans-serif'
+          family: 'sans-serif',
         },
         color: '#080b05',
-        maxTicksLimit: 5
+        maxTicksLimit: 5,
       },
       grid: {
         color: '#71774456',
-        drawBorder: false
-      }
-    }
-  }
+        drawBorder: false,
+      },
+    },
+  },
 };
 
 // Line chart specific options
@@ -49,10 +49,10 @@ export const chartOptions = {
         padding: 10,
         font: {
           size: 10,
-          family: 'sans-serif'
+          family: 'sans-serif',
         },
-        color: '#080b05' // Use app text color
-      }
+        color: '#080b05', // Use app text color
+      },
     },
     tooltip: {
       mode: 'index' as const,
@@ -62,8 +62,8 @@ export const chartOptions = {
       bodyColor: '#080b05',
       borderColor: '#71774456',
       borderWidth: 1,
-      cornerRadius: 6
-    }
+      cornerRadius: 6,
+    },
   },
 
   elements: {
@@ -71,14 +71,14 @@ export const chartOptions = {
       radius: 2, // Smaller points for tight spaces
       hoverRadius: 4,
       backgroundColor: '#717744',
-      borderColor: '#717744'
+      borderColor: '#717744',
     },
     line: {
       borderWidth: 1, // Thinner lines for small charts
       borderColor: '#717744',
-      backgroundColor: 'rgba(113, 119, 68, 0.1)'
-    }
-  }
+      backgroundColor: 'rgba(113, 119, 68, 0.1)',
+    },
+  },
 };
 
 // Bar chart specific options
@@ -93,10 +93,10 @@ export const barChartOptions = {
         padding: 10,
         font: {
           size: 10,
-          family: 'sans-serif'
+          family: 'sans-serif',
         },
-        color: '#080b05' // Use app text color
-      }
+        color: '#080b05', // Use app text color
+      },
     },
     tooltip: {
       mode: 'index' as const,
@@ -106,8 +106,8 @@ export const barChartOptions = {
       bodyColor: '#080b05',
       borderColor: '#71774456',
       borderWidth: 1,
-      cornerRadius: 6
-    }
+      cornerRadius: 6,
+    },
   },
 
   aspectRatio: 0.8,
@@ -115,13 +115,13 @@ export const barChartOptions = {
     ...baseChartOptions.scales,
     x: {
       ...baseChartOptions.scales.x,
-      stacked: true
+      stacked: true,
     },
     y: {
       ...baseChartOptions.scales.y,
-      stacked: true
-    }
-  }
+      stacked: true,
+    },
+  },
 };
 
 // Default color palette for charts
@@ -132,5 +132,5 @@ export const chartColors = {
   warning: '#f97316',
   error: '#f44336',
   fatal: '#b71c1c',
-  success: '#22c55e'
+  success: '#22c55e',
 };

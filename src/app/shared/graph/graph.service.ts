@@ -17,8 +17,13 @@ export interface TimeseriesQuery {
 export class GraphService {
   constructor(private http: HttpClient) {}
 
-  getTimeseries(deviceId: string, query: TimeseriesQuery): Observable<TimeseriesDto[]> {
-    let params = new HttpParams().set('start', query.start.toISOString()).set('end', query.end.toISOString());
+  getTimeseries(
+    deviceId: string,
+    query: TimeseriesQuery
+  ): Observable<TimeseriesDto[]> {
+    let params = new HttpParams()
+      .set('start', query.start.toISOString())
+      .set('end', query.end.toISOString());
     if (query.sub_property) {
       params = params.set('sub_property', query.sub_property);
     }
@@ -27,8 +32,8 @@ export class GraphService {
     }
 
     return this.http.get<TimeseriesDto[]>(`${device}/${deviceId}/timeseries`, {
-        withCredentials: true,
-        params,
-      });
+      withCredentials: true,
+      params,
+    });
   }
 }

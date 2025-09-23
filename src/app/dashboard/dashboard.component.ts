@@ -10,7 +10,6 @@ import { GraphConfig } from '../shared/graph/graph.component';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-
   protected readonly graphConfig: GraphConfig = {
     device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
   };

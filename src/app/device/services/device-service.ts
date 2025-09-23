@@ -70,8 +70,7 @@ export class DeviceService {
         { withCredentials: true }
       )
       .subscribe({
-        next: () => {
-        },
+        next: () => {},
         error: error => {
           console.error(error);
         },
