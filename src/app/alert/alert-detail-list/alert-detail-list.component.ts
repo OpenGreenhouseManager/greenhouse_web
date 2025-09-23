@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -10,7 +10,6 @@ import { TableModule } from 'primeng/table';
 import { SortEvent } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
-import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'grn-alert-detail-list',
@@ -25,7 +24,6 @@ import { AccordionModule } from 'primeng/accordion';
     TableModule,
     SelectModule,
     TagModule,
-    AccordionModule,
   ],
   templateUrl: './alert-detail-list.component.html',
   styleUrl: './alert-detail-list.component.scss',
@@ -33,21 +31,6 @@ import { AccordionModule } from 'primeng/accordion';
 export class AlertDetailListComponent {
   Severity = Severity;
   alerts = input.required<Alert[]>();
-
-  // Group alerts by identifier
-  groupedAlerts = computed(() => {
-    const grouped: { [key: string]: Alert[] } = {};
-    this.alerts().forEach(alert => {
-      if (!grouped[alert.identifier]) {
-        grouped[alert.identifier] = [];
-      }
-      grouped[alert.identifier].push(alert);
-    });
-    return grouped;
-  });
-
-  // Get identifiers as array for template iteration
-  identifiers = computed(() => Object.keys(this.groupedAlerts()));
 
   selectedSeverity: Severity | null = null;
   severityOptions = Object.keys(Severity)

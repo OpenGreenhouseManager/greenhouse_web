@@ -8,11 +8,12 @@ import { combineLatest, of } from 'rxjs';
 import { subHours } from 'date-fns';
 import { Alert, Severity } from '../../alert/models/alert';
 import { AlertDetailListComponent } from '../../alert/alert-detail-list/alert-detail-list.component';
+import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'grn-alert-list',
   standalone: true,
-  imports: [CommonModule, CardComponent, AlertDetailListComponent],
+  imports: [CommonModule, CardComponent, AlertDetailListComponent, AccordionModule],
   templateUrl: './alert-list.component.html',
   styleUrl: './alert-list.component.scss',
 })
@@ -26,7 +27,7 @@ export class AlertListComponent {
   public startDate = signal(subHours(new Date(), 1));
 
   public alertsSplitByIdentifier = computed(() => {
-    let alerts: Map<String,Alert[]> = new Map();
+    let alerts: Map<string,Alert[]> = new Map();
     for (const alert of this.alerts()!) {
       if (!alerts.has(alert.identifier)) {
         alerts.set(alert.identifier, []);
