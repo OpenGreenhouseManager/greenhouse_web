@@ -22,6 +22,53 @@ interface AlertListDashboardItem extends GridsterItem {
   };
 }
 
+const defaultDashboard: DashboardItem[] = [
+  {
+    cols: 5,
+    rows: 4,
+    y: 0,
+    x: 0,
+    type: 'graph',
+    options: {
+      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
+      sub_property: 'temperature',
+    },
+  },
+  {
+    cols: 5,
+    rows: 4,
+    y: 0,
+    x: 5,
+    type: 'graph',
+    options: {
+      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
+      sub_property: 'temperature',
+    },
+  },
+  {
+    cols: 5,
+    rows: 4,
+    y: 0,
+    x: 10,
+    type: 'graph',
+    options: {
+      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
+      sub_property: 'temperature',
+    },
+  },
+  {
+    cols: 5,
+    rows: 4,
+    y: 4,
+    x: 0,
+    type: 'graph',
+    options: {
+      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
+      sub_property: 'temperature',
+    },
+  },
+];
+
 // Union type for all dashboard items
 type DashboardItem = GraphDashboardItem | AlertListDashboardItem;
 
@@ -46,40 +93,35 @@ export class DashboardComponent {
     this.options = {
       draggable: {
         enabled: true,
+        stop: this.saveDashboard.bind(this), // called after drag
       },
       resizable: {
         enabled: true,
+        stop: this.saveDashboard.bind(this), // called after resize
       },
-      pushItems: true,
+      pushResizeItems: true,
+
       swap: true,
-      minCols: 6,
-      minRows: 6,
-      maxCols: 12,
-      maxRows: 12,
+      minCols: 16,
+      minRows: 9,
+      maxCols: 16,
+      maxRows: 9,
     };
 
-    this.dashboard = [
-      {
-        cols: 3,
-        rows: 3,
-        y: 0,
-        x: 0,
-        type: 'graph',
-        options: {
-          device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-          sub_property: 'temperature',
-        },
-      },
-      {
-        cols: 3,
-        rows: 2,
-        y: 0,
-        x: 3,
-        type: 'alertList',
-        options: {
-          dataSourceId: '7a224a14-6e07-45a3-91da-b7584a5731c1',
-        },
-      },
-    ];
+    const savedLayout = localStorage.getItem('dashboard-layout');
+    if (savedLayout) {
+      console.log('loading dashboard');
+      console.log(savedLayout);
+      this.dashboard = JSON.parse(savedLayout);
+    } else {
+      console.log('no saved dashboard, using default');
+      this.dashboard = defaultDashboard;
+    }
+  }
+
+  saveDashboard(e: any) {
+    setTimeout(() => {
+      localStorage.setItem('dashboard-layout', JSON.stringify(this.dashboard));
+    }, 300);
   }
 }
