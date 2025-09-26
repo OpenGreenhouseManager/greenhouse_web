@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
-import { GraphConfig } from '../shared/graph/graph.component';
 
 @Component({
   selector: 'grn-dashboard',
@@ -10,7 +9,53 @@ import { GraphConfig } from '../shared/graph/graph.component';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  protected readonly graphConfig: GraphConfig = {
-    device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-  };
+  options: GridsterConfig;
+  dashboard: Array<
+    GridsterItem & {
+      title: string;
+      icon: string;
+      lastSeen: string;
+      firstSeen: string;
+      data: any;
+      options: any;
+    }
+  >;
+
+  constructor() {
+    this.options = {
+      draggable: {
+        enabled: true,
+      },
+      resizable: {
+        enabled: true,
+      },
+      pushItems: true,
+      swap: true,
+      minCols: 6,
+      minRows: 6,
+      maxCols: 12,
+      maxRows: 12,
+    };
+
+    this.dashboard = [
+      {
+        cols: 3,
+        rows: 2,
+        y: 0,
+        x: 0,
+        title: 'Alert Triggers',
+        icon: 'pi pi-bell',
+        lastSeen: '2025-09-26 14:00',
+        firstSeen: '2025-09-20 10:00',
+        data: {
+          labels: ['A', 'B', 'C'],
+          datasets: [{ label: 'Alerts', data: [10, 5, 8] }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      },
+    ];
+  }
 }
