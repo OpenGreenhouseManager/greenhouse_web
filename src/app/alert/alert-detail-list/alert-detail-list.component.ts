@@ -8,7 +8,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
+import { SeverityTagComponent } from '../../shared/tag/severity-tag.component';
 import { Alert, Severity } from '../models/alert';
 
 @Component({
@@ -23,7 +23,7 @@ import { Alert, Severity } from '../models/alert';
     InputGroupAddonModule,
     TableModule,
     SelectModule,
-    TagModule,
+    SeverityTagComponent,
   ],
   templateUrl: './alert-detail-list.component.html',
   styleUrl: './alert-detail-list.component.scss',

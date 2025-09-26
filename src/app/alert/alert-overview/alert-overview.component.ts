@@ -4,13 +4,10 @@ import { Router } from '@angular/router';
 import { endOfDay, startOfDay, subDays, subHours } from 'date-fns';
 import { SortEvent } from 'primeng/api';
 import { Button } from 'primeng/button';
-import { InputIcon } from 'primeng/inputicon';
-import { InputText } from 'primeng/inputtext';
-import { MultiSelect } from 'primeng/multiselect';
 import { Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { Tag } from 'primeng/tag';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
+import { SeverityTagComponent } from '../../shared/tag/severity-tag.component';
 import { AggregatedAlert } from '../models/aggregated-alert';
 import { Severity } from '../models/alert';
 import { AlertInterval } from '../models/alert-interval';
@@ -21,14 +18,11 @@ import { AlertService } from '../services/alert-service';
   standalone: true,
   imports: [
     TableModule,
-    Tag,
-    InputText,
-    InputIcon,
     FormsModule,
-    MultiSelect,
     Select,
     NavBarComponent,
     Button,
+    SeverityTagComponent,
   ],
   templateUrl: './alert-overview.component.html',
   styleUrls: ['./alert-overview.component.scss'],
