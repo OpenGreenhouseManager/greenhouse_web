@@ -7,23 +7,12 @@
     <gridster [options]="options">
       @for (item of dashboard; track item) {
         <gridster-item [item]="item">
-          <grn-card [title]="item.title" [icon]="item.icon">
-            <!-- Example: custom card content -->
-            <div class="timeStatistic">
-              <div>
-                <span>Last seen: {{ item.lastSeen }}</span>
-              </div>
-              <div>
-                <span>First seen: {{ item.firstSeen }}</span>
-              </div>
-            </div>
-            <div class="graph" style="width: 100%">
-              <p-chart
-                type="bar"
-                [data]="item.data"
-                [options]="item.options"></p-chart>
-            </div>
-          </grn-card>
+          @if (item.type === 'graph') {
+            <grn-graph [config]="item.options"></grn-graph>
+          } @else if (item.type === 'alertList') {
+            <grn-alert-list
+              [dataSourceId]="item.options.dataSourceId"></grn-alert-list>
+          }
         </gridster-item>
       }
     </gridster>

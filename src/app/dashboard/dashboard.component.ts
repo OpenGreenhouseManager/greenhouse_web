@@ -1,25 +1,46 @@
 import { Component } from '@angular/core';
+import {
+  GridsterConfig,
+  GridsterItem,
+  GridsterItemComponent,
+  GridsterModule,
+} from 'angular-gridster2';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
+import { AlertListComponent } from '../shared/alert/alert-list.component';
+import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
+
+// Define discriminated union types for dashboard items
+interface GraphDashboardItem extends GridsterItem {
+  type: 'graph';
+  options: GraphConfig;
+}
+
+interface AlertListDashboardItem extends GridsterItem {
+  type: 'alertList';
+  options: {
+    dataSourceId: string;
+  };
+}
+
+// Union type for all dashboard items
+type DashboardItem = GraphDashboardItem | AlertListDashboardItem;
 
 @Component({
   selector: 'grn-dashboard',
   standalone: true,
-  imports: [NavBarComponent],
+  imports: [
+    NavBarComponent,
+    GridsterModule,
+    GridsterItemComponent,
+    GraphComponent,
+    AlertListComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
   options: GridsterConfig;
-  dashboard: Array<
-    GridsterItem & {
-      title: string;
-      icon: string;
-      lastSeen: string;
-      firstSeen: string;
-      data: any;
-      options: any;
-    }
-  >;
+  dashboard: DashboardItem[];
 
   constructor() {
     this.options = {
@@ -40,20 +61,23 @@ export class DashboardComponent {
     this.dashboard = [
       {
         cols: 3,
-        rows: 2,
+        rows: 3,
         y: 0,
         x: 0,
-        title: 'Alert Triggers',
-        icon: 'pi pi-bell',
-        lastSeen: '2025-09-26 14:00',
-        firstSeen: '2025-09-20 10:00',
-        data: {
-          labels: ['A', 'B', 'C'],
-          datasets: [{ label: 'Alerts', data: [10, 5, 8] }],
-        },
+        type: 'graph',
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
+          sub_property: 'temperature',
+        },
+      },
+      {
+        cols: 3,
+        rows: 2,
+        y: 0,
+        x: 3,
+        type: 'alertList',
+        options: {
+          dataSourceId: '7a224a14-6e07-45a3-91da-b7584a5731c1',
         },
       },
     ];
