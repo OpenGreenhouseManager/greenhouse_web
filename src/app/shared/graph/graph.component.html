@@ -20,14 +20,14 @@
       type="line"
       [data]="timeseries()"
       [options]="chartOptions"></p-chart>
-    <p-progress-spinner
-      ariaLabel="loading"
-      *ngIf="loading()"
-      class="chartMessage" />
-    <p-message
-      *ngIf="error()"
-      severity="error"
-      [text]="error()!"
-      class="chartMessage"></p-message>
+    @if (loading()) {
+      <p-progress-spinner ariaLabel="loading" class="chartMessage" />
+    }
+    @if (error()) {
+      <p-message
+        severity="error"
+        [text]="error()!"
+        class="chartMessage"></p-message>
+    }
   </div>
 </grn-card>

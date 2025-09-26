@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +22,6 @@ const MAX_DATA_POINTS = 100;
   selector: 'grn-graph',
   standalone: true,
   imports: [
-    CommonModule,
     CardComponent,
     ChartModule,
     ProgressSpinnerModule,

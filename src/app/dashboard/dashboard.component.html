@@ -5,26 +5,27 @@
   </div>
   <div class="content">
     <gridster [options]="options">
-      <gridster-item *ngFor="let item of dashboard" [item]="item">
-        <grn-card [title]="item.title" [icon]="item.icon">
-          <!-- Example: custom card content -->
-          <div class="timeStatistic">
-            <div>
-              <span>Last seen: {{ item.lastSeen }}</span>
+      @for (item of dashboard; track item) {
+        <gridster-item [item]="item">
+          <grn-card [title]="item.title" [icon]="item.icon">
+            <!-- Example: custom card content -->
+            <div class="timeStatistic">
+              <div>
+                <span>Last seen: {{ item.lastSeen }}</span>
+              </div>
+              <div>
+                <span>First seen: {{ item.firstSeen }}</span>
+              </div>
             </div>
-            <div>
-              <span>First seen: {{ item.firstSeen }}</span>
+            <div class="graph" style="width: 100%">
+              <p-chart
+                type="bar"
+                [data]="item.data"
+                [options]="item.options"></p-chart>
             </div>
-          </div>
-
-          <div class="graph" style="width: 100%">
-            <p-chart
-              type="bar"
-              [data]="item.data"
-              [options]="item.options"></p-chart>
-          </div>
-        </grn-card>
-      </gridster-item>
+          </grn-card>
+        </gridster-item>
+      }
     </gridster>
   </div>
 </main>
