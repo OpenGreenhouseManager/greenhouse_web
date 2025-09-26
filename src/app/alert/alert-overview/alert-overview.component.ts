@@ -3,15 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { endOfDay, startOfDay, subDays, subHours } from 'date-fns';
 import { SortEvent } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DropdownModule } from 'primeng/dropdown';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
+import { Button } from 'primeng/button';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { MultiSelect } from 'primeng/multiselect';
+import { Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
+import { Tag } from 'primeng/tag';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { AggregatedAlert } from '../models/aggregated-alert';
 import { Severity } from '../models/alert';
@@ -23,19 +21,17 @@ import { AlertService } from '../services/alert-service';
   standalone: true,
   imports: [
     TableModule,
-    TagModule,
-    IconFieldModule,
-    InputTextModule,
-    InputIconModule,
+    Tag,
+    InputText,
+    InputIcon,
     FormsModule,
-    MultiSelectModule,
-    SelectModule,
+    MultiSelect,
+    Select,
     NavBarComponent,
-    DropdownModule,
-    ButtonModule,
+    Button,
   ],
   templateUrl: './alert-overview.component.html',
-  styleUrl: './alert-overview.component.scss',
+  styleUrls: ['./alert-overview.component.scss'],
 })
 export class AlertOverviewComponent implements OnInit {
   private router = inject(Router);
@@ -132,18 +128,18 @@ export class AlertOverviewComponent implements OnInit {
     }
   }
 
-  severityToColor(severity: Severity): string {
+  severityToColor(severity: Severity) {
     switch (severity) {
       case Severity.Info:
         return 'info';
       case Severity.Warning:
         return 'warn';
       case Severity.Error:
-        return 'error';
+        return 'warn';
       case Severity.Fatal:
-        return 'fatal';
+        return 'warn';
       default:
-        return 'gray';
+        return 'warn';
     }
   }
 

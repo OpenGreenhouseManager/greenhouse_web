@@ -76,9 +76,6 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "disableHostCheck": true
-          },
           "configurations": {
             "production": {
               "buildTarget": "greenhouse_web:build:production"

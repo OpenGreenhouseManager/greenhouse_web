@@ -1,15 +1,15 @@
-import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SortEvent } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { Alert, Severity } from '../models/alert';
-import { TableModule } from 'primeng/table';
-import { SortEvent } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { Alert, Severity } from '../models/alert';
 
 @Component({
   selector: 'grn-alert-detail-list',
@@ -50,18 +50,18 @@ export class AlertDetailListComponent {
     });
   }
 
-  severityToColor(severity: Severity): string {
+  severityToColor(severity: Severity) {
     switch (severity) {
       case Severity.Info:
         return 'info';
       case Severity.Warning:
         return 'warn';
       case Severity.Error:
-        return 'error';
+        return 'warn';
       case Severity.Fatal:
-        return 'fatal';
+        return 'warn';
       default:
-        return 'gray';
+        return 'warn';
     }
   }
 
@@ -76,12 +76,14 @@ export class AlertDetailListComponent {
     });
   }
 
-  severityToString(severity: unknown): string {
+  severityToString(
+    severity: unknown
+  ): 'success' | 'info' | 'warn' | 'secondary' | 'contrast' | 'danger' {
     if (typeof severity !== 'number') {
       if (severity === 'Warning') {
         return 'warn';
       }
-      return (severity as string).toLowerCase();
+      return 'warn';
     }
     switch (severity) {
       case Severity.Info:
@@ -89,11 +91,11 @@ export class AlertDetailListComponent {
       case Severity.Warning:
         return 'warn';
       case Severity.Error:
-        return 'error';
+        return 'warn';
       case Severity.Fatal:
-        return 'fatal';
+        return 'warn';
       default:
-        return 'gray';
+        return 'warn';
     }
   }
 }
