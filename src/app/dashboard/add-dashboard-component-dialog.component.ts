@@ -150,10 +150,6 @@ export class AddDashboardComponentDialogComponent {
         this.resetForm();
       }
     });
-
-    effect(() => {
-      console.log('subPropertyOptions', this.subPropertyOptions());
-    });
   }
 
   resetForm() {

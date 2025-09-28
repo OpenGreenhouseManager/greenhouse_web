@@ -122,21 +122,6 @@ export class AlertOverviewComponent implements OnInit {
     }
   }
 
-  severityToColor(severity: Severity) {
-    switch (severity) {
-      case Severity.Info:
-        return 'info';
-      case Severity.Warning:
-        return 'warn';
-      case Severity.Error:
-        return 'warn';
-      case Severity.Fatal:
-        return 'warn';
-      default:
-        return 'warn';
-    }
-  }
-
   customSort(event: SortEvent) {
     event.data!.sort((data1, data2) => {
       const value1 = data1[event.field!];

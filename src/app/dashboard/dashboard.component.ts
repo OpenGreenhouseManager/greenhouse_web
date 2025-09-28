@@ -30,53 +30,6 @@ interface AlertListDashboardItem extends GridsterItem {
   };
 }
 
-const defaultDashboard: DashboardItem[] = [
-  {
-    cols: 5,
-    rows: 4,
-    y: 0,
-    x: 0,
-    type: 'graph',
-    options: {
-      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      name: 'Device 1',
-    },
-  },
-  {
-    cols: 5,
-    rows: 4,
-    y: 0,
-    x: 5,
-    type: 'graph',
-    options: {
-      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      name: 'Device 2',
-    },
-  },
-  {
-    cols: 5,
-    rows: 4,
-    y: 0,
-    x: 10,
-    type: 'graph',
-    options: {
-      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      name: 'Device 3',
-    },
-  },
-  {
-    cols: 5,
-    rows: 4,
-    y: 4,
-    x: 0,
-    type: 'graph',
-    options: {
-      device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      name: 'Device 4',
-    },
-  },
-];
-
 // Union type for all dashboard items
 type DashboardItem = GraphDashboardItem | AlertListDashboardItem;
 
@@ -133,7 +86,7 @@ export class DashboardComponent {
       this.dashboard = JSON.parse(savedLayout);
     } else {
       console.log('no saved dashboard, using default');
-      this.dashboard = defaultDashboard;
+      this.dashboard = [];
     }
   }
 

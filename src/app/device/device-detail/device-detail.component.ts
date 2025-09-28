@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -92,22 +85,6 @@ export class DeviceDetailComponent implements OnInit {
         sub_property: option ?? undefined,
       };
     });
-  });
-
-  private e = effect(() => {
-    console.log('configs():', this.configs());
-  });
-  private e1 = effect(() => {
-    console.log('configList():', this.configList());
-  });
-  private e2 = effect(() => {
-    console.log('device():', this.device());
-  });
-  private e3 = effect(() => {
-    console.log('hasGraph():', this.hasGraph());
-  });
-  private e4 = effect(() => {
-    console.log('deviceConfig():', this.deviceConfig());
   });
 
   public hasGraph = computed(() => {

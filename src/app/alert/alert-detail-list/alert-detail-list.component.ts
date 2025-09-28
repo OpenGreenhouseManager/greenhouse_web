@@ -50,21 +50,6 @@ export class AlertDetailListComponent {
     });
   }
 
-  severityToColor(severity: Severity) {
-    switch (severity) {
-      case Severity.Info:
-        return 'info';
-      case Severity.Warning:
-        return 'warn';
-      case Severity.Error:
-        return 'warn';
-      case Severity.Fatal:
-        return 'warn';
-      default:
-        return 'warn';
-    }
-  }
-
   prettyDate(date: Date): string {
     return date.toLocaleDateString('de-DE', {
       year: 'numeric',
@@ -74,28 +59,5 @@ export class AlertDetailListComponent {
       minute: '2-digit',
       second: '2-digit',
     });
-  }
-
-  severityToString(
-    severity: unknown
-  ): 'success' | 'info' | 'warn' | 'secondary' | 'contrast' | 'danger' {
-    if (typeof severity !== 'number') {
-      if (severity === 'Warning') {
-        return 'warn';
-      }
-      return 'warn';
-    }
-    switch (severity) {
-      case Severity.Info:
-        return 'info';
-      case Severity.Warning:
-        return 'warn';
-      case Severity.Error:
-        return 'warn';
-      case Severity.Fatal:
-        return 'warn';
-      default:
-        return 'warn';
-    }
   }
 }
