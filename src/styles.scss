@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss';
 @import 'primeicons/primeicons.css';
+
 :root {
   --grn-background-color: #eff1ed;
   --grn-accent-color: #766153;
@@ -25,7 +27,6 @@ body {
 }
 
 html * {
-  font-size: 1em;
   font-family: sans-serif;
   color: var(--grn-text-color);
 }

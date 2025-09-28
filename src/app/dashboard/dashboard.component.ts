@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   GridsterConfig,
   GridsterItem,
   GridsterItemComponent,
   GridsterModule,
 } from 'angular-gridster2';
+import { ButtonModule } from 'primeng/button';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
 import { AlertListComponent } from '../shared/alert/alert-list.component';
 import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
+import {
+  AddDashboardComponentDialogComponent,
+  DashboardComponentCreate,
+} from './add-dashboard-component-dialog.component';
 
 // Define discriminated union types for dashboard items
 interface GraphDashboardItem extends GridsterItem {
@@ -31,7 +36,6 @@ const defaultDashboard: DashboardItem[] = [
     type: 'graph',
     options: {
       device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      sub_property: 'temperature',
     },
   },
   {
@@ -42,7 +46,6 @@ const defaultDashboard: DashboardItem[] = [
     type: 'graph',
     options: {
       device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      sub_property: 'temperature',
     },
   },
   {
@@ -53,7 +56,6 @@ const defaultDashboard: DashboardItem[] = [
     type: 'graph',
     options: {
       device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      sub_property: 'temperature',
     },
   },
   {
@@ -64,7 +66,6 @@ const defaultDashboard: DashboardItem[] = [
     type: 'graph',
     options: {
       device_id: '286cbd49-1aed-463e-a37f-3c2e677ad66d',
-      sub_property: 'temperature',
     },
   },
 ];
@@ -81,6 +82,8 @@ type DashboardItem = GraphDashboardItem | AlertListDashboardItem;
     GridsterItemComponent,
     GraphComponent,
     AlertListComponent,
+    ButtonModule,
+    AddDashboardComponentDialogComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -88,7 +91,7 @@ type DashboardItem = GraphDashboardItem | AlertListDashboardItem;
 export class DashboardComponent {
   options: GridsterConfig;
   dashboard: DashboardItem[];
-
+  dialogVisible = signal(false);
   constructor() {
     this.options = {
       draggable: {
@@ -107,6 +110,8 @@ export class DashboardComponent {
       minRows: 9,
       maxCols: 16,
       maxRows: 9,
+      disableScrollHorizontal: true,
+      disableScrollVertical: true,
     };
 
     const savedLayout = localStorage.getItem('dashboard-layout');
@@ -124,5 +129,50 @@ export class DashboardComponent {
     setTimeout(() => {
       localStorage.setItem('dashboard-layout', JSON.stringify(this.dashboard));
     }, 300);
+  }
+
+  addEntry() {
+    this.dialogVisible.set(true);
+    console.log('dialogVisible', this.dialogVisible());
+  }
+
+  onDialogClose() {
+    this.dialogVisible.set(false);
+  }
+
+  onComponentAdded(componentData: DashboardComponentCreate) {
+    // Create the appropriate dashboard item based on type
+    let newItem: DashboardItem;
+
+    if (componentData.type === 'graph') {
+      newItem = {
+        cols: 3,
+        rows: 3,
+        y: 0,
+        x: 0,
+        type: 'graph',
+        options: {
+          device_id: componentData.deviceId!,
+          sub_property: componentData.subProperty!,
+        },
+      } as GraphDashboardItem;
+    } else if (componentData.type === 'alertList') {
+      newItem = {
+        cols: 3,
+        rows: 3,
+        y: 0,
+        x: 0,
+        type: 'alertList',
+        options: {
+          dataSourceId: componentData.dataSourceId!,
+        },
+      } as AlertListDashboardItem;
+    } else {
+      throw new Error('Invalid component type');
+    }
+
+    // Simple positioning - add to the end
+    this.dashboard.push(newItem);
+    this.saveDashboard(null);
   }
 }

@@ -77,11 +77,13 @@ export class GraphComponent {
         switchMap(([deviceConfig, startDate, endDate, steps]) => {
           this.loading.set(true);
           this.error.set(null);
+
           return this.graphService
             .getTimeseries(deviceConfig.device_id, {
               start: startDate,
               end: endDate,
               step: steps,
+              sub_property: deviceConfig.sub_property,
             })
             .pipe(
               catchError(error => {

@@ -2,6 +2,9 @@
 <main>
   <div class="heading">
     <h1>Smart Devices</h1>
+    <p-button type="button" (click)="addEntry()">
+      <i class="pi pi-plus"></i><span class="button_label">Add Entry</span>
+    </p-button>
   </div>
   <div class="content">
     <gridster [options]="options">
@@ -18,3 +21,9 @@
     </gridster>
   </div>
 </main>
+<grn-add-dashboard-component-dialog
+  [visible]="dialogVisible()"
+  (dialogClose)="onDialogClose()"
+  (componentAdded)="
+    onComponentAdded($event)
+  "></grn-add-dashboard-component-dialog>
