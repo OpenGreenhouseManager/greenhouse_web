@@ -1,9 +1,20 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
+import { catchError, of, switchMap } from 'rxjs';
+import { DeviceService } from '../device/services/device-service';
 
 export interface DashboardComponentCreate {
   type: 'graph' | 'alertList';
@@ -45,14 +56,25 @@ export interface DashboardComponentCreate {
       @if (selectedComponentType === 'graph') {
         <div class="flex items-center gap-4 mb-4">
           <label for="deviceId" class="font-semibold w-24">Device ID</label>
-          <input pInputText id="deviceId" [(ngModel)]="deviceId" />
+          <input
+            pInputText
+            id="deviceId"
+            type="text"
+            [(ngModel)]="deviceIdInput"
+            placeholder="Enter UUID" />
         </div>
 
         <div class="flex items-center gap-4 mb-4">
           <label for="subProperty" class="font-semibold w-24"
             >Sub Property</label
           >
-          <input pInputText id="subProperty" [(ngModel)]="subProperty" />
+          <p-select
+            id="subProperty"
+            [options]="subPropertyOptions()"
+            [(ngModel)]="subProperty"
+            [appendTo]="'body'"
+            [disabled]="!validDeviceId() || subPropertyOptions()?.length === 0"
+            class="w-full" />
         </div>
       }
 
@@ -83,12 +105,43 @@ export class AddDashboardComponentDialogComponent {
   visibleSignal = signal(this.visible());
   dialogClose = output<void>();
   componentAdded = output<DashboardComponentCreate>();
+  deviceService = inject(DeviceService);
 
   selectedComponentType: 'graph' | 'alertList' = 'graph';
-  deviceId = '';
+  deviceIdInput = signal<string>('');
   subProperty = '';
   dataSourceId = '';
   name = '';
+
+  // UUID validation regex - matches standard UUID format
+  private uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+  // Computed signal for valid device ID
+  validDeviceId = computed(() => {
+    const input = this.deviceIdInput().trim();
+    return input !== '' && this.uuidRegex.test(input);
+  });
+
+  // Computed signal for the validated device ID (empty if invalid)
+  deviceId = computed(() => {
+    return this.validDeviceId() ? this.deviceIdInput().trim() : '';
+  });
+
+  subPropertyOptions = toSignal(
+    toObservable(this.deviceId).pipe(
+      switchMap(deviceId => {
+        if (!deviceId) return of([]);
+        console.log('deviceId', deviceId);
+        return this.deviceService.getDeviceOptions(deviceId).pipe(
+          catchError(error => {
+            console.error('Error fetching device options:', error);
+            return of([]);
+          })
+        );
+      })
+    )
+  );
 
   constructor() {
     effect(() => {
@@ -97,11 +150,15 @@ export class AddDashboardComponentDialogComponent {
         this.resetForm();
       }
     });
+
+    effect(() => {
+      console.log('subPropertyOptions', this.subPropertyOptions());
+    });
   }
 
   resetForm() {
     this.selectedComponentType = 'graph';
-    this.deviceId = '';
+    this.deviceIdInput.set('');
     this.subProperty = '';
     this.dataSourceId = '';
     this.name = '';
@@ -113,7 +170,7 @@ export class AddDashboardComponentDialogComponent {
     if (!this.name) return false;
 
     if (this.selectedComponentType === 'graph') {
-      return this.deviceId.trim() !== '';
+      return this.validDeviceId();
     }
 
     if (this.selectedComponentType === 'alertList') {
@@ -137,7 +194,7 @@ export class AddDashboardComponentDialogComponent {
     };
 
     if (this.selectedComponentType === 'graph') {
-      component.deviceId = this.deviceId.trim();
+      component.deviceId = this.deviceId();
       component.subProperty = this.subProperty.trim();
     } else if (this.selectedComponentType === 'alertList') {
       component.dataSourceId = this.dataSourceId.trim();

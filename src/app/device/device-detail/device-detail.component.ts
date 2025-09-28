@@ -1,11 +1,19 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, combineLatest, forkJoin, of, switchMap } from 'rxjs';
 import { CardComponent } from '../../card/card.component';
 import {
   ConfigResponseDto,
@@ -50,19 +58,61 @@ export class DeviceDetailComponent implements OnInit {
     return this.dataSourceId() !== null;
   });
 
-  public config = computed(() => {
-    if (!this.device()) {
-      return null;
+  public configList = toSignal(
+    combineLatest([
+      toObservable(this.device),
+      toObservable(this.deviceConfig),
+    ]).pipe(
+      switchMap(([device, deviceConfig]) => {
+        if (!device) return of([]);
+        if (!deviceConfig) return of([]);
+
+        if (deviceConfig.output_type === Type.Number) {
+          return of(['']);
+        }
+        return this.deviceService.getDeviceOptions(device.id);
+      })
+    )
+  );
+
+  public configs = computed(() => {
+    const configList = this.configList();
+    const device = this.device();
+
+    if (!configList || !device) {
+      console.log('configList', configList);
+      console.log('device', device);
+      return [];
     }
-    return {
-      device_id: this.device()!.id,
-    };
+
+    return configList.map((option: string) => {
+      console.log(option);
+      return {
+        device_id: device.id,
+        sub_property: option ?? undefined,
+      };
+    });
+  });
+
+  private e = effect(() => {
+    console.log('configs():', this.configs());
+  });
+  private e1 = effect(() => {
+    console.log('configList():', this.configList());
+  });
+  private e2 = effect(() => {
+    console.log('device():', this.device());
+  });
+  private e3 = effect(() => {
+    console.log('hasGraph():', this.hasGraph());
+  });
+  private e4 = effect(() => {
+    console.log('deviceConfig():', this.deviceConfig());
   });
 
   public hasGraph = computed(() => {
     return (
       this.device()?.scraping &&
-      this.deviceConfig()?.output_type === Type.Number &&
       (this.deviceConfig()?.mode === Mode.Output ||
         this.deviceConfig()?.mode === Mode.InputOutput)
     );

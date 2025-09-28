@@ -76,4 +76,10 @@ export class DeviceService {
         },
       });
   }
+
+  getDeviceOptions(deviceId: string): Observable<string[]> {
+    return this.http.get<string[]>(`${device}/${deviceId}/options`, {
+      withCredentials: true,
+    });
+  }
 }
