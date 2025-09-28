@@ -100,8 +100,9 @@ export class DashboardComponent {
         stop: this.saveDashboard.bind(this), // called after resize
       },
       pushResizeItems: true,
-
       swap: true,
+      swapWhileDragging: true,
+      pushItems: true,
       minCols: 16,
       minRows: 9,
       maxCols: 16,
