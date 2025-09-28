@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { differenceInSeconds, subHours } from 'date-fns';
 import { ChartModule } from 'primeng/chart';
 import { DatePickerModule } from 'primeng/datepicker';
+import { DialogModule } from 'primeng/dialog';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { combineLatest, of } from 'rxjs';
@@ -11,6 +12,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { CardComponent } from '../../card/card.component';
 import { chartOptions } from './chart_option';
 import { GraphService } from './graph.service';
+
 export interface GraphConfig {
   device_id: string;
   sub_property?: string;
@@ -28,18 +30,19 @@ const MAX_DATA_POINTS = 100;
     MessageModule,
     FormsModule,
     DatePickerModule,
+    DialogModule,
   ],
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.scss',
 })
 export class GraphComponent {
   public config = input.required<GraphConfig>();
+  public header = input.required<string>();
   private graphService = inject(GraphService);
   public chartOptions = chartOptions;
-
   public loading = signal(false);
   public error = signal<string | null>(null);
-
+  public dialogVisible = false;
   public startDate = signal(subHours(new Date(), 1));
   public endDate = signal(new Date());
 

@@ -10,6 +10,7 @@ export interface DashboardComponentCreate {
   deviceId?: string;
   subProperty?: string;
   dataSourceId?: string;
+  name: string;
 }
 
 @Component({
@@ -35,6 +36,10 @@ export interface DashboardComponentCreate {
           [(ngModel)]="selectedComponentType"
           [appendTo]="'body'"
           class="w-full" />
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="name" class="font-semibold w-24">Name</label>
+        <input pInputText id="name" [(ngModel)]="name" />
       </div>
 
       @if (selectedComponentType === 'graph') {
@@ -83,6 +88,7 @@ export class AddDashboardComponentDialogComponent {
   deviceId = '';
   subProperty = '';
   dataSourceId = '';
+  name = '';
 
   constructor() {
     effect(() => {
@@ -98,10 +104,13 @@ export class AddDashboardComponentDialogComponent {
     this.deviceId = '';
     this.subProperty = '';
     this.dataSourceId = '';
+    this.name = '';
   }
 
   isFormValid(): boolean {
     if (!this.selectedComponentType) return false;
+
+    if (!this.name) return false;
 
     if (this.selectedComponentType === 'graph') {
       return this.deviceId.trim() !== '';
@@ -124,6 +133,7 @@ export class AddDashboardComponentDialogComponent {
 
     const component: DashboardComponentCreate = {
       type: this.selectedComponentType!,
+      name: this.name.trim(),
     };
 
     if (this.selectedComponentType === 'graph') {
