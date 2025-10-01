@@ -5,11 +5,8 @@
   flex-direction: column;
 }
 
-.p-accordion-content {
-  overflow: auto;
-}
-
 p-accordion {
+  overflow: auto;
   flex: 1; /* Take remaining space */
   display: flex;
   flex-direction: column;
