@@ -57,11 +57,11 @@ export class DeviceDetailComponent implements OnInit {
       toObservable(this.deviceConfig),
     ]).pipe(
       switchMap(([device, deviceConfig]) => {
-        if (!device) return of({ options: [] });
-        if (!deviceConfig) return of({ options: [] });
+        if (!device) return of({ operations: [] });
+        if (!deviceConfig) return of({ operations: [] });
 
         if (deviceConfig.output_type === Type.Number) {
-          return of({ options: [] });
+          return of({ operations: [] });
         }
         return this.deviceService.getDeviceOptions(device.id);
       })
@@ -72,14 +72,11 @@ export class DeviceDetailComponent implements OnInit {
     const configList = this.configList();
     const device = this.device();
 
-    if (!configList || !device || !configList.options) {
-      console.log('configList', configList);
-      console.log('device', device);
+    if (!configList || !device || !configList.operations) {
       return [];
     }
 
-    return configList.options.map((option: string) => {
-      console.log(option);
+    return configList.operations.map((option: string) => {
       return {
         device_id: device.id,
         sub_property: option ?? undefined,

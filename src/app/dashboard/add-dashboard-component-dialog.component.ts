@@ -70,11 +70,11 @@ export interface DashboardComponentCreate {
           >
           <p-select
             id="subProperty"
-            [options]="subPropertyOptions()?.options"
+            [options]="subPropertyOptions()?.operations"
             [(ngModel)]="subProperty"
             [appendTo]="'body'"
             [disabled]="
-              !validDeviceId() || subPropertyOptions()?.options?.length === 0
+              !validDeviceId() || subPropertyOptions()?.operations?.length === 0
             "
             class="w-full" />
         </div>
@@ -133,12 +133,12 @@ export class AddDashboardComponentDialogComponent {
   subPropertyOptions = toSignal(
     toObservable(this.deviceId).pipe(
       switchMap(deviceId => {
-        if (!deviceId) return of({ options: [] });
+        if (!deviceId) return of({ operations: [] });
         console.log('deviceId', deviceId);
         return this.deviceService.getDeviceOptions(deviceId).pipe(
           catchError(error => {
             console.error('Error fetching device options:', error);
-            return of({ options: [] });
+            return of({ operations: [] });
           })
         );
       })

@@ -64,5 +64,5 @@ export class ScriptingApi {
 }
 
 export interface DeviceOptionsResponseDto {
-  options: string[];
+  operations: string[];
 }
