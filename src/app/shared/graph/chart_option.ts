@@ -29,6 +29,11 @@ export const baseChartOptions = {
         color: '#080b05',
         maxTicksLimit: 5,
       },
+      // Predefine to satisfy typings when dynamically setting a title
+      title: {
+        display: false,
+        text: '',
+      },
       grid: {
         color: '#71774456',
         drawBorder: false,
@@ -63,6 +68,8 @@ export const chartOptions = {
       borderColor: '#71774456',
       borderWidth: 1,
       cornerRadius: 6,
+      // Predefine to satisfy typings when dynamically adding callbacks
+      callbacks: {},
     },
   },
 

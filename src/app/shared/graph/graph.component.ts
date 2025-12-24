@@ -10,7 +10,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { combineLatest, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CardComponent } from '../../card/card.component';
-import { chartOptions } from './chart_option';
+import { chartOptions as defaultChartOptions } from './chart_option';
 import { GraphService } from './graph.service';
 
 export interface GraphConfig {
@@ -39,7 +39,7 @@ export class GraphComponent {
   public config = input.required<GraphConfig>();
   public header = input.required<string>();
   private graphService = inject(GraphService);
-  public chartOptions = chartOptions;
+  public chartOptions = defaultChartOptions;
   public loading = signal(false);
   public error = signal<string | null>(null);
   public dialogVisible = false;
@@ -67,6 +67,20 @@ export class GraphComponent {
   });
 
   public now = signal(new Date());
+
+  private isNumberValue(value: unknown): value is {
+    Number: number;
+  } {
+    return !!value && typeof value === 'object' && 'Number' in (value as any);
+  }
+
+  private isMeasurementValue(value: unknown): value is {
+    Measurement: { value: number; unit: string };
+  } {
+    return (
+      !!value && typeof value === 'object' && 'Measurement' in (value as any)
+    );
+  }
 
   // Convert the device signal to an observable, then switch to the timeseries observable
   public timeseries = toSignal(
@@ -100,15 +114,66 @@ export class GraphComponent {
       .pipe(
         map(timeseries => {
           this.loading.set(false);
+
+          // Derive unit if Measurement data is present
+          const measurementEntry = timeseries.timeseries.find(ts =>
+            this.isMeasurementValue(ts.value as unknown)
+          );
+          const entryValue = measurementEntry?.value as unknown;
+          const unit =
+            entryValue && this.isMeasurementValue(entryValue)
+              ? entryValue.Measurement.unit
+              : '';
+
+          // Update chart options to display unit on Y axis and tooltips
+          this.chartOptions = {
+            ...defaultChartOptions,
+            scales: {
+              ...defaultChartOptions.scales,
+              y: {
+                ...defaultChartOptions.scales?.y,
+                title: unit
+                  ? { display: true, text: unit }
+                  : { display: false, text: '' },
+              },
+            },
+            plugins: {
+              ...defaultChartOptions.plugins,
+              tooltip: {
+                ...defaultChartOptions.plugins?.tooltip,
+                callbacks: {
+                  ...(defaultChartOptions.plugins?.tooltip as any)?.callbacks,
+                  label: (context: any) => {
+                    const value =
+                      context?.parsed?.y ??
+                      context?.raw ??
+                      context?.formattedValue;
+                    const dsLabel = context?.dataset?.label
+                      ? `${context.dataset.label}: `
+                      : '';
+                    return `${dsLabel}${value}${unit ? ' ' + unit : ''}`;
+                  },
+                },
+              },
+            },
+          };
+
           return {
             labels: timeseries.timeseries.map(t =>
               fromUnixTime(t.timestamp).toLocaleTimeString()
             ),
             datasets: [
               {
-                data: timeseries.timeseries.map(
-                  t => (t.value as { Number: number }).Number
-                ),
+                data: timeseries.timeseries.map(t => {
+                  const value = t.value as unknown;
+                  if (this.isMeasurementValue(value)) {
+                    return value.Measurement.value;
+                  }
+                  if (this.isNumberValue(value)) {
+                    return value.Number;
+                  }
+                  return NaN;
+                }),
               },
             ],
           };

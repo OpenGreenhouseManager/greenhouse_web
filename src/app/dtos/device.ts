@@ -55,6 +55,7 @@ export interface ConfigResponseDto<T = unknown> {
 export enum Type {
   Number = 'Number',
   String = 'String',
+  Measurement = 'Measurement',
   Stream = 'Stream',
 }
 
