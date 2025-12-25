@@ -11,6 +11,7 @@ gridster {
   height: 100%;
   background-color: var(--grn-background-color);
   flex: 1; /* Take remaining space */
+  overflow: auto; /* Enable internal scrolling */
 }
 
 gridster-item {

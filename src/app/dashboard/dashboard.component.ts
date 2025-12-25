@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy } from '@angular/core';
 import {
   GridsterConfig,
   GridsterItem,
   GridsterItemComponent,
   GridsterModule,
+  GridType,
 } from 'angular-gridster2';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -59,16 +60,21 @@ type DashboardItem =
   styleUrl: './dashboard.component.scss',
   providers: [ConfirmationService],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnDestroy {
   options: GridsterConfig;
   dashboard: DashboardItem[] = [];
   dialogVisible = signal(false);
   editMode = signal(false);
   private confirmationService = inject(ConfirmationService);
   private userPreferencesService = inject(UserPreferencesService);
+  private readonly onWindowResize = () => {
+    this.options.fixedRowHeight = Math.floor(window.innerHeight / 9);
+    this.options.api?.resize?.();
+  };
 
   constructor() {
     this.options = {
+      gridType: GridType.ScrollVertical,
       draggable: {
         enabled: true,
         stop: this.saveDashboard.bind(this), // called after drag
@@ -77,16 +83,18 @@ export class DashboardComponent {
         enabled: true,
         stop: this.saveDashboard.bind(this), // called after resize
       },
+      fixedRowHeight: Math.floor(window.innerHeight / 9),
       pushResizeItems: true,
       swap: true,
       swapWhileDragging: true,
       minCols: 16,
       minRows: 9,
       maxCols: 16,
-      maxRows: 9,
       disableScrollHorizontal: true,
-      disableScrollVertical: true,
+      disableScrollVertical: false,
     };
+
+    window.addEventListener('resize', this.onWindowResize);
 
     // Load dashboard from backend preferences instead of localStorage
     this.loadDashboard();
@@ -110,6 +118,10 @@ export class DashboardComponent {
         this.dashboard = [];
       },
     });
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.onWindowResize);
   }
 
   saveDashboard(e: any) {

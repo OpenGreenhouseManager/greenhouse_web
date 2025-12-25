@@ -1,7 +1,12 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { differenceInSeconds, fromUnixTime, subDays } from 'date-fns';
+import {
+  differenceInCalendarDays,
+  differenceInSeconds,
+  fromUnixTime,
+  subDays,
+} from 'date-fns';
 import { ChartModule } from 'primeng/chart';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
@@ -80,7 +85,6 @@ export class GraphComponent {
     // Enable legend if more than one dataset will be shown
     base.plugins = base.plugins || {};
     base.plugins.legend = base.plugins.legend || {};
-    base.plugins.legend.display = true;
 
     // Configure secondary Y axis if requested
     base.scales = base.scales || {};
@@ -125,6 +129,9 @@ export class GraphComponent {
         .map((d: any) => d?.unit)
         .filter((u: string | undefined) => !!u && typeof u === 'string')
     ) as Set<string>;
+
+    // Show legend only if we actually have more than one dataset
+    base.plugins.legend.display = datasets.length > 1;
 
     // Tooltip callback to append units to values
     base.plugins.tooltip = base.plugins.tooltip || {};
@@ -213,10 +220,25 @@ export class GraphComponent {
             return { labels: [], datasets: [] };
           }
 
+          const isMultiDayRange =
+            differenceInCalendarDays(this.endDate(), this.startDate()) >= 1;
           const labels =
-            responses[0].timeseries.map(t =>
-              fromUnixTime(t.timestamp).toLocaleTimeString()
-            ) ?? [];
+            responses[0].timeseries.map(t => {
+              const d = fromUnixTime(t.timestamp);
+              return isMultiDayRange
+                ? d.toLocaleString(undefined, {
+                    month: 'short',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  })
+                : d.toLocaleTimeString(undefined, {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false,
+                  });
+            }) ?? [];
 
           const palette = [
             chartColors.primary,
@@ -256,7 +278,7 @@ export class GraphComponent {
             const color = palette[idx % palette.length];
             let label =
               (this.config().graph_data[idx].sub_property
-                ? `${this.config().graph_data[idx].device_id}:${this.config().graph_data[idx].sub_property}`
+                ? `${this.config().graph_data[idx].sub_property}`
                 : this.config().graph_data[idx].device_id) ||
               `Series ${idx + 1}`;
             if (unit) {
