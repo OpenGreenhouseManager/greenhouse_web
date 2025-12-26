@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import {
   GridsterConfig,
   GridsterItem,
@@ -12,7 +12,9 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
 import { UserPreferencesService } from '../services/user-preferences.service';
 import { AlertListComponent } from '../shared/alert/alert-list.component';
+import { CompassCardComponent } from '../shared/compass/compass-card.component';
 import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
+import { LatestValueCardComponent } from '../shared/value/latest-value-card.component';
 import {
   AddDashboardComponentDialogComponent,
   DashboardComponentCreate,
@@ -37,11 +39,31 @@ interface AlertListDashboardItem extends GridsterItem {
   };
 }
 
+interface LatestValueDashboardItem extends GridsterItem {
+  type: 'latestValue';
+  options: {
+    deviceId: string;
+    subProperty?: string;
+    name: string;
+  };
+}
+
+interface CompassDashboardItem extends GridsterItem {
+  type: 'compass';
+  options: {
+    deviceId: string;
+    subProperty?: string;
+    name: string;
+  };
+}
+
 // Union type for all dashboard items
 type DashboardItem =
   | GraphDashboardItem
   | MultiGraphDashboardItem
-  | AlertListDashboardItem;
+  | AlertListDashboardItem
+  | LatestValueDashboardItem
+  | CompassDashboardItem;
 
 @Component({
   selector: 'grn-dashboard',
@@ -52,6 +74,8 @@ type DashboardItem =
     GridsterItemComponent,
     GraphComponent,
     AlertListComponent,
+    LatestValueCardComponent,
+    CompassCardComponent,
     ButtonModule,
     AddDashboardComponentDialogComponent,
     ConfirmDialogModule,
@@ -211,6 +235,32 @@ export class DashboardComponent implements OnDestroy {
           name: componentData.name,
         },
       } as AlertListDashboardItem;
+    } else if (componentData.type === 'latestValue') {
+      newItem = {
+        cols: 2,
+        rows: 2,
+        y: 0,
+        x: 0,
+        type: 'latestValue',
+        options: {
+          deviceId: componentData.deviceId!,
+          subProperty: componentData.subProperty || undefined,
+          name: componentData.name,
+        },
+      } as LatestValueDashboardItem;
+    } else if (componentData.type === 'compass') {
+      newItem = {
+        cols: 3,
+        rows: 3,
+        y: 0,
+        x: 0,
+        type: 'compass',
+        options: {
+          deviceId: componentData.deviceId!,
+          subProperty: componentData.subProperty || undefined,
+          name: componentData.name,
+        },
+      } as CompassDashboardItem;
     } else {
       throw new Error('Invalid component type');
     }

@@ -99,6 +99,26 @@ export class GraphComponent {
         text: '',
       },
     };
+    // Formatter to round numbers to at most two decimal places
+    const formatNumber = (val: unknown): string => {
+      if (val === null || val === undefined) return '';
+      const num =
+        typeof val === 'number'
+          ? val
+          : typeof val === 'string'
+            ? Number(val)
+            : NaN;
+      if (!Number.isFinite(num)) return String(val as any);
+      return new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: 2,
+      }).format(num);
+    };
+
+    // Apply tick formatter on primary Y axis
+    base.scales.y.ticks = {
+      ...(base.scales.y?.ticks || {}),
+      callback: (value: unknown) => formatNumber(value),
+    };
     if (this.config().axis_mode === 'separate') {
       base.scales.y1 = {
         type: 'linear',
@@ -108,6 +128,7 @@ export class GraphComponent {
         },
         ticks: {
           ...(base.scales.y?.ticks || {}),
+          callback: (value: unknown) => formatNumber(value),
         },
         title: {
           display: false,
@@ -141,7 +162,7 @@ export class GraphComponent {
       const unit = ds.unit ? ` ${ds.unit}` : '';
       const value = context.parsed?.y ?? context.raw;
       const label = ds.label ? `${ds.label}: ` : '';
-      return `${label}${value}${unit}`;
+      return `${label}${formatNumber(value)}${unit}`;
     };
 
     if (this.config().axis_mode === 'separate') {
