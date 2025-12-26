@@ -3,11 +3,12 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, isDevMode } from '@angular/core';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes';
 import { authInterceptor } from './_interceptors/auth.interceptor';
+import { provideServiceWorker } from '@angular/service-worker';
 
 const MyTheme = definePreset(Lara, {
   primitive: {
@@ -683,6 +684,10 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '',
         },
       },
+    }),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
 };
