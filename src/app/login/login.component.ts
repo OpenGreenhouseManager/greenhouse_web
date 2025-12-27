@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
 import { CookieService } from 'ngx-cookie-service';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { environment } from '../../environments/environment';
 import { CardComponent } from '../card/card.component';
 import { LoginRequestDto, LoginResponseDto } from '../dtos/login';
 import { login } from '../urls/urls';
@@ -34,6 +36,7 @@ export class LoginComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
   private cookieService = inject(CookieService);
+  private swPush = inject(SwPush);
 
   private decodeJWT(token: string): any {
     try {
@@ -80,6 +83,9 @@ export class LoginComponent {
             this.cookieService.set('auth-token', response.token);
           }
 
+          // Try to set up push notifications after successful login
+          this.setupPushAfterLogin();
+
           // Check if user has guest role
           if (this.checkForGuestRole()) {
             this.showGuestDialog.set(true);
@@ -92,6 +98,53 @@ export class LoginComponent {
           this.error.set(true);
         },
       });
+  }
+
+  private async setupPushAfterLogin() {
+    try {
+      if (!this.swPush.isEnabled) {
+        console.log('Service worker not enabled');
+        return;
+      }
+      if (!environment.vapidPublicKey) {
+        console.log('Vapid public key not found');
+        return;
+      }
+      if (Notification.permission === 'default') {
+        console.log('Notification permission is default');
+        await Notification.requestPermission();
+      }
+      if (Notification.permission !== 'granted') {
+        console.log('Notification permission not granted');
+        return;
+      }
+      const existing = await (
+        await navigator.serviceWorker.ready
+      ).pushManager.getSubscription();
+      const subscription =
+        existing ??
+        (await this.swPush.requestSubscription({
+          serverPublicKey: environment.vapidPublicKey,
+        }));
+      // Persist subscription on backend (best-effort)
+      this.http
+        .post(
+          environment.baseUrl + '/api/push/subscribe',
+          subscription.toJSON(),
+          {
+            withCredentials: true,
+          }
+        )
+        .subscribe({
+          error: e => {
+            console.error('Error persisting subscription', e);
+            // ignore errors; user remains logged in
+          },
+        });
+    } catch (error) {
+      console.error('Error setting up push notifications', error);
+      // best-effort only
+    }
   }
 
   public onGuestDialogClose() {
