@@ -19,9 +19,16 @@ import { DeviceResponseDto } from '../dtos/device';
   selector: 'grn-single-data-form',
   standalone: true,
   imports: [AutoComplete, Select, FormsModule],
+  host: {
+    class: 'flex gap-2',
+    '[class.flex-row]': 'compact()',
+    '[class.flex-col]': '!compact()',
+  },
   template: `
-    <div class="flex items-center gap-4 mb-4">
-      <label for="deviceId" class="font-semibold w-24">Device</label>
+    <div class="flex items-center gap-4" [class.mb-4]="!compact()">
+      @if (!compact()) {
+        <label for="deviceId" class="font-semibold w-24">Device</label>
+      }
       <p-autocomplete
         id="deviceId"
         class="w-full"
@@ -29,17 +36,21 @@ import { DeviceResponseDto } from '../dtos/device';
         (completeMethod)="onDeviceQuery($event)"
         [(ngModel)]="deviceSearch"
         [optionLabel]="'name'"
+        placeholder="Select Device"
         [dropdown]="true"
         [appendTo]="'body'"
         (onSelect)="onDeviceSelect($event)"
         (ngModelChange)="onDeviceSearchChange($event)" />
     </div>
 
-    <div class="flex items-center gap-4 mb-4">
-      <label for="subProperty" class="font-semibold w-24">Sub Property</label>
+    <div class="flex items-center gap-4" [class.mb-4]="!compact()">
+      @if (!compact()) {
+        <label for="subProperty" class="font-semibold w-24">Sub Property</label>
+      }
       <p-select
         id="subProperty"
         [options]="subPropertyOptions().operations"
+        placeholder="Select Sub Property"
         [(ngModel)]="subProperty"
         [appendTo]="'body'"
         [disabled]="
@@ -53,6 +64,7 @@ export class SingleDataFormComponent {
   deviceService = inject(DeviceService);
 
   devices = input.required<DeviceResponseDto[]>();
+  compact = input<boolean>(false);
 
   selectedDevice = output<{
     deviceId: string;

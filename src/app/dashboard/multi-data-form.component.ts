@@ -25,7 +25,9 @@ import { SingleDataFormComponent } from './single-data-form.component';
         <div class="flex items-center gap-2">
           <grn-single-data-form
             [devices]="devices()"
-            (selectedDevice)="updateForm(entry.id, $event)" />
+            [compact]="true"
+            (selectedDevice)="updateForm(entry.id, $event)"
+            class="w-full" />
           <p-button
             icon="pi pi-trash"
             severity="danger"
@@ -33,9 +35,6 @@ import { SingleDataFormComponent } from './single-data-form.component';
             [disabled]="multiData().length <= 1" />
         </div>
       }
-      <div>
-        <p-button label="Add Series" icon="pi pi-plus" (click)="addData()" />
-      </div>
     </div>
   `,
 })
@@ -61,7 +60,7 @@ export class MultiDataFormComponent {
         subProperty: string;
       };
     }[]
-  >([]);
+  >([{ id: uuidv4(), data: { deviceId: '', subProperty: '' } }]);
 
   constructor() {
     effect(() => {
@@ -75,6 +74,14 @@ export class MultiDataFormComponent {
           .map(entry => entry.data)
           .filter(data => data.deviceId !== '' && data.subProperty !== ''),
       });
+      if (
+        data
+          .map(entry => entry.data)
+          .filter(data => data.deviceId === '' && data.subProperty === '')
+          .length === 0
+      ) {
+        this.addData();
+      }
     });
   }
 
