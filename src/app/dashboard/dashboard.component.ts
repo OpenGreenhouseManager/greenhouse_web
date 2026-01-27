@@ -186,6 +186,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
     let newItem: DashboardItem;
 
     if (componentData.type === 'graph') {
+      const data = componentData.graphData;
+      if (!data || data.length !== 1) {
+        return;
+      }
       newItem = {
         cols: 3,
         rows: 3,
@@ -195,8 +199,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         options: {
           graph_data: [
             {
-              device_id: componentData.deviceId!,
-              sub_property: componentData.subProperty!,
+              device_id: data[0].deviceId!,
+              sub_property: data[0].subProperty!,
             },
           ],
           name: componentData.name,
@@ -232,6 +236,10 @@ export class DashboardComponent implements OnDestroy, OnInit {
         },
       } satisfies AlertListDashboardItem;
     } else if (componentData.type === 'latestValue') {
+      const data = componentData.graphData;
+      if (!data || data.length !== 1) {
+        return;
+      }
       newItem = {
         cols: 2,
         rows: 2,
@@ -239,12 +247,16 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'latestValue',
         options: {
-          deviceId: componentData.deviceId!,
-          subProperty: componentData.subProperty || undefined,
+          deviceId: data[0].deviceId!,
+          subProperty: data[0].subProperty || undefined,
           name: componentData.name,
         },
       } satisfies LatestValueDashboardItem;
     } else if (componentData.type === 'compass') {
+      const data = componentData.graphData;
+      if (!data || data.length !== 1) {
+        return;
+      }
       newItem = {
         cols: 3,
         rows: 3,
@@ -252,8 +264,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'compass',
         options: {
-          deviceId: componentData.deviceId!,
-          subProperty: componentData.subProperty || undefined,
+          deviceId: data[0].deviceId!,
+          subProperty: data[0].subProperty || undefined,
           name: componentData.name,
         },
       } satisfies CompassDashboardItem;
