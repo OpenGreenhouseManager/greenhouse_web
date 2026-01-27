@@ -2,12 +2,12 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { FormsModule } from '@angular/forms';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ButtonModule } from 'primeng/button';
+import { Dialog } from 'primeng/dialog';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { Dialog } from 'primeng/dialog';
 import { TextareaModule } from 'primeng/textarea';
 import { catchError, combineLatest, forkJoin, of, switchMap } from 'rxjs';
 import { CardComponent } from '../../card/card.component';
