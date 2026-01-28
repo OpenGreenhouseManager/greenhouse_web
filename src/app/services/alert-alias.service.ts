@@ -28,13 +28,11 @@ export class AlertAliasService {
             ? JSON.parse(preferences.alert_preferences)
             : {};
           this.aliasesSubject.next(aliases);
-        } catch (error) {
-          console.error('Error parsing alert preferences:', error);
+        } catch {
           this.aliasesSubject.next({});
         }
       },
-      error: error => {
-        console.error('Error loading alert preferences:', error);
+      error: _ => {
         this.aliasesSubject.next({});
       },
     });
@@ -96,7 +94,6 @@ export class AlertAliasService {
       }),
       map(() => {
         this.aliasesSubject.next(aliases);
-        console.log('Alert aliases saved successfully');
       })
     );
   }

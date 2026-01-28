@@ -129,7 +129,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.dashboard.set([]);
         }
       },
-      error: error => {
+      error: () => {
         this.dashboard.set([]);
       },
     });
@@ -139,7 +139,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     window.removeEventListener('resize', this.onWindowResize);
   }
 
-  saveDashboard(e: any) {
+  saveDashboard(_: unknown) {
     setTimeout(() => {
       // Save to backend instead of localStorage
       this.userPreferencesService.getUserPreferences().subscribe({
@@ -152,24 +152,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.userPreferencesService
             .updateUserPreferences(updatedPreferences)
             .subscribe({
-              next: () => {
-                console.log('Dashboard preferences saved successfully');
-              },
-              error: error => {
-                console.error('Error saving dashboard preferences:', error);
-              },
+              next: () => {},
+              error: () => {},
             });
         },
-        error: error => {
-          console.error('Error getting current preferences:', error);
-        },
+        error: () => {},
       });
     }, 300);
   }
 
   addEntry() {
     this.dialogVisible.set(true);
-    console.log('dialogVisible', this.dialogVisible());
   }
 
   onDialogClose() {

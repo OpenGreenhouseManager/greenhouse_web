@@ -1,4 +1,3 @@
-import type { OnInit } from '@angular/core';
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,7 +28,7 @@ import { AlertService } from '../services/alert-service';
   templateUrl: './alert-overview.component.html',
   styleUrls: ['./alert-overview.component.scss'],
 })
-export class AlertOverviewComponent implements OnInit {
+export class AlertOverviewComponent {
   private router = inject(Router);
   private alertService = inject(AlertService);
   private alertAliasService = inject(AlertAliasService);
@@ -42,7 +41,7 @@ export class AlertOverviewComponent implements OnInit {
       .getAlerts(
         this.intervalToDate(
           AlertInterval[
-            this.selectedInterval().value as keyof typeof AlertInterval
+            this.selectedInterval()?.value as keyof typeof AlertInterval
           ] as AlertInterval
         ),
         endOfDay(new Date())
@@ -65,8 +64,6 @@ export class AlertOverviewComponent implements OnInit {
       label: Severity[key as keyof typeof Severity],
       value: key,
     }));
-
-  ngOnInit() {}
 
   intervalToDate(interval: AlertInterval): Date {
     switch (interval) {
@@ -118,12 +115,8 @@ export class AlertOverviewComponent implements OnInit {
     const newAlias = prompt('Edit Alias', alias || '');
     if (newAlias !== null) {
       this.alertAliasService.setAlias(identifier, newAlias).subscribe({
-        next: () => {
-          console.log('Alias updated successfully');
-        },
-        error: error => {
-          console.error('Error updating alias:', error);
-        },
+        next: () => {},
+        error: () => {},
       });
     }
   }

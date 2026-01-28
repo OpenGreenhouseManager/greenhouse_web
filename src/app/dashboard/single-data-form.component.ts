@@ -92,8 +92,7 @@ export class SingleDataFormComponent {
         if (!deviceId) return of({ operations: [] });
         return this.deviceService.getDeviceOptions(deviceId).pipe(
           map(options => ({ operations: options.operations.sort() })),
-          catchError(error => {
-            console.error('Error fetching device options:', error);
+          catchError(() => {
             return of({ operations: [] });
           })
         );
@@ -109,8 +108,7 @@ export class SingleDataFormComponent {
 
   constructor() {
     effect(() => {
-      console.log('subProperty', this.subProperty());
-      if (this.validDeviceId() && this.subProperty().trim() !== '') {
+      if (this.validDeviceId() && this.subProperty()?.trim() !== '') {
         this.selectedDevice.emit({
           deviceId: this.deviceId(),
           subProperty: this.subProperty(),
@@ -139,7 +137,7 @@ export class SingleDataFormComponent {
     }
   }
 
-  onDeviceSearchChange(value: any) {
+  onDeviceSearchChange(value: unknown) {
     // If user selected an option, it may be an object
     if (value && typeof value === 'object' && 'id' in value) {
       const selected = value as DeviceResponseDto;

@@ -80,6 +80,7 @@ export class GraphComponent {
 
   // Chart.js options computed from current state
   public options = computed(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const base = structuredClone(chartOptions) as any;
     // Enable legend if more than one dataset will be shown
     base.plugins = base.plugins || {};
@@ -107,7 +108,7 @@ export class GraphComponent {
           : typeof val === 'string'
             ? Number(val)
             : NaN;
-      if (!Number.isFinite(num)) return String(val as any);
+      if (!Number.isFinite(num)) return String(val);
       return new Intl.NumberFormat(undefined, {
         maximumFractionDigits: 2,
       }).format(num);
@@ -142,11 +143,11 @@ export class GraphComponent {
     }
 
     // Derive units from current datasets and set axis titles accordingly
-    const series = (this.timeseries?.() as any) || { datasets: [] };
+    const series = this.timeseries?.() ?? { datasets: [] };
     const datasets = Array.isArray(series.datasets) ? series.datasets : [];
     const unitsSet = new Set(
       datasets
-        .map((d: any) => d?.unit)
+        .map(d => d?.unit)
         .filter((u: string | undefined) => !!u && typeof u === 'string')
     );
 
@@ -156,6 +157,7 @@ export class GraphComponent {
     // Tooltip callback to append units to values
     base.plugins.tooltip = base.plugins.tooltip || {};
     base.plugins.tooltip.callbacks = base.plugins.tooltip.callbacks || {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     base.plugins.tooltip.callbacks.label = (context: any) => {
       const ds = context.dataset || {};
       const unit = ds.unit ? ` ${ds.unit}` : '';
@@ -165,8 +167,8 @@ export class GraphComponent {
     };
 
     if (this.config().axis_mode === 'separate') {
-      const left = datasets.find((d: any) => d?.yAxisID === 'y');
-      const right = datasets.find((d: any) => d?.yAxisID === 'y1');
+      const left = datasets.find(d => d?.yAxisID === 'y');
+      const right = datasets.find(d => d?.yAxisID === 'y1');
       if (left?.unit) {
         base.scales.y.title.display = true;
         base.scales.y.title.text = left.unit;
@@ -275,16 +277,19 @@ export class GraphComponent {
           const datasets = responses.map((r, idx) => {
             // Determine unit (if Measurement) for this dataset
             const firstMeasurement = r.timeseries.find(
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               t => (t.value as any)?.Measurement
-            ) as any;
+            );
             const unit: string =
-              firstMeasurement?.value?.Measurement?.unit ??
-              firstMeasurement?.Measurement?.unit ??
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (firstMeasurement?.value as any)?.Measurement?.unit ??
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (firstMeasurement?.value as any)?.Measurement?.unit ??
               '';
 
             // Map value, supporting Number and Measurement; null for others
             const data = r.timeseries.map(t => {
-              const v = t.value as any;
+              const v = t.value;
               if (v && typeof v === 'object') {
                 if ('Measurement' in v && v.Measurement) {
                   return v.Measurement.value as number;
@@ -299,7 +304,7 @@ export class GraphComponent {
             let label =
               (this.config().graph_data[idx]?.sub_property
                 ? `${this.config().graph_data[idx]?.sub_property}`
-                : this.config().graph_data[idx]?.device_id ?? '') ||
+                : (this.config().graph_data[idx]?.device_id ?? '')) ||
               `Series ${idx + 1}`;
             if (unit) {
               label = `${label} (${unit})`;

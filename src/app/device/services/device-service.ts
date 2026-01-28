@@ -73,9 +73,7 @@ export class DeviceService {
       )
       .subscribe({
         next: () => {},
-        error: error => {
-          console.error(error);
-        },
+        error: () => {},
       });
   }
 

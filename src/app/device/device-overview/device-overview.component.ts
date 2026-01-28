@@ -76,15 +76,13 @@ export class DeviceOverviewComponent implements OnInit {
             this.devices.set(devicesWithStatus);
             this.loading.set(false);
           },
-          error: error => {
-            console.error('Error loading device statuses:', error);
+          error: () => {
             this.devices.set(devices.devices);
             this.loading.set(false);
           },
         });
       },
-      error: error => {
-        console.error('Error loading devices:', error);
+      error: () => {
         this.loading.set(false);
       },
     });
