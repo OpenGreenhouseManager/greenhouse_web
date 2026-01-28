@@ -1,4 +1,5 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -11,19 +12,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TextareaModule } from 'primeng/textarea';
 import { catchError, combineLatest, forkJoin, of, switchMap } from 'rxjs';
 import { CardComponent } from '../../card/card.component';
-import {
-  ConfigResponseDto,
-  DeviceResponseDto,
-  DeviceStatusDto,
-  Mode,
-  Type,
-} from '../../dtos/device';
+import type { ConfigResponseDto, DeviceResponseDto } from '../../dtos/device';
+import { DeviceStatusDto, Mode, Type } from '../../dtos/device';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { AlertListComponent } from '../../shared/alert/alert-list.component';
-import {
-  GraphComponent,
-  GraphConfig,
-} from '../../shared/graph/graph.component';
+import type { GraphConfig } from '../../shared/graph/graph.component';
+import { GraphComponent } from '../../shared/graph/graph.component';
 import { DeviceService } from '../services/device-service';
 
 @Component({
@@ -308,8 +302,7 @@ export class DeviceDetailComponent implements OnInit {
           // update local state and close dialog
           const cfg = this.deviceConfig();
           if (cfg) {
-            (cfg as ConfigResponseDto).additional_config =
-              parsed as unknown as Record<string, unknown>;
+            cfg.additional_config = parsed as Record<string, unknown>;
             this.deviceConfig.set({ ...cfg });
           }
           this.saveConfigLoading.set(false);

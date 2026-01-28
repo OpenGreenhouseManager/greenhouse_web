@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { AutoComplete } from 'primeng/autocomplete';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { DeviceService } from '../device';
-import { DeviceResponseDto } from '../dtos/device';
+import type { DeviceResponseDto } from '../dtos/device';
 
 @Component({
   selector: 'grn-single-data-form',
@@ -174,7 +174,7 @@ export class SingleDataFormComponent {
       prefix,
       operations: operations
         .filter(op => op.split('_')[0] === prefix)
-        .map(op => ({ display: op.replace(prefix + '_', ''), value: op }))
+        .map(op => ({ display: op.replace(`${prefix}_`, ''), value: op }))
         .sort((a, b) => a.display.localeCompare(b.display)),
     }));
   }

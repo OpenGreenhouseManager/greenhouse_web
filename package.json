@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --watch=false",
-    "lint": "eslint \"src/**/*.{js,ts,html}\" --quiet",
+    "lint": "eslint \"src/**/*.{js,ts,html}\"",
     "lint:fix": "eslint \"src/**/*.{js,ts,html}\" --fix",
     "format": "prettier --write \"src/**/*.{js,ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"src/**/*.{js,ts,html,scss,css,json}\"",

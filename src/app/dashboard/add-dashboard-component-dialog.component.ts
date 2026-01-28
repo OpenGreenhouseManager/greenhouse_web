@@ -12,7 +12,7 @@ import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { DeviceService } from '../device/services/device-service';
-import { DeviceResponseDto } from '../dtos/device';
+import type { DeviceResponseDto } from '../dtos/device';
 import { AlertFormComponent } from './alert-form.component';
 import { MultiDataFormComponent } from './multi-data-form.component';
 import { SingleDataFormComponent } from './single-data-form.component';
@@ -200,7 +200,7 @@ export class AddDashboardComponentDialogComponent {
     if (!this.isFormValid()) return;
 
     const component: DashboardComponentCreate = {
-      type: this.selectedComponentType!,
+      type: this.selectedComponentType,
       name: this.name.trim(),
     };
 

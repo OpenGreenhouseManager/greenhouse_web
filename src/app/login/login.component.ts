@@ -8,7 +8,8 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { CardComponent } from '../card/card.component';
-import { LoginRequestDto, LoginResponseDto } from '../dtos/login';
+import type { LoginResponseDto } from '../dtos/login';
+import { LoginRequestDto } from '../dtos/login';
 import { login } from '../urls/urls';
 
 @Component({
@@ -26,8 +27,8 @@ import { login } from '../urls/urls';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
+  username = '';
+  password = '';
   public error = signal(false);
   public showGuestDialog = signal(false);
 
@@ -42,7 +43,7 @@ export class LoginComponent {
       const jsonPayload = decodeURIComponent(
         atob(base64)
           .split('')
-          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .map(c => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
           .join('')
       );
       return JSON.parse(jsonPayload);

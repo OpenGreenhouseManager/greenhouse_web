@@ -67,14 +67,13 @@ export class GraphComponent {
     if (step_count < 1) {
       return '1s';
     } else if (step_count < 60) {
-      return Math.floor(step_count) + 's';
+      return `${Math.floor(step_count)}s`;
     } else if (step_count < 3600) {
-      return Math.floor(step_count / 60) + 'm';
+      return `${Math.floor(step_count / 60)}m`;
     } else if (step_count < 86400) {
-      return Math.floor(step_count / 3600) + 'h';
-    } else {
-      return '1d';
+      return `${Math.floor(step_count / 3600)}h`;
     }
+    return '1d';
   });
 
   public now = signal(new Date());
@@ -149,7 +148,7 @@ export class GraphComponent {
       datasets
         .map((d: any) => d?.unit)
         .filter((u: string | undefined) => !!u && typeof u === 'string')
-    ) as Set<string>;
+    );
 
     // Show legend only if we actually have more than one dataset
     base.plugins.legend.display = datasets.length > 1;
@@ -244,7 +243,7 @@ export class GraphComponent {
           const isMultiDayRange =
             differenceInCalendarDays(this.endDate(), this.startDate()) >= 1;
           const labels =
-            responses[0].timeseries.map(t => {
+            responses[0]?.timeseries.map(t => {
               const d = fromUnixTime(t.timestamp);
               return isMultiDayRange
                 ? d.toLocaleString(undefined, {
@@ -298,9 +297,9 @@ export class GraphComponent {
             });
             const color = palette[idx % palette.length];
             let label =
-              (this.config().graph_data[idx].sub_property
-                ? `${this.config().graph_data[idx].sub_property}`
-                : this.config().graph_data[idx].device_id) ||
+              (this.config().graph_data[idx]?.sub_property
+                ? `${this.config().graph_data[idx]?.sub_property}`
+                : this.config().graph_data[idx]?.device_id ?? '') ||
               `Series ${idx + 1}`;
             if (unit) {
               label = `${label} (${unit})`;
@@ -309,7 +308,7 @@ export class GraphComponent {
               label: label || `Series ${idx + 1}`,
               data,
               borderColor: color,
-              backgroundColor: color + '33',
+              backgroundColor: `${color}33`,
               yAxisID: useSeparateAxes ? (idx === 0 ? 'y' : 'y1') : 'y',
               unit,
             };

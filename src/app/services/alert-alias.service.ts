@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import type { Observable } from 'rxjs';
+import { BehaviorSubject, map, switchMap } from 'rxjs';
 import { UserPreferencesService } from './user-preferences.service';
 
 @Injectable({
