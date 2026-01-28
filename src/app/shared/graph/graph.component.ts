@@ -26,7 +26,7 @@ export interface GraphConfig {
 
 export interface GraphData {
   device_id: string;
-  sub_property?: string;
+  sub_property?: string | undefined;
 }
 
 const MAX_DATA_POINTS = 100;

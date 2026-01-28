@@ -34,6 +34,9 @@ export class AlertService {
           const a: AggregatedAlert[] = [];
           for (let i = 0; i < x.alerts.length; i++) {
             const alert = x.alerts[i];
+            if (!alert) {
+              continue;
+            }
             a.push({
               count: alert.count,
               identifier: alert.identifier,
@@ -59,6 +62,9 @@ export class AlertService {
           const a: Alert[] = [];
           for (let i = 0; i < x.alerts.length; i++) {
             const alert = x.alerts[i];
+            if (!alert) {
+              continue;
+            }
             a.push({
               id: alert.id,
               severity: this.convertSeverity(alert.severity),

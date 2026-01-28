@@ -159,7 +159,9 @@
           <div class="content">
             <grn-graph
               [config]="config.config"
-              [header]="config.config.graph_data[0].sub_property"></grn-graph>
+              [header]="
+                config.config.graph_data[0]?.sub_property ?? ''
+              "></grn-graph>
           </div>
         }
       }

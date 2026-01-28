@@ -53,6 +53,9 @@ export class DiaryService {
           const a = new Map<string, Diary>();
           for (let i = 0; i < x.entries.length; i++) {
             const diary = x.entries[i];
+            if (!diary) {
+              continue;
+            }
             a.set(
               diary.id,
               new Diary(
@@ -132,7 +135,7 @@ export class MockSrevice {
     },
   ];
 
-  static getDiary(id: string): Diary {
+  static getDiary(id: string): Diary | undefined {
     return this.mockDiaries
       .filter(diary => diary.id === id)
       .map(
@@ -156,6 +159,9 @@ export class MockSrevice {
     const b = new Map<string, Diary>();
     for (let i = 0; i < a.length; i++) {
       const diary = a[i];
+      if (!diary) {
+        continue;
+      }
       b.set(
         diary.id,
         new Diary(

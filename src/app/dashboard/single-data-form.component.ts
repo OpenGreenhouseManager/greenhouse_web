@@ -166,6 +166,9 @@ export class SingleDataFormComponent {
     const groups = new Set<string>();
     for (const op of operations) {
       const prefix = op.split('_')[0];
+      if (!prefix) {
+        continue;
+      }
       groups.add(prefix);
     }
     return Array.from(groups).map(prefix => ({

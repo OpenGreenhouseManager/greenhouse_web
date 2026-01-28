@@ -101,10 +101,11 @@ export class DeviceDetailComponent implements OnInit {
           } satisfies GraphConfig,
         };
       })
-      .sort((a, b) =>
-        a.config.graph_data[0].sub_property.localeCompare(
-          b.config.graph_data[0].sub_property
-        )
+      .sort(
+        (a, b) =>
+          a.config.graph_data[0]?.sub_property.localeCompare(
+            b.config.graph_data[0]?.sub_property ?? ''
+          ) ?? 0
       );
   });
 
@@ -152,8 +153,9 @@ export class DeviceDetailComponent implements OnInit {
       next: result => {
         this.device.set(result.device);
         this.deviceConfig.set(result.config);
-        if (this.device()) {
-          this.device()!.status = result.status?.status;
+        const device = this.device();
+        if (device) {
+          device.status = result.status?.status ?? DeviceStatusDto.Offline;
         }
         this.dataSourceId.set(result.status?.datasource_id || null);
         this.loading.set(false);
@@ -214,7 +216,12 @@ export class DeviceDetailComponent implements OnInit {
       setTimeout(() => {
         this.deviceService.getDeviceConfig(this.device()!.id).subscribe({
           next: response => {
-            this.deviceConfig()!.scripting_api = response.scripting_api;
+            const config = this.deviceConfig();
+            if (!config) {
+              return;
+            }
+            config.scripting_api = response.scripting_api;
+            this.deviceConfig.set(config);
             this.loadingActivation.set(true);
           },
           error: () => {

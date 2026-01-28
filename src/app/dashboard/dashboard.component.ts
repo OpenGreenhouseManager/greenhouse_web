@@ -37,7 +37,7 @@ interface LatestValueDashboardItem extends GridsterItemConfig {
   type: 'latestValue';
   options: {
     deviceId: string;
-    subProperty?: string;
+    subProperty?: string | undefined;
     name: string;
   };
 }
@@ -46,7 +46,7 @@ interface CompassDashboardItem extends GridsterItemConfig {
   type: 'compass';
   options: {
     deviceId: string;
-    subProperty?: string;
+    subProperty?: string | undefined;
     name: string;
   };
 }
@@ -174,8 +174,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
     let newItem: DashboardItem;
 
     if (componentData.type === 'graph') {
-      const data = componentData.graphData;
-      if (data?.length !== 1) {
+      const data = componentData.graphData?.[0];
+      if (!data) {
         return;
       }
       newItem = {
@@ -187,8 +187,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         options: {
           graph_data: [
             {
-              device_id: data[0].deviceId,
-              sub_property: data[0].subProperty!,
+              device_id: data.deviceId,
+              sub_property: data.subProperty,
             },
           ],
           name: componentData.name,
@@ -205,7 +205,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
           graph_data:
             componentData.graphData?.map(d => ({
               device_id: d.deviceId,
-              sub_property: d.subProperty,
+              sub_property: d.subProperty ?? undefined,
             })) ?? [],
           axis_mode: componentData.axisMode ?? 'merged',
           name: componentData.name,
@@ -224,8 +224,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         },
       } satisfies AlertListDashboardItem;
     } else if (componentData.type === 'latestValue') {
-      const data = componentData.graphData;
-      if (data?.length !== 1) {
+      const data = componentData.graphData?.[0];
+      if (!data) {
         return;
       }
       newItem = {
@@ -235,14 +235,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'latestValue',
         options: {
-          deviceId: data[0].deviceId,
-          subProperty: data[0].subProperty || undefined,
+          deviceId: data.deviceId,
+          subProperty: data.subProperty || undefined,
           name: componentData.name,
         },
       } satisfies LatestValueDashboardItem;
     } else if (componentData.type === 'compass') {
-      const data = componentData.graphData;
-      if (data?.length !== 1) {
+      const data = componentData.graphData?.[0];
+      if (!data) {
         return;
       }
       newItem = {
@@ -252,8 +252,8 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'compass',
         options: {
-          deviceId: data[0].deviceId,
-          subProperty: data[0].subProperty || undefined,
+          deviceId: data.deviceId,
+          subProperty: data.subProperty || undefined,
           name: componentData.name,
         },
       } satisfies CompassDashboardItem;
