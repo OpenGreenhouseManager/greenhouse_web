@@ -1,13 +1,16 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import type { HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { AlertsAggrigatedDto } from '../../dtos/alert/aggrigated-alert';
-import { AlertsDto } from '../../dtos/alert/alert';
-import { AlertQuery } from '../../dtos/alert/alert-query';
-import { IntervalQuery } from '../../dtos/alert/interval-query';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs';
+import type { AlertsAggrigatedDto } from '../../dtos/alert/aggrigated-alert';
+import type { AlertsDto } from '../../dtos/alert/alert';
+import type { AlertQuery } from '../../dtos/alert/alert-query';
+import type { IntervalQuery } from '../../dtos/alert/interval-query';
 import { alert } from '../../urls/urls';
-import { AggregatedAlert } from '../models/aggregated-alert';
-import { Alert, Severity } from '../models/alert';
+import type { AggregatedAlert } from '../models/aggregated-alert';
+import type { Alert } from '../models/alert';
+import { Severity } from '../models/alert';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +50,7 @@ export class AlertService {
 
   queryAlerts(query: AlertQuery): Observable<Alert[]> {
     return this.http
-      .get<AlertsDto>(alert + '/filter', {
+      .get<AlertsDto>(`${alert}/filter`, {
         withCredentials: true,
         params: query as HttpParams,
       })

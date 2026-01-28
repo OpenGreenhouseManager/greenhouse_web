@@ -1,11 +1,7 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import {
-  Gridster,
-  GridsterConfig,
-  GridsterItem,
-  GridsterItemConfig,
-  GridType,
-} from 'angular-gridster2';
+import type { OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import type { GridsterConfig, GridsterItemConfig } from 'angular-gridster2';
+import { Gridster, GridsterItem, GridType } from 'angular-gridster2';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -13,12 +9,11 @@ import { NavBarComponent } from '../nav_bar/nav_bar.component';
 import { UserPreferencesService } from '../services/user-preferences.service';
 import { AlertListComponent } from '../shared/alert/alert-list.component';
 import { CompassCardComponent } from '../shared/compass/compass-card.component';
-import { GraphComponent, GraphConfig } from '../shared/graph/graph.component';
+import type { GraphConfig } from '../shared/graph/graph.component';
+import { GraphComponent } from '../shared/graph/graph.component';
 import { LatestValueCardComponent } from '../shared/value/latest-value-card.component';
-import {
-  AddDashboardComponentDialogComponent,
-  DashboardComponentCreate,
-} from './add-dashboard-component-dialog.component';
+import type { DashboardComponentCreate } from './add-dashboard-component-dialog.component';
+import { AddDashboardComponentDialogComponent } from './add-dashboard-component-dialog.component';
 
 interface GraphDashboardItem extends GridsterItemConfig {
   type: 'graph';
@@ -134,7 +129,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.dashboard.set([]);
         }
       },
-      error: error => {
+      error: () => {
         this.dashboard.set([]);
       },
     });
@@ -144,7 +139,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
     window.removeEventListener('resize', this.onWindowResize);
   }
 
-  saveDashboard(e: any) {
+  saveDashboard(_: unknown) {
     setTimeout(() => {
       // Save to backend instead of localStorage
       this.userPreferencesService.getUserPreferences().subscribe({
@@ -157,24 +152,17 @@ export class DashboardComponent implements OnDestroy, OnInit {
           this.userPreferencesService
             .updateUserPreferences(updatedPreferences)
             .subscribe({
-              next: () => {
-                console.log('Dashboard preferences saved successfully');
-              },
-              error: error => {
-                console.error('Error saving dashboard preferences:', error);
-              },
+              next: () => {},
+              error: () => {},
             });
         },
-        error: error => {
-          console.error('Error getting current preferences:', error);
-        },
+        error: () => {},
       });
     }, 300);
   }
 
   addEntry() {
     this.dialogVisible.set(true);
-    console.log('dialogVisible', this.dialogVisible());
   }
 
   onDialogClose() {
@@ -187,7 +175,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
     if (componentData.type === 'graph') {
       const data = componentData.graphData;
-      if (!data || data.length !== 1) {
+      if (data?.length !== 1) {
         return;
       }
       newItem = {
@@ -199,7 +187,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         options: {
           graph_data: [
             {
-              device_id: data[0].deviceId!,
+              device_id: data[0].deviceId,
               sub_property: data[0].subProperty!,
             },
           ],
@@ -237,7 +225,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
       } satisfies AlertListDashboardItem;
     } else if (componentData.type === 'latestValue') {
       const data = componentData.graphData;
-      if (!data || data.length !== 1) {
+      if (data?.length !== 1) {
         return;
       }
       newItem = {
@@ -247,14 +235,14 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'latestValue',
         options: {
-          deviceId: data[0].deviceId!,
+          deviceId: data[0].deviceId,
           subProperty: data[0].subProperty || undefined,
           name: componentData.name,
         },
       } satisfies LatestValueDashboardItem;
     } else if (componentData.type === 'compass') {
       const data = componentData.graphData;
-      if (!data || data.length !== 1) {
+      if (data?.length !== 1) {
         return;
       }
       newItem = {
@@ -264,7 +252,7 @@ export class DashboardComponent implements OnDestroy, OnInit {
         x: 0,
         type: 'compass',
         options: {
-          deviceId: data[0].deviceId!,
+          deviceId: data[0].deviceId,
           subProperty: data[0].subProperty || undefined,
           name: componentData.name,
         },

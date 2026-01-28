@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { formatISO, parseISO } from 'date-fns';
 import { map, Observable } from 'rxjs';
-import {
+import type {
   DiaryEntryDtoResponse,
   GetDiaryDtoResponse,
   PostDiaryEntryDtoRequest,
@@ -43,7 +43,7 @@ export class DiaryService {
   getDiaries(start: Date, end: Date): Observable<Map<string, Diary>> {
     return this.http
       .get<GetDiaryDtoResponse>(
-        diary + '/' + start.toISOString() + '/' + end.toISOString(),
+        `${diary}/${start.toISOString()}/${end.toISOString()}`,
         {
           withCredentials: true,
         }

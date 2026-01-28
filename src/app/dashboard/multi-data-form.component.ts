@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { v4 as uuidv4 } from 'uuid';
-import { DeviceResponseDto } from '../dtos/device';
+import type { DeviceResponseDto } from '../dtos/device';
 import { SingleDataFormComponent } from './single-data-form.component';
 
 @Component({

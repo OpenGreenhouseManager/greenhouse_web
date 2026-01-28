@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { AutoComplete } from 'primeng/autocomplete';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { DeviceService } from '../device';
-import { DeviceResponseDto } from '../dtos/device';
+import type { DeviceResponseDto } from '../dtos/device';
 
 @Component({
   selector: 'grn-single-data-form',
@@ -92,8 +92,7 @@ export class SingleDataFormComponent {
         if (!deviceId) return of({ operations: [] });
         return this.deviceService.getDeviceOptions(deviceId).pipe(
           map(options => ({ operations: options.operations.sort() })),
-          catchError(error => {
-            console.error('Error fetching device options:', error);
+          catchError(() => {
             return of({ operations: [] });
           })
         );
@@ -109,8 +108,7 @@ export class SingleDataFormComponent {
 
   constructor() {
     effect(() => {
-      console.log('subProperty', this.subProperty());
-      if (this.validDeviceId() && this.subProperty().trim() !== '') {
+      if (this.validDeviceId() && this.subProperty()?.trim() !== '') {
         this.selectedDevice.emit({
           deviceId: this.deviceId(),
           subProperty: this.subProperty(),
@@ -139,7 +137,7 @@ export class SingleDataFormComponent {
     }
   }
 
-  onDeviceSearchChange(value: any) {
+  onDeviceSearchChange(value: unknown) {
     // If user selected an option, it may be an object
     if (value && typeof value === 'object' && 'id' in value) {
       const selected = value as DeviceResponseDto;
@@ -174,7 +172,7 @@ export class SingleDataFormComponent {
       prefix,
       operations: operations
         .filter(op => op.split('_')[0] === prefix)
-        .map(op => ({ display: op.replace(prefix + '_', ''), value: op }))
+        .map(op => ({ display: op.replace(`${prefix}_`, ''), value: op }))
         .sort((a, b) => a.display.localeCompare(b.display)),
     }));
   }
