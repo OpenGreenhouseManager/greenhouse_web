@@ -10,15 +10,14 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { AutoComplete } from 'primeng/autocomplete';
-import { Select } from 'primeng/select';
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { DeviceService } from '../device';
 import { DeviceResponseDto } from '../dtos/device';
 
 @Component({
   selector: 'grn-single-data-form',
   standalone: true,
-  imports: [AutoComplete, Select, FormsModule],
+  imports: [AutoComplete, FormsModule],
   host: {
     class: 'flex gap-2',
     '[class.flex-row]': 'compact()',
@@ -47,16 +46,24 @@ import { DeviceResponseDto } from '../dtos/device';
       @if (!compact()) {
         <label for="subProperty" class="font-semibold w-24">Sub Property</label>
       }
-      <p-select
+
+      <p-autocomplete
         id="subProperty"
-        [options]="subPropertyOptions().operations"
-        placeholder="Select Sub Property"
+        class="w-full"
+        [suggestions]="subPropertySuggestions()"
+        (completeMethod)="onSubPropertyQuery($event)"
         [(ngModel)]="subProperty"
+        [optionLabel]="'display'"
+        [optionValue]="'value'"
+        placeholder="Select Sub Property"
+        [dropdown]="true"
         [appendTo]="'body'"
+        [group]="true"
+        [optionGroupLabel]="'prefix'"
+        [optionGroupChildren]="'operations'"
         [disabled]="
           !validDeviceId() || subPropertyOptions().operations.length === 0
-        "
-        class="w-full" />
+        " />
     </div>
   `,
 })
@@ -75,13 +82,16 @@ export class SingleDataFormComponent {
   deviceSearch = signal<string>('');
   deviceId = signal<string>('');
   subProperty = signal<string>('');
+  subPropertySuggestions = signal<
+    { prefix: string; operations: { display: string; value: string }[] }[]
+  >([]);
 
   subPropertyOptions = toSignal(
     toObservable(this.deviceId).pipe(
       switchMap(deviceId => {
         if (!deviceId) return of({ operations: [] });
-        console.log('deviceId', deviceId);
         return this.deviceService.getDeviceOptions(deviceId).pipe(
+          map(options => ({ operations: options.operations.sort() })),
           catchError(error => {
             console.error('Error fetching device options:', error);
             return of({ operations: [] });
@@ -99,6 +109,7 @@ export class SingleDataFormComponent {
 
   constructor() {
     effect(() => {
+      console.log('subProperty', this.subProperty());
       if (this.validDeviceId() && this.subProperty().trim() !== '') {
         this.selectedDevice.emit({
           deviceId: this.deviceId(),
@@ -141,5 +152,30 @@ export class SingleDataFormComponent {
     if (trimmed !== '') {
       this.deviceId.set(trimmed);
     }
+  }
+
+  onSubPropertyQuery(event: { query: string }) {
+    const q = (event?.query || '').toLowerCase();
+    const filtered = this.subPropertyOptions().operations.filter(op =>
+      op.toLowerCase().includes(q)
+    );
+    this.subPropertySuggestions.set(this.splitIntoGroups(filtered));
+  }
+
+  splitIntoGroups(
+    operations: string[]
+  ): { prefix: string; operations: { display: string; value: string }[] }[] {
+    const groups = new Set<string>();
+    for (const op of operations) {
+      const prefix = op.split('_')[0];
+      groups.add(prefix);
+    }
+    return Array.from(groups).map(prefix => ({
+      prefix,
+      operations: operations
+        .filter(op => op.split('_')[0] === prefix)
+        .map(op => ({ display: op.replace(prefix + '_', ''), value: op }))
+        .sort((a, b) => a.display.localeCompare(b.display)),
+    }));
   }
 }

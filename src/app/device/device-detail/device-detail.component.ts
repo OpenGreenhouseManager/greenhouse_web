@@ -92,20 +92,26 @@ export class DeviceDetailComponent implements OnInit {
       return [];
     }
 
-    return configList.operations.map((option: string, index: number) => {
-      return {
-        trackingId: index,
-        config: {
-          graph_data: [
-            {
-              device_id: device.id,
-              sub_property: option ?? undefined,
-            },
-          ],
-          axis_mode: 'merged',
-        } satisfies GraphConfig,
-      };
-    });
+    return configList.operations
+      .map((option: string, index: number) => {
+        return {
+          trackingId: index,
+          config: {
+            graph_data: [
+              {
+                device_id: device.id,
+                sub_property: option ?? undefined,
+              },
+            ],
+            axis_mode: 'merged',
+          } satisfies GraphConfig,
+        };
+      })
+      .sort((a, b) =>
+        a.config.graph_data[0].sub_property.localeCompare(
+          b.config.graph_data[0].sub_property
+        )
+      );
   });
 
   public hasGraph = computed(() => {
