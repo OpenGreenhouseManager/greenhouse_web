@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
   private router = inject(Router);
   private cookieService = inject(CookieService);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (this.cookieService.get('auth-token')) {
       return true;
     }
