@@ -16,9 +16,14 @@ describe('GraphComponent', () => {
     fixture = TestBed.createComponent(GraphComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('config', {
-      device_id: 'test-device-id',
-      sub_property: 'test-property',
+      graph_data: [
+        {
+          device_id: 'test-device-id',
+          sub_property: 'test-property',
+        },
+      ],
     });
+    fixture.componentRef.setInput('header', 'Test Graph Header');
     fixture.detectChanges();
   });
 
