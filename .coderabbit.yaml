@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+early_access: false
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "src/app/**/*.service.ts"
+      instructions: |
+        Check that all Observable subscriptions are properly unsubscribed
+        (use takeUntilDestroyed, async pipe, or explicit unsubscribe in ngOnDestroy).
+        Flag any direct DOM manipulation — prefer Angular's Renderer2 or template binding.
+    - path: "src/app/**/*.component.ts"
+      instructions: |
+        Consider whether OnPush change detection is applicable to improve performance.
+        Ensure inputs are typed (avoid `any`) and outputs use EventEmitter with a typed generic.
+    - path: "src/app/**/*.spec.ts"
+      instructions: |
+        Verify test assertions cover meaningful behavior, not just that a component creates successfully.
+        Check that spies and mocks are set up correctly and don't leak between tests.
+chat:
+  auto_reply: true

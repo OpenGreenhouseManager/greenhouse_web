@@ -33,21 +33,25 @@ jobs:
         run: npm ci
 
       # {5}
+      - name: Security audit
+        run: npm audit --audit-level=high
+
+      # {6}
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      # {6}
+      # {7}
       - name: Run lint
         run: npm run lint
 
-      # {7}
+      # {8}
       - name: Check formatting
         run: npm run format:check
 
-      # {8}
+      # {9}
       - name: Run tests
         run: npm run test:ci
 
-      # {9}
+      # {10}
       - name: Build
         run: npm run build
