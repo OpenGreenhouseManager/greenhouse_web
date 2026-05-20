@@ -81,26 +81,26 @@ main {
       transition: all 0.2s ease;
 
       &:hover {
-        background: var(--surface-hover, rgba(0, 0, 0, 0.04));
-        border-color: var(--surface-border, rgba(0, 0, 0, 0.1));
+        background: var(--bg-hover);
+        border-color: var(--grn-border-color);
       }
 
       &:focus {
         outline: none;
-        background: var(--surface-ground, #fff);
-        border-color: var(--primary-color, #007bff);
-        box-shadow: 0 0 0 1px var(--primary-color, #007bff);
+        background: var(--grn-surface-color);
+        border-color: var(--grn-secondary-color);
+        box-shadow: 0 0 0 1px var(--grn-secondary-color);
       }
     }
 
     .tab-delete-icon {
       cursor: pointer;
-      color: var(--red-500, #ef4444);
+      color: var(--severity-error);
       font-size: 14px;
       transition: color 0.2s;
 
       &:hover {
-        color: var(--red-700, #dc2626);
+        color: var(--severity-fatal);
       }
     }
   }

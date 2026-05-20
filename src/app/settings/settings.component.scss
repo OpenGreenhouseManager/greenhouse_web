@@ -7,13 +7,12 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--grn-border-color);
     .text {
       display: flex;
       align-items: center;
       height: 100%;
     }
-    //center i element inside this span .icon element
     .icon {
       display: flex;
       align-items: center;
@@ -22,11 +21,11 @@ main {
   }
   .list_item:hover {
     background-color: var(--grn-card-color);
-    border-radius: 5px;
+    border-radius: 6px;
   }
   .selected {
     background-color: var(--grn-card-color);
-    border-radius: 5px;
+    border-radius: 6px;
   }
   .content {
     display: flex;
@@ -44,7 +43,6 @@ main {
       display: flex;
       flex-direction: column;
 
-      //make the card content the rest of the screen width but width: 100% is not working
       .card_content {
         width: calc(75vw - 100px);
         .otp {
@@ -68,7 +66,7 @@ main {
           .otp_output {
             width: 50%;
             .warning {
-              background: #fbc02d !important;
+              background: var(--severity-warning) !important;
             }
           }
         }

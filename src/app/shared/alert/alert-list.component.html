@@ -1,4 +1,4 @@
-<grn-card title="Alert List" icon="pi-bell">
+<grn-card [solid]="true" title="Alert List" icon="pi-bell">
   <p-accordion>
     @for (alert of alertsSplitByIdentifier(); track alert[0]) {
       <p-accordion-panel [value]="alert[0]">
