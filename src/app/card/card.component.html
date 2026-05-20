@@ -1,5 +1,5 @@
 <div class="component">
-  <p-card [style]="cardStyle()">
+  <p-card [style]="cardStyle()" [styleClass]="solid() ? 'grn-card-solid' : 'grn-card-tinted'">
     <ng-template pTemplate="header">
       <div class="header p-1">
         <h1 class="w-full text-2xl {{ centerTitle() ? 'text-center' : '' }}">
