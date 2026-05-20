@@ -13,28 +13,48 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .dial {
   position: relative;
-  width: min(220px, 60%);
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
   aspect-ratio: 1 / 1;
-  border-radius: 50%;
+  max-width: 100%;
+
+  .dial-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
-.dial .dial-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+.dial-bg {
+  fill: var(--grn-background-color);
+  stroke: var(--grn-border-color);
+}
+
+.needle {
+  fill: var(--grn-secondary-color);
+}
+
+.center-dot {
+  fill: var(--grn-primary-color);
 }
 
 .label {
   font-size: 18px;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .error {
-  color: red;
+  color: var(--severity-error);
   font-size: 14px;
 }
