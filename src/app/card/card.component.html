@@ -1,10 +1,5 @@
 <div class="component">
-  <p-card
-    [style]="{
-      width: '100%',
-      backgroundColor: 'var(--grn-card-color)',
-      borderRadius: '10px',
-    }">
+  <p-card [style]="cardStyle()">
     <ng-template pTemplate="header">
       <div class="header p-1">
         <h1 class="w-full text-2xl {{ centerTitle() ? 'text-center' : '' }}">
