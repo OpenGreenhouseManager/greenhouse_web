@@ -41,7 +41,7 @@
     @if (!loading() && !error()) {
       <div class="content">
         <div class="device-info-card">
-          <grn-card title="Device Information" icon="pi-info-circle">
+          <grn-card [solid]="true" title="Device Information" icon="pi-info-circle">
             @if (device()) {
               <div class="device-info">
                 <div class="info-row">
@@ -79,7 +79,7 @@
       </div>
       <div class="content">
         <div class="device-config-card">
-          <grn-card title="Device Configuration" icon="pi-cog">
+          <grn-card [solid]="true" title="Device Configuration" icon="pi-cog">
             @if (deviceConfig()!) {
               <div class="device-config w-full">
                 <div class="info-row">

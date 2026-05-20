@@ -27,19 +27,19 @@
     </div>
     <div class="content_right">
       @if (currentTab === settingsTabs.Dashboard) {
-        <grn-card title="Dashboard Settings" class="card">
+        <grn-card [solid]="true" title="Dashboard Settings" class="card">
           <div class="card_content">
             <p>Admin settings works!</p>
           </div>
         </grn-card>
       } @else if (currentTab === settingsTabs.Watchdog) {
-        <grn-card title="Watchdog Settings" class="card">
+        <grn-card [solid]="true" title="Watchdog Settings" class="card">
           <div class="card_content">
             <p>Watchdog settings work</p>
           </div>
         </grn-card>
       } @else if (currentTab === settingsTabs.AdminSettings) {
-        <grn-card title="Admin Settings" class="card">
+        <grn-card [solid]="true" title="Admin Settings" class="card">
           <div class="card_content">
             <div class="otp">
               <span class="otp_input">
