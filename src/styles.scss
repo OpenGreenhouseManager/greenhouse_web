@@ -1,16 +1,107 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
 @use 'tailwindcss';
 @import 'primeicons/primeicons.css';
 
 :root {
-  --grn-background-color: #eff1ed;
-  --grn-accent-color: #766153;
-  --grn-primary-color: #373d20;
-  --grn-card-color: #71774456;
-  --grn-secondary-color: #717744;
-  --grn-text-color: #080b05;
-  --primary-color: #717744;
+  /* Brand tokens */
+  --grn-background-color: #f6f8f3;
+  --grn-surface-color:    #ffffff;
+  --grn-primary-color:    #1f4a2a;
+  --grn-secondary-color:  #5fa86d;
+  --grn-accent-color:     #c97a4a;
+  --grn-card-color:       rgba(95, 168, 109, 0.10);
+  --grn-text-color:       #0f1f12;
+  --grn-border-color:     rgba(31, 74, 42, 0.16);
+  --primary-color: #5fa86d;
   --text-color: var(--grn-text-color);
+
+  /* Leaf ramp */
+  --leaf-50:  #f1f8f3;
+  --leaf-100: #dcefde;
+  --leaf-200: #bbdfc0;
+  --leaf-300: #94caa0;
+  --leaf-400: #7eb787;
+  --leaf-500: #5fa86d;
+  --leaf-600: #4d8e5a;
+  --leaf-700: #3e7548;
+  --leaf-800: #305c38;
+  --leaf-900: #1f4a2a;
+  --leaf-950: #0c2010;
+
+  /* Earth ramp */
+  --earth-50:  #fbf5f0;
+  --earth-100: #f4e3d4;
+  --earth-200: #e9c5a8;
+  --earth-300: #dca47b;
+  --earth-400: #d18d5e;
+  --earth-500: #c97a4a;
+  --earth-600: #b1623a;
+  --earth-700: #8d4c2e;
+  --earth-800: #6a3923;
+  --earth-900: #482718;
+  --earth-950: #25130c;
+
+  /* Neutral ramp */
+  --neutral-0:   #ffffff;
+  --neutral-50:  #fafbf9;
+  --neutral-100: #f1f3ef;
+  --neutral-200: #e4e8e1;
+  --neutral-300: #c8cfc4;
+  --neutral-400: #969f93;
+  --neutral-500: #6b7569;
+  --neutral-600: #4d5749;
+  --neutral-700: #354034;
+  --neutral-800: #232c23;
+  --neutral-900: #131a14;
+  --neutral-950: #080d09;
+
+  /* Surface aliases */
+  --surface-0:   var(--neutral-0);
+  --surface-50:  var(--neutral-50);
+  --surface-100: var(--neutral-100);
+  --surface-200: var(--neutral-200);
+  --surface-300: var(--neutral-300);
+  --surface-400: var(--neutral-400);
+  --surface-500: var(--neutral-500);
+  --surface-600: var(--neutral-600);
+  --surface-700: var(--neutral-700);
+  --surface-800: var(--neutral-800);
+  --surface-900: var(--neutral-900);
+  --surface-950: var(--neutral-950);
+
+  /* Semantic fg/bg */
+  --fg-1: var(--grn-text-color);
+  --fg-2: var(--neutral-600);
+  --fg-3: var(--neutral-400);
+  --fg-on-primary: #ffffff;
+  --fg-on-accent:  #ffffff;
+  --bg-1: var(--grn-background-color);
+  --bg-2: var(--grn-surface-color);
+  --bg-3: var(--grn-card-color);
+  --bg-hover:   rgba(95, 168, 109, 0.10);
+  --bg-active:  rgba(95, 168, 109, 0.18);
+
+  /* Severity */
+  --severity-info:    #4a9aa8;
+  --severity-warning: #e0901a;
+  --severity-error:   #d44545;
+  --severity-fatal:   #9a1f1f;
+
+  /* Fonts */
+  --font-sans:  'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Shadows */
+  --shadow-card:  0 1px 3px 0 rgba(31, 74, 42, 0.06), 0 1px 2px -1px rgba(31, 74, 42, 0.04);
+  --shadow-pop:   0 4px 6px -1px rgba(31, 74, 42, 0.10), 0 2px 4px -2px rgba(31, 74, 42, 0.08);
+  --shadow-modal: 0 20px 25px -5px rgba(31, 74, 42, 0.12), 0 8px 10px -6px rgba(31, 74, 42, 0.08);
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-slow: 500ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .p-card-content {
@@ -27,7 +118,7 @@ body {
 }
 
 html * {
-  font-family: sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   color: var(--grn-text-color);
 }
 
@@ -71,10 +162,10 @@ grn-root {
 }
 
 .p-tag.p-tag-error {
-  background-color: #f44336;
+  background-color: #d44545;
 }
 .p-tag.p-tag-fatal {
-  background-color: #b71c1c !important; // darker red
+  background-color: #9a1f1f !important;
   color: #fff !important;
 }
 
@@ -166,8 +257,8 @@ grn-root {
 
 .p-message.p-message-error {
   background: #ffebee;
-  border-color: #f44336;
-  color: #c62828;
+  border-color: #d44545;
+  color: #7a1f1f;
 }
 
 /* Global Accordion Styling - Seamless */
@@ -300,7 +391,7 @@ p-accordion-content {
 }
 
 .p-datatable .p-datatable-tbody > tr:hover {
-  background: rgba(113, 119, 68, 0.1);
+  background: rgba(95, 168, 109, 0.10);
 }
 
 .p-datatable .p-datatable-tbody > tr > td {
@@ -486,7 +577,7 @@ body > .p-connected-overlay {
 
 .p-tablist {
   background: transparent !important;
-  border-bottom: 1px solid rgba(113, 119, 68, 0.3);
+  border-bottom: 1px solid rgba(95, 168, 109, 0.3);
   gap: 0;
   padding: 0 !important;
 }
@@ -504,7 +595,7 @@ body > .p-connected-overlay {
 
 .p-tab:hover {
   color: var(--grn-secondary-color);
-  border-bottom-color: rgba(113, 119, 68, 0.3) !important;
+  border-bottom-color: rgba(95, 168, 109, 0.3) !important;
 }
 
 .p-tab[aria-selected='true'],
