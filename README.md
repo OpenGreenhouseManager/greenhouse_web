@@ -96,9 +96,13 @@ which now means it fails the deployment too.
 ### Local checks
 
 ```sh
+nix flake lock               # once, then commit flake.lock
 nix build .#greenhouse-web   # result/ is the document root
 nix flake check              # builds the site and runs the NixOS VM test
 ```
+
+`flake.lock` is not committed yet. Until it is, every build resolves
+`nixos-unstable` afresh, so pin it before relying on this for deployments.
 
 The VM test boots the module against a stub backend and asserts the locale
 redirect, the SPA fallback and `/api` proxying.
