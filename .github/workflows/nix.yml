@@ -1,0 +1,32 @@
+name: Nix - Build and Module Test
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    name: Nix build and NixOS module test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the source code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache the Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      # Catches lockfile problems here rather than on the deployment host,
+      # which builds this same derivation during nixos-rebuild.
+      - name: Build the static site
+        run: nix build .#greenhouse-web --print-build-logs
+
+      # Boots a VM with the module enabled and asserts the locale redirect,
+      # SPA fallback and /api proxying still work.
+      - name: Run flake checks
+        run: nix flake check --print-build-logs
