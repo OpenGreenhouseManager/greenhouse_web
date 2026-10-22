@@ -5,7 +5,7 @@
       backgroundColor: 'var(--grn-card-color)',
       borderRadius: '10px',
     }">
-    <ng-template pTemplate="header">
+    <ng-template #header>
       <div class="header p-1">
         <h1 class="w-full text-2xl {{ centerTitle() ? 'text-center' : '' }}">
           {{ title() }}
@@ -16,7 +16,7 @@
           (click)="iconClicked.emit()"></i>
       </div>
     </ng-template>
-    <ng-template pTemplate="content">
+    <ng-template #content>
       <div class="content gridster-item-content p-1">
         <ng-content styleClass="card-content"></ng-content>
       </div>

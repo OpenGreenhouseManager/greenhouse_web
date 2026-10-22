@@ -6,7 +6,6 @@ import {
   input,
   output,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -17,14 +16,12 @@ import type { DeviceResponseDto } from '../dtos/device';
 
 @Component({
   selector: 'grn-single-data-form',
-  standalone: true,
   imports: [AutoComplete, FormsModule],
   host: {
     class: 'flex gap-2',
     '[class.flex-row]': 'compact()',
     '[class.flex-col]': '!compact()',
   },
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="flex items-center gap-4" [class.mb-4]="!compact()">
       @if (!compact()) {

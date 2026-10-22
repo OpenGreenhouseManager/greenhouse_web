@@ -1,16 +1,10 @@
-import {
-  Component,
-  computed,
-  input,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { Tag } from 'primeng/tag';
 import { Severity } from '../../alert/models/alert';
 
 @Component({
   selector: 'grn-severity-tag',
   imports: [Tag],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <p-tag
       [value]="severityString()"

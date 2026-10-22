@@ -1,14 +1,9 @@
 import { Location } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,19 +16,17 @@ import { DeviceService } from '../services/device-service';
 
 @Component({
   selector: 'grn-device-edit',
-  standalone: true,
   imports: [
     NavBarComponent,
     CardComponent,
     FormsModule,
     InputTextModule,
-    ButtonModule,
+    ButtonDirective,
     InputGroupModule,
     TextareaModule,
     CheckboxModule,
   ],
   templateUrl: './device-edit.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './device-edit.component.scss',
 })
 export class DeviceEditComponent {

@@ -1,17 +1,11 @@
 import type { OnInit } from '@angular/core';
-import {
-  Component,
-  computed,
-  inject,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { MessageModule } from 'primeng/message';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -28,7 +22,6 @@ import { DeviceService } from '../services/device-service';
 
 @Component({
   selector: 'app-device-detail',
-  standalone: true,
   imports: [
     CardComponent,
     ProgressSpinnerModule,
@@ -36,14 +29,13 @@ import { DeviceService } from '../services/device-service';
     NavBarComponent,
     FormsModule,
     NgxJsonViewerModule,
-    ButtonModule,
+    ButtonDirective,
     Dialog,
     TextareaModule,
     GraphComponent,
     AlertListComponent,
   ],
   templateUrl: './device-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './device-detail.component.scss',
 })
 export class DeviceDetailComponent implements OnInit {

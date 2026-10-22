@@ -1,13 +1,6 @@
-import {
-  Component,
-  effect,
-  inject,
-  OnInit,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TabsModule } from 'primeng/tabs';
 import { NavBarComponent } from '../nav_bar/nav_bar.component';
@@ -33,10 +26,9 @@ type DashboardConfig = {
 
 @Component({
   selector: 'grn-dashboard',
-  standalone: true,
   imports: [
     NavBarComponent,
-    ButtonModule,
+    ButtonDirective,
     AddDashboardComponentDialogComponent,
     ConfirmDialogModule,
     TabsModule,
@@ -44,7 +36,6 @@ type DashboardConfig = {
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ConfirmationService],
 })
 export class DashboardComponent implements OnInit {

@@ -1,16 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  inject,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { DividerModule } from 'primeng/divider';
+import { ButtonDirective } from 'primeng/button';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputPassword } from 'primeng/inputpassword';
 import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
 import { CardComponent } from '../card/card.component';
 import type { RegisterResponseDto } from '../dtos/register';
 import { RegisterRequestDto } from '../dtos/register';
@@ -18,23 +14,24 @@ import { register } from '../urls/urls';
 
 @Component({
   selector: 'grn-register',
-  standalone: true,
   imports: [
     CardComponent,
     FormsModule,
     InputTextModule,
-    PasswordModule,
-    ButtonModule,
-    DividerModule,
+    InputPassword,
+    IconField,
+    InputIcon,
+    ButtonDirective,
   ],
   templateUrl: './register.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   username = '';
-  password = '';
-  passwordRepeat = '';
+  password = signal('');
+  passwordRepeat = signal('');
+  passwordMasked = signal(true);
+  passwordRepeatMasked = signal(true);
   otp = '';
 
   public error = signal(false);
@@ -43,22 +40,22 @@ export class RegisterComponent {
   private router = inject(Router);
 
   public register() {
-    if (this.password !== this.passwordRepeat) {
+    if (this.password() !== this.passwordRepeat()) {
       this.passwordError.set(true);
-      this.password = '';
-      this.passwordRepeat = '';
+      this.password.set('');
+      this.passwordRepeat.set('');
       return;
     }
-    if (!this.checkPassword(this.password)) {
+    if (!this.checkPassword(this.password())) {
       this.passwordError.set(true);
-      this.password = '';
-      this.passwordRepeat = '';
+      this.password.set('');
+      this.passwordRepeat.set('');
       return;
     }
     this.http
       .post<RegisterResponseDto>(
         register,
-        new RegisterRequestDto(this.username, this.password, this.otp),
+        new RegisterRequestDto(this.username, this.password(), this.otp),
         {
           withCredentials: true,
         }
@@ -66,8 +63,8 @@ export class RegisterComponent {
       .subscribe({
         complete: () => this.router.navigate(['/']),
         error: () => {
-          this.password = '';
-          this.passwordRepeat = '';
+          this.password.set('');
+          this.passwordRepeat.set('');
           this.error.set(true);
         },
       });

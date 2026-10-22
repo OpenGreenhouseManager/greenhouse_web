@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { subHours } from 'date-fns';
 import { AccordionModule } from 'primeng/accordion';
@@ -19,10 +12,8 @@ import { AlertService } from './alert.service';
 
 @Component({
   selector: 'grn-alert-list',
-  standalone: true,
   imports: [CardComponent, AlertDetailListComponent, AccordionModule],
   templateUrl: './alert-list.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-list.component.scss',
 })
 export class AlertListComponent {

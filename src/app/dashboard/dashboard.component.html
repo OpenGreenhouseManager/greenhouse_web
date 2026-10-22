@@ -4,13 +4,13 @@
     <h1>Dashboard</h1>
     <div class="flex items-center gap-2">
       @if (editMode()) {
-        <p-button type="button" (click)="addEntry()">
+        <button pButton type="button" (click)="addEntry()">
           <i class="pi pi-plus"></i><span class="button_label">Add Entry</span>
-        </p-button>
+        </button>
       }
-      <p-button type="button" (click)="editMode.set(!editMode())">
+      <button pButton type="button" (click)="editMode.set(!editMode())">
         <i class="pi pi-pencil"></i><span class="button_label">Edit Mode</span>
-      </p-button>
+      </button>
     </div>
   </div>
   <div class="content">

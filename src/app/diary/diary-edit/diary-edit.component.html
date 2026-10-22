@@ -2,11 +2,9 @@
 <main>
   <div class="heading">
     <div class="heading-left">
-      <p-button
-        type="button"
-        (click)="goBack()"
-        icon="pi pi-arrow-left"
-        styleClass="p-button-text"></p-button>
+      <button pButton type="button" text iconOnly (click)="goBack()">
+        <i class="pi pi-arrow-left"></i>
+      </button>
       @if (edit()) {
         <h1>Edit Diary</h1>
       } @else {
@@ -49,9 +47,9 @@
           </div>
         </div>
       </grn-card>
-      <p-button type="button" (click)="saveEntry()">
+      <button pButton type="button" (click)="saveEntry()">
         <i class="pi pi-save"></i><span class="button_label">Save</span>
-      </p-button>
+      </button>
     </div>
   </div>
 </main>

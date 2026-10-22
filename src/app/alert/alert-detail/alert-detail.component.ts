@@ -1,14 +1,9 @@
 import { Location } from '@angular/common';
-import {
-  Component,
-  computed,
-  inject,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,20 +16,18 @@ import { AlertService } from '../services/alert-service';
 
 @Component({
   selector: 'grn-alert-detail',
-  standalone: true,
   imports: [
     NavBarComponent,
     AlertDetailListComponent,
     AlertDetailInfoComponent,
     FormsModule,
     InputTextModule,
-    ButtonModule,
+    ButtonDirective,
     InputGroupModule,
     InputGroupAddonModule,
     MessageModule,
   ],
   templateUrl: './alert-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-detail.component.scss',
 })
 export class AlertDetailComponent {

@@ -1,27 +1,26 @@
-import angular from '@angular-eslint/eslint-plugin';
-import angularTemplate from '@angular-eslint/eslint-plugin-template';
-import angularParser from '@angular-eslint/template-parser';
+import { defineConfig } from 'eslint/config';
 import pluginJs from '@eslint/js';
+import angular from 'angular-eslint';
 import prettierConfig from 'eslint-config-prettier';
 import prettier from 'eslint-plugin-prettier';
 import globals from 'globals';
-import angularEslint from 'angular-eslint';
 import tseslint from 'typescript-eslint';
 
-// angular-eslint 22 ships its recommended presets only as flat-config arrays.
-const rulesOf = (configs) =>
-  Object.assign({}, ...configs.map((config) => config.rules ?? {}));
-
-export default [
+export default defineConfig(
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
+    extends: [
+      pluginJs.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
         $localize: 'readonly',
       },
-      parser: tseslint.parser,
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
@@ -29,17 +28,13 @@ export default [
       },
     },
     plugins: {
-      '@typescript-eslint': tseslint.plugin,
-      '@angular-eslint': angular,
       prettier: prettier,
     },
     rules: {
-      ...pluginJs.configs.recommended.rules,
-      ...tseslint.configs.recommended.rules,
-      ...rulesOf(angularEslint.configs.tsRecommended),
-
       // Prettier integration
       'prettier/prettier': 'error',
+
+      '@typescript-eslint/no-deprecated': 'error',
 
       // TypeScript specific rules - more lenient for development
       '@typescript-eslint/no-unused-vars': ['warn', {
@@ -71,9 +66,6 @@ export default [
       ],
       '@angular-eslint/no-empty-lifecycle-method': 'warn',
       '@angular-eslint/use-lifecycle-interface': 'warn',
-      // ng update 22 pinned existing components to Eager to keep pre-v22
-      // behaviour; moving them to OnPush is a separate refactor.
-      '@angular-eslint/prefer-on-push-component-change-detection': 'off',
 
       // General JavaScript/TypeScript rules - more lenient
       'no-console': 'warn',
@@ -88,14 +80,8 @@ export default [
   },
   {
     files: ['**/*.html'],
-    languageOptions: {
-      parser: angularParser,
-    },
-    plugins: {
-      '@angular-eslint/template': angularTemplate,
-    },
+    extends: [...angular.configs.templateRecommended],
     rules: {
-      ...rulesOf(angularEslint.configs.templateRecommended),
       '@angular-eslint/template/no-negated-async': 'warn',
       '@angular-eslint/template/use-track-by-function': 'off', // Turn off for development
     },
@@ -104,17 +90,7 @@ export default [
     files: ['**/*.spec.ts', '**/*.test.ts'],
     languageOptions: {
       globals: {
-        ...globals.browser,
-        ...globals.jasmine, // Add Jasmine globals
-        describe: 'readonly',
-        it: 'readonly',
-        beforeEach: 'readonly',
-        afterEach: 'readonly',
-        beforeAll: 'readonly',
-        afterAll: 'readonly',
-        expect: 'readonly',
-        spyOn: 'readonly',
-        jasmine: 'readonly',
+        ...globals.vitest,
       },
     },
     rules: {
@@ -133,4 +109,4 @@ export default [
     },
   },
   prettierConfig,
-];
+);

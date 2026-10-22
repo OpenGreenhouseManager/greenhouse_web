@@ -1,8 +1,8 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,18 +12,16 @@ import { DiaryService } from '../services/diary-service';
 
 @Component({
   selector: 'grn-diary-detail',
-  standalone: true,
   imports: [
     NavBarComponent,
     CardComponent,
     FormsModule,
     InputTextModule,
-    ButtonModule,
+    ButtonDirective,
     InputGroupModule,
     InputGroupAddonModule,
   ],
   templateUrl: './diary-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './diary-detail.component.scss',
 })
 export class DiaryDetailComponent {

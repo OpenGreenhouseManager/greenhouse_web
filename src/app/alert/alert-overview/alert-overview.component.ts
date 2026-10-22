@@ -1,15 +1,9 @@
-import {
-  Component,
-  effect,
-  inject,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { endOfDay, startOfDay, subDays, subHours } from 'date-fns';
 import type { SortEvent } from 'primeng/api';
-import { Button } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
@@ -22,17 +16,15 @@ import { AlertService } from '../services/alert-service';
 
 @Component({
   selector: 'grn-alert-overview',
-  standalone: true,
   imports: [
     TableModule,
     FormsModule,
     Select,
     NavBarComponent,
-    Button,
+    ButtonDirective,
     SeverityTagComponent,
   ],
   templateUrl: './alert-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./alert-overview.component.scss'],
 })
 export class AlertOverviewComponent {

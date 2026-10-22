@@ -5,10 +5,9 @@ import {
   input,
   output,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Button } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
@@ -28,10 +27,9 @@ export interface DashboardComponentCreate {
 
 @Component({
   selector: 'grn-add-dashboard-component-dialog',
-  standalone: true,
   imports: [
     Dialog,
-    Button,
+    ButtonDirective,
     Select,
     InputText,
     FormsModule,
@@ -39,7 +37,6 @@ export interface DashboardComponentCreate {
     MultiDataFormComponent,
     AlertFormComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <p-dialog
       header="Add Dashboard Component"
@@ -92,14 +89,20 @@ export interface DashboardComponentCreate {
       }
 
       <div class="flex justify-end gap-2 mt-6">
-        <p-button
-          label="Cancel"
+        <button
+          pButton
+          type="button"
           severity="secondary"
-          (click)="onCloseDialog()" />
-        <p-button
-          label="Add Component"
+          (click)="onCloseDialog()">
+          Cancel
+        </button>
+        <button
+          pButton
+          type="button"
           [disabled]="!isFormValid()"
-          (click)="onSave()" />
+          (click)="onSave()">
+          Add Component
+        </button>
       </div>
     </p-dialog>
   `,

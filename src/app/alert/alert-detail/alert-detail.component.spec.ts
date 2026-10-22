@@ -2,7 +2,6 @@ import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { provideHttpClient } from '@angular/common/http';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AlertDetailComponent } from './alert-detail.component';
 
@@ -13,7 +12,7 @@ describe('AlertDetailComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AlertDetailComponent, RouterModule.forRoot([])],
-      providers: [provideHttpClient(), provideNoopAnimations()],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlertDetailComponent);

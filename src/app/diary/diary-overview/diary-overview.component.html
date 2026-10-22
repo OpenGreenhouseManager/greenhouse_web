@@ -2,9 +2,9 @@
 <main>
   <div class="heading">
     <h1>Diary</h1>
-    <p-button type="button" (click)="addEntry()">
+    <button pButton type="button" (click)="addEntry()">
       <i class="pi pi-plus"></i><span class="button_label">Add Entry</span>
-    </p-button>
+    </button>
   </div>
   <div class="content">
     <grn-card [title]="title()" class="card" [centerTitle]="true">
@@ -13,15 +13,11 @@
           <i class="pi pi-chevron-left"></i>
         </div>
         <div class="container">
-          @for (diary of diaries() | keyvalue; track diary) {
-            <span
-              class="list_item"
-              (click)="diaryClicked($safeNavigationMigration(diary?.key))">
+          @for (diary of diaries() | keyvalue; track diary.key) {
+            <span class="list_item" (click)="diaryClicked(diary.key)">
               <i class="pi pi-book"></i>
-              <h2>{{ diary?.value?.title || '' }}</h2>
-              <span>{{
-                getTime($safeNavigationMigration(diary?.value?.date))
-              }}</span>
+              <h2>{{ diary.value.title || '' }}</h2>
+              <span>{{ getTime(diary.value.date) }}</span>
             </span>
           }
         </div>

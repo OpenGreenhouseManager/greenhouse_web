@@ -1,35 +1,22 @@
-<p-message severity="error">{{
-  error() || 'An error occurred while loading device data'
-}}</p-message
-><grn-nav-bar></grn-nav-bar>
+<grn-nav-bar></grn-nav-bar>
 <main>
   <div class="heading">
     <div class="heading-left">
-      <p-button
-        type="button"
-        (click)="goBack()"
-        icon="pi pi-arrow-left"
-        styleClass="p-button-text"></p-button>
+      <button pButton type="button" text iconOnly (click)="goBack()">
+        <i class="pi pi-arrow-left"></i>
+      </button>
       <h1>Device Details</h1>
       <div class="status-indicator">
         <div
           class="status-dot"
-          [style.background-color]="
-            getStatusColor($safeNavigationMigration(device()?.status))
-          "
-          [title]="
-            getStatusText($safeNavigationMigration(device()?.status))
-          "></div>
-        <span class="status-text">{{
-          getStatusText($safeNavigationMigration(device()?.status))
-        }}</span>
+          [style.background-color]="getStatusColor(device()?.status)"
+          [title]="getStatusText(device()?.status)"></div>
+        <span class="status-text">{{ getStatusText(device()?.status) }}</span>
       </div>
     </div>
-    <p-button
-      label="Edit Device"
-      icon="pi pi-pencil"
-      (onClick)="editDevice()"
-      class="edit-button" />
+    <button pButton type="button" class="edit-button" (click)="editDevice()">
+      <i class="pi pi-pencil"></i>Edit Device
+    </button>
   </div>
   <div class="device-detail-container">
     @if (loading()) {
@@ -124,22 +111,29 @@
                   </div>
                 } @else {
                   <div class="info-row">
-                    <p-button
-                      label="Register Device"
+                    <button
+                      pButton
+                      type="button"
                       [disabled]="loadingActivation()"
-                      icon="pi pi-pencil"
-                      (onClick)="registerDevice()"></p-button>
+                      (click)="registerDevice()">
+                      <i class="pi pi-pencil"></i>Register Device
+                    </button>
                   </div>
                 }
                 @if (deviceConfig()!.additional_config) {
                   <div class="info-row w-full">
                     <span class="label">
                       Additional Config:
-                      <p-button
+                      <button
+                        pButton
+                        type="button"
+                        text
+                        iconOnly
                         size="small"
-                        icon="pi pi-pencil"
-                        styleClass="p-button-text p-button-sm ml-2"
-                        (onClick)="openEditAdditionalConfig()"></p-button>
+                        class="ml-2"
+                        (click)="openEditAdditionalConfig()">
+                        <i class="pi pi-pencil"></i>
+                      </button>
                     </span>
                     <div class="value">
                       <ngx-json-viewer
@@ -209,20 +203,31 @@
         rows="12"
         placeholder="{ /* JSON object */ }"></textarea>
       <div class="flex justify-end gap-2 mt-2">
-        <p-button
-          label="Format"
+        <button
+          pButton
+          type="button"
           severity="secondary"
-          icon="pi pi-align-left"
-          (click)="formatAdditionalConfig()"></p-button>
-        <p-button
-          label="Cancel"
+          (click)="formatAdditionalConfig()">
+          <i class="pi pi-align-left"></i>Format
+        </button>
+        <button
+          pButton
+          type="button"
           severity="secondary"
-          (click)="onCancelEditAdditional()"></p-button>
-        <p-button
-          label="Save"
-          icon="pi pi-save"
-          [loading]="saveConfigLoading()"
-          (click)="saveAdditionalConfig()"></p-button>
+          (click)="onCancelEditAdditional()">
+          Cancel
+        </button>
+        <button
+          pButton
+          type="button"
+          [disabled]="saveConfigLoading()"
+          (click)="saveAdditionalConfig()">
+          <i
+            [class]="
+              saveConfigLoading() ? 'pi pi-spin pi-spinner' : 'pi pi-save'
+            "></i
+          >Save
+        </button>
       </div>
     </div>
   </p-dialog>

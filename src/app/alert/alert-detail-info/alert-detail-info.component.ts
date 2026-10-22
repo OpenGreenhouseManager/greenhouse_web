@@ -1,14 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import type { OnInit } from '@angular/core';
-import {
-  ChangeDetectorRef,
-  Component,
-  computed,
-  inject,
-  input,
-  PLATFORM_ID,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, computed, inject, input, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { ChartData } from 'chart.js';
 import {
@@ -19,7 +10,6 @@ import {
   startOfDay,
   subDays,
 } from 'date-fns';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -32,11 +22,9 @@ import { Severity } from '../models/alert';
 
 @Component({
   selector: 'grn-alert-detail-info',
-  standalone: true,
   imports: [
     FormsModule,
     InputTextModule,
-    ButtonModule,
     InputGroupModule,
     InputGroupAddonModule,
     CardModule,
@@ -44,13 +32,9 @@ import { Severity } from '../models/alert';
     CardComponent,
   ],
   templateUrl: './alert-detail-info.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-detail-info.component.scss',
 })
-export class AlertDetailInfoComponent implements OnInit {
-  private cd = inject(ChangeDetectorRef);
-
-  data: ChartData<'bar'> | undefined;
+export class AlertDetailInfoComponent {
   options = barChartOptions;
   platformId = inject(PLATFORM_ID);
 
@@ -80,10 +64,6 @@ export class AlertDetailInfoComponent implements OnInit {
     return formatDistance(firstAlert.created_at, new Date());
   });
 
-  ngOnInit() {
-    this.initChart();
-  }
-
   getCount(severity: Severity, days: number): number[] {
     const data = [];
     for (
@@ -110,11 +90,11 @@ export class AlertDetailInfoComponent implements OnInit {
     return names;
   }
 
-  initChart() {
+  data = computed<ChartData<'bar'> | undefined>(() => {
     if (isPlatformBrowser(this.platformId)) {
       const days = 8;
 
-      this.data = {
+      return {
         labels: this.relativeDayNames(days),
         datasets: [
           {
@@ -143,8 +123,7 @@ export class AlertDetailInfoComponent implements OnInit {
           },
         ],
       };
-
-      this.cd.markForCheck();
     }
-  }
+    return undefined;
+  });
 }

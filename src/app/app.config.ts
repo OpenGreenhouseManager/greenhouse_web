@@ -1,12 +1,7 @@
 import { provideRouter } from '@angular/router';
 
-import {
-  provideHttpClient,
-  withInterceptors,
-  withXhr,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import type { ApplicationConfig } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { definePreset } from '@primeuix/themes';
 import Lara from '@primeuix/themes/lara';
 import { providePrimeNG } from 'primeng/config';
@@ -678,8 +673,7 @@ const MyTheme = definePreset(Lara, {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideAnimations(),
-    provideHttpClient(withXhr(), withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor])),
     providePrimeNG({
       // PrimeUI Community License key (not a secret). Without it PrimeNG 22+
       // shows an invalid-license banner.

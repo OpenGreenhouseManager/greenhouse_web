@@ -6,7 +6,6 @@ import {
   model,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   Gridster,
@@ -66,7 +65,6 @@ export type DashboardItem =
 
 @Component({
   selector: 'grn-dashboard-tab',
-  standalone: true,
   imports: [
     GridsterItem,
     Gridster,
@@ -77,7 +75,6 @@ export type DashboardItem =
   ],
   templateUrl: './dashboard-tab.component.html',
   //providers: [ConfirmationService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard-tab.component.scss',
 })
 export class DashboardTabComponent implements OnInit, OnDestroy {

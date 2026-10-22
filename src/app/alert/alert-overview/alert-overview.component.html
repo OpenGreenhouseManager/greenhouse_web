@@ -108,11 +108,13 @@
           <td>
             <div class="tableCell">
               <span>{{ display(item.source) }}</span>
-              <p-button
-                icon="pi pi-pencil"
-                label="Alias"
+              <button
+                pButton
+                type="button"
                 variant="text"
-                (click)="editAlias($event, item.source)" />
+                (click)="editAlias($event, item.source)">
+                <i class="pi pi-pencil"></i>Alias
+              </button>
             </div>
           </td>
           <td>

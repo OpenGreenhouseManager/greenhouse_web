@@ -1,13 +1,6 @@
-import {
-  Component,
-  effect,
-  input,
-  output,
-  signal,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Button } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { Select } from 'primeng/select';
 import { v4 as uuidv4 } from 'uuid';
 import type { DeviceResponseDto } from '../dtos/device';
@@ -15,9 +8,7 @@ import { SingleDataFormComponent } from './single-data-form.component';
 
 @Component({
   selector: 'grn-multi-data-form',
-  standalone: true,
-  imports: [Select, Button, FormsModule, SingleDataFormComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [Select, ButtonDirective, FormsModule, SingleDataFormComponent],
   template: `
     <div class="flex items-center gap-4 mb-4">
       <label class="font-semibold w-24">Axis Mode</label>
@@ -36,11 +27,15 @@ import { SingleDataFormComponent } from './single-data-form.component';
             [compact]="true"
             (selectedDevice)="updateForm(entry.id, $event)"
             class="w-full" />
-          <p-button
-            icon="pi pi-trash"
+          <button
+            pButton
+            type="button"
             severity="danger"
+            iconOnly
             (click)="removeData(entry.id)"
-            [disabled]="multiData().length <= 1" />
+            [disabled]="multiData().length <= 1">
+            <i class="pi pi-trash"></i>
+          </button>
         </div>
       }
     </div>

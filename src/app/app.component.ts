@@ -1,13 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'grn-root',
-  standalone: true,
-  imports: [RouterOutlet, ButtonModule],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
