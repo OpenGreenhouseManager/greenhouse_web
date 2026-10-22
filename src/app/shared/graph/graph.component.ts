@@ -320,6 +320,8 @@ export class GraphComponent {
 
           return { labels, datasets };
         })
-      )
+      ),
+    // p-chart never creates the chart if data is undefined on first render
+    { initialValue: { labels: [] as string[], datasets: [] } }
   );
 }
