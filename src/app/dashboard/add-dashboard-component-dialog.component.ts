@@ -5,6 +5,7 @@ import {
   input,
   output,
   signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
@@ -38,6 +39,7 @@ export interface DashboardComponentCreate {
     MultiDataFormComponent,
     AlertFormComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <p-dialog
       header="Add Dashboard Component"

@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import type { OnInit } from '@angular/core';
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -34,6 +40,7 @@ import { DiaryService } from '../services/diary-service';
     InputGroupAddonModule,
   ],
   templateUrl: './diary-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './diary-overview.component.scss',
 })
 export class DiaryOverviewComponent implements OnInit {

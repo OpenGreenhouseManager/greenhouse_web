@@ -1,4 +1,10 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { endOfDay, startOfDay, subDays, subHours } from 'date-fns';
@@ -26,6 +32,7 @@ import { AlertService } from '../services/alert-service';
     SeverityTagComponent,
   ],
   templateUrl: './alert-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./alert-overview.component.scss'],
 })
 export class AlertOverviewComponent {

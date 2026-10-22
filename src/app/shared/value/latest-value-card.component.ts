@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, switchMap, timer } from 'rxjs';
 import { CardComponent } from '../../card/card.component';
@@ -15,6 +22,7 @@ type LatestValue = {
   standalone: true,
   imports: [CardComponent],
   templateUrl: './latest-value-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './latest-value-card.component.scss',
 })
 export class LatestValueCardComponent {

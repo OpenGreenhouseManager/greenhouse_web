@@ -1,5 +1,11 @@
 import type { OnInit } from '@angular/core';
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -37,6 +43,7 @@ import { DeviceService } from '../services/device-service';
     AlertListComponent,
   ],
   templateUrl: './device-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './device-detail.component.scss',
 })
 export class DeviceDetailComponent implements OnInit {

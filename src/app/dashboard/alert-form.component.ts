@@ -1,4 +1,10 @@
-import { Component, effect, output, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 
@@ -6,6 +12,7 @@ import { InputText } from 'primeng/inputtext';
   selector: 'grn-alert-form',
   standalone: true,
   imports: [InputText, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="flex items-center gap-4 mb-4">
       <label for="dataSourceId" class="font-semibold w-24"

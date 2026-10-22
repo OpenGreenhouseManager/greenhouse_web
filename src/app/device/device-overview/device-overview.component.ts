@@ -1,5 +1,11 @@
 import type { OnInit } from '@angular/core';
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,6 +31,7 @@ import { DeviceService } from '../services/device-service';
     NavBarComponent,
   ],
   templateUrl: './device-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './device-overview.component.scss',
 })
 export class DeviceOverviewComponent implements OnInit {

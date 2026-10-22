@@ -11,9 +11,15 @@
       <div class="status-indicator">
         <div
           class="status-dot"
-          [style.background-color]="getStatusColor(device()?.status)"
-          [title]="getStatusText(device()?.status)"></div>
-        <span class="status-text">{{ getStatusText(device()?.status) }}</span>
+          [style.background-color]="
+            getStatusColor($safeNavigationMigration(device()?.status))
+          "
+          [title]="
+            getStatusText($safeNavigationMigration(device()?.status))
+          "></div>
+        <span class="status-text">{{
+          getStatusText($safeNavigationMigration(device()?.status))
+        }}</span>
       </div>
     </div>
     <p-button

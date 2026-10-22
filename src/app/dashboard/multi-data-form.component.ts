@@ -1,4 +1,11 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  input,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
@@ -10,6 +17,7 @@ import { SingleDataFormComponent } from './single-data-form.component';
   selector: 'grn-multi-data-form',
   standalone: true,
   imports: [Select, Button, FormsModule, SingleDataFormComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="flex items-center gap-4 mb-4">
       <label class="font-semibold w-24">Axis Mode</label>

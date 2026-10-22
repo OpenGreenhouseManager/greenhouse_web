@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import type { SortEvent } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -27,6 +27,7 @@ import { Severity } from '../models/alert';
     SeverityTagComponent,
   ],
   templateUrl: './alert-detail-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-detail-list.component.scss',
 })
 export class AlertDetailListComponent {

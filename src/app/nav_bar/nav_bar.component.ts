@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
   standalone: true,
   imports: [RouterModule],
   templateUrl: './nav_bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './nav_bar.component.scss',
 })
 export class NavBarComponent {

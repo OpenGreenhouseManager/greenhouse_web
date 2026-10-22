@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, switchMap, timer } from 'rxjs';
 import { CardComponent } from '../../card/card.component';
@@ -9,6 +16,7 @@ import { GraphService } from '../graph/graph.service';
   standalone: true,
   imports: [CardComponent],
   templateUrl: './compass-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './compass-card.component.scss',
 })
 export class CompassCardComponent {

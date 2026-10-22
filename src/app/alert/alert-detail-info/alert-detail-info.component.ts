@@ -7,6 +7,7 @@ import {
   inject,
   input,
   PLATFORM_ID,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -42,6 +43,7 @@ import { Severity } from '../models/alert';
     CardComponent,
   ],
   templateUrl: './alert-detail-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-detail-info.component.scss',
 })
 export class AlertDetailInfoComponent implements OnInit {

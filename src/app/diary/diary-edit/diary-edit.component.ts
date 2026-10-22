@@ -1,5 +1,10 @@
 import { Location } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -27,6 +32,7 @@ import { DiaryService } from '../services/diary-service';
     DatePicker,
   ],
   templateUrl: './diary-edit.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './diary-edit.component.scss',
 })
 export class DiaryEditComponent {

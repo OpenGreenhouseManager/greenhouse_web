@@ -19,6 +19,9 @@
 
       devShells.${system}.default = pkgs.mkShell {
         packages = [ pkgs.nodejs_24 ];
+        # @angular/build 22 defaults to sass-embedded, a prebuilt dynamically
+        # linked Dart binary that NixOS cannot run. Use the pure-JS compiler.
+        NG_BUILD_SASS_EMBEDDED = "0";
       };
     };
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,6 +23,7 @@ import { DiaryService } from '../services/diary-service';
     InputGroupAddonModule,
   ],
   templateUrl: './diary-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './diary-detail.component.scss',
 })
 export class DiaryDetailComponent {

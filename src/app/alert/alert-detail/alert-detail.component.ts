@@ -1,5 +1,10 @@
 import { Location } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -29,6 +34,7 @@ import { AlertService } from '../services/alert-service';
     MessageModule,
   ],
   templateUrl: './alert-detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './alert-detail.component.scss',
 })
 export class AlertDetailComponent {

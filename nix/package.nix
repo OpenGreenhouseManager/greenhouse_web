@@ -48,6 +48,9 @@ stdenv.mkDerivation {
     NG_CLI_ANALYTICS = "false";
     CI = "true";
     HUSKY = "0";
+    # sass-embedded ships a prebuilt Dart binary that cannot run in the Nix
+    # sandbox; fall back to the pure-JS sass compiler.
+    NG_BUILD_SASS_EMBEDDED = "0";
   };
 
   buildPhase = ''

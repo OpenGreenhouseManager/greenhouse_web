@@ -1,4 +1,11 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import {
@@ -45,6 +52,7 @@ const MAX_DATA_POINTS = 100;
     SelectButtonModule,
   ],
   templateUrl: './graph.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './graph.component.scss',
 })
 export class GraphComponent {

@@ -14,10 +14,14 @@
         </div>
         <div class="container">
           @for (diary of diaries() | keyvalue; track diary) {
-            <span class="list_item" (click)="diaryClicked(diary?.key)">
+            <span
+              class="list_item"
+              (click)="diaryClicked($safeNavigationMigration(diary?.key))">
               <i class="pi pi-book"></i>
               <h2>{{ diary?.value?.title || '' }}</h2>
-              <span>{{ getTime(diary?.value?.date) }}</span>
+              <span>{{
+                getTime($safeNavigationMigration(diary?.value?.date))
+              }}</span>
             </span>
           }
         </div>
