@@ -52,7 +52,7 @@
                   <span class="button_label">Request otp</span>
                 </p-button> </span
               ><span class="otp_output">
-                <p-inputGroup>
+                <p-input-group>
                   <input id="otp" type="text" pInputText [(ngModel)]="otp" />
                   <p-button
                     type="button"
@@ -60,7 +60,7 @@
                     (click)="copyToClipboard()"
                     [severity]="!isCopied ? 'warn' : 'primary'">
                   </p-button>
-                </p-inputGroup>
+                </p-input-group>
               </span>
             </div>
           </div>

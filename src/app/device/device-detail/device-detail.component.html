@@ -1,4 +1,7 @@
-<grn-nav-bar></grn-nav-bar>
+<p-message severity="error">{{
+  error() || 'An error occurred while loading device data'
+}}</p-message
+><grn-nav-bar></grn-nav-bar>
 <main>
   <div class="heading">
     <div class="heading-left">
@@ -31,17 +34,15 @@
   <div class="device-detail-container">
     @if (loading()) {
       <div class="loading">
-        <p-progressSpinner></p-progressSpinner>
+        <p-progress-spinner></p-progress-spinner>
         <p>Loading device details...</p>
       </div>
     }
     @if (error()) {
       <div class="error">
-        <p-message
-          severity="error"
-          [text]="
-            error() || 'An error occurred while loading device data'
-          "></p-message>
+        <p-message severity="error">{{
+          error() || 'An error occurred while loading device data'
+        }}</p-message>
       </div>
     }
     @if (!loading() && !error()) {
@@ -190,7 +191,7 @@
     (onHide)="onCancelEditAdditional()">
     <div class="flex flex-col gap-3">
       @if (saveConfigError()) {
-        <p-message severity="error" [text]="saveConfigError()!"></p-message>
+        <p-message severity="error">{{ saveConfigError() }}</p-message>
       }
       @if (originalAdditionalConfigKeys().length > 0) {
         <div class="text-sm">

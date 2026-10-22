@@ -112,11 +112,7 @@ export class AddDashboardComponentDialogComponent {
   deviceService = inject(DeviceService);
 
   selectedComponentType:
-    | 'graph'
-    | 'multiGraph'
-    | 'alertList'
-    | 'latestValue'
-    | 'compass' = 'graph';
+    'graph' | 'multiGraph' | 'alertList' | 'latestValue' | 'compass' = 'graph';
   devices = signal<DeviceResponseDto[]>([]);
   dataSourceId = signal<string | null>(null);
   name = '';

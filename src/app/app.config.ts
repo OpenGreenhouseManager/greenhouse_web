@@ -681,6 +681,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withXhr(), withInterceptors([authInterceptor])),
     providePrimeNG({
+      // TODO: set the PrimeUI Community License key here (`license: '...'`).
+      // Without it PrimeNG 22+ shows an invalid-license banner.
       theme: {
         preset: MyTheme,
         options: {

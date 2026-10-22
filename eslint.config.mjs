@@ -5,7 +5,12 @@ import pluginJs from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
 import prettier from 'eslint-plugin-prettier';
 import globals from 'globals';
+import angularEslint from 'angular-eslint';
 import tseslint from 'typescript-eslint';
+
+// angular-eslint 22 ships its recommended presets only as flat-config arrays.
+const rulesOf = (configs) =>
+  Object.assign({}, ...configs.map((config) => config.rules ?? {}));
 
 export default [
   {
@@ -31,7 +36,7 @@ export default [
     rules: {
       ...pluginJs.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
-      ...angular.configs.recommended.rules,
+      ...rulesOf(angularEslint.configs.tsRecommended),
 
       // Prettier integration
       'prettier/prettier': 'error',
@@ -66,6 +71,9 @@ export default [
       ],
       '@angular-eslint/no-empty-lifecycle-method': 'warn',
       '@angular-eslint/use-lifecycle-interface': 'warn',
+      // ng update 22 pinned existing components to Eager to keep pre-v22
+      // behaviour; moving them to OnPush is a separate refactor.
+      '@angular-eslint/prefer-on-push-component-change-detection': 'off',
 
       // General JavaScript/TypeScript rules - more lenient
       'no-console': 'warn',
@@ -87,7 +95,7 @@ export default [
       '@angular-eslint/template': angularTemplate,
     },
     rules: {
-      ...angularTemplate.configs.recommended.rules,
+      ...rulesOf(angularEslint.configs.templateRecommended),
       '@angular-eslint/template/no-negated-async': 'warn',
       '@angular-eslint/template/use-track-by-function': 'off', // Turn off for development
     },

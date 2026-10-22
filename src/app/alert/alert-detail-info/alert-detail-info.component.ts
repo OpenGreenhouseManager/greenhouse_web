@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import type { ChartData } from 'chart.js';
 import {
   addDays,
   endOfDay,
@@ -49,7 +50,7 @@ import { Severity } from '../models/alert';
 export class AlertDetailInfoComponent implements OnInit {
   private cd = inject(ChangeDetectorRef);
 
-  data: unknown;
+  data: ChartData<'bar'> | undefined;
   options = barChartOptions;
   platformId = inject(PLATFORM_ID);
 
