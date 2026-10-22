@@ -1,4 +1,4 @@
-<grn-nav-bar></grn-nav-bar>
+<grn-nav-bar />
 <main>
   <div class="heading">
     <div class="heading-left">
@@ -21,7 +21,7 @@
   <div class="device-detail-container">
     @if (loading()) {
       <div class="loading">
-        <p-progress-spinner></p-progress-spinner>
+        <p-progress-spinner />
         <p>Loading device details...</p>
       </div>
     }
@@ -35,7 +35,10 @@
     @if (!loading() && !error()) {
       <div class="content">
         <div class="device-info-card">
-          <grn-card title="Device Information" icon="pi-info-circle">
+          <grn-card
+            title="Device Information"
+            icon="pi-info-circle"
+            [decorativeIcon]="true">
             @if (device()) {
               <div class="device-info">
                 <div class="info-row">
@@ -73,7 +76,10 @@
       </div>
       <div class="content">
         <div class="device-config-card">
-          <grn-card title="Device Configuration" icon="pi-cog">
+          <grn-card
+            title="Device Configuration"
+            icon="pi-cog"
+            [decorativeIcon]="true">
             @if (deviceConfig()!) {
               <div class="device-config w-full">
                 <div class="info-row">
@@ -139,9 +145,7 @@
                       <ngx-json-viewer
                         class="w-full"
                         [expanded]="true"
-                        [json]="
-                          deviceConfig()!.additional_config
-                        "></ngx-json-viewer>
+                        [json]="deviceConfig()!.additional_config" />
                     </div>
                   </div>
                 }
@@ -160,16 +164,14 @@
           <div class="content">
             <grn-graph
               [config]="config.config"
-              [header]="
-                config.config.graph_data[0]?.sub_property ?? ''
-              "></grn-graph>
+              [header]="config.config.graph_data[0]?.sub_property ?? ''" />
           </div>
         }
       }
 
       @if (hasAlert()) {
         <div class="content">
-          <grn-alert-list [dataSourceId]="dataSourceId()!"></grn-alert-list>
+          <grn-alert-list [dataSourceId]="dataSourceId()!" />
         </div>
       }
     }

@@ -74,9 +74,9 @@ stdenv.mkDerivation {
     runHook postInstall
   '';
 
-  # The single de-DE locale is built flat (`"subPath": ""` in angular.json), so
+  # The single de locale is built flat (`"subPath": ""` in angular.json), so
   # the app is served from `/`. Fail loudly if Angular ever reverts to a
-  # per-locale directory: serving under /de-DE/ breaks the auth cookie handling.
+  # per-locale directory: serving under a locale path breaks the auth cookie handling.
   doInstallCheck = true;
   installCheckPhase = ''
     runHook preInstallCheck

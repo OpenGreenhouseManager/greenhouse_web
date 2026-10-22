@@ -1,6 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, input, PLATFORM_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, input } from '@angular/core';
 import type { ChartData } from 'chart.js';
 import {
   addDays,
@@ -10,11 +8,7 @@ import {
   startOfDay,
   subDays,
 } from 'date-fns';
-import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
 import { CardComponent } from '../../card/card.component';
 import { barChartOptions, chartColors } from '../../shared/graph/chart_option';
 import type { Alert } from '../models/alert';
@@ -22,21 +16,12 @@ import { Severity } from '../models/alert';
 
 @Component({
   selector: 'grn-alert-detail-info',
-  imports: [
-    FormsModule,
-    InputTextModule,
-    InputGroupModule,
-    InputGroupAddonModule,
-    CardModule,
-    ChartModule,
-    CardComponent,
-  ],
+  imports: [ChartModule, CardComponent],
   templateUrl: './alert-detail-info.component.html',
   styleUrl: './alert-detail-info.component.scss',
 })
 export class AlertDetailInfoComponent {
   options = barChartOptions;
-  platformId = inject(PLATFORM_ID);
 
   alerts = input.required<Alert[]>();
 
@@ -90,40 +75,37 @@ export class AlertDetailInfoComponent {
     return names;
   }
 
-  data = computed<ChartData<'bar'> | undefined>(() => {
-    if (isPlatformBrowser(this.platformId)) {
-      const days = 8;
+  data = computed<ChartData<'bar'>>(() => {
+    const days = 8;
 
-      return {
-        labels: this.relativeDayNames(days),
-        datasets: [
-          {
-            type: 'bar',
-            label: 'Info',
-            backgroundColor: chartColors.info,
-            data: this.getCount(Severity.Info, days),
-          },
-          {
-            type: 'bar',
-            label: 'Warning',
-            backgroundColor: chartColors.warning,
-            data: this.getCount(Severity.Warning, days),
-          },
-          {
-            type: 'bar',
-            label: 'Error',
-            backgroundColor: chartColors.error,
-            data: this.getCount(Severity.Error, days),
-          },
-          {
-            type: 'bar',
-            label: 'Fatal',
-            backgroundColor: chartColors.fatal,
-            data: this.getCount(Severity.Fatal, days),
-          },
-        ],
-      };
-    }
-    return undefined;
+    return {
+      labels: this.relativeDayNames(days),
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Info',
+          backgroundColor: chartColors.info,
+          data: this.getCount(Severity.Info, days),
+        },
+        {
+          type: 'bar',
+          label: 'Warning',
+          backgroundColor: chartColors.warning,
+          data: this.getCount(Severity.Warning, days),
+        },
+        {
+          type: 'bar',
+          label: 'Error',
+          backgroundColor: chartColors.error,
+          data: this.getCount(Severity.Error, days),
+        },
+        {
+          type: 'bar',
+          label: 'Fatal',
+          backgroundColor: chartColors.fatal,
+          data: this.getCount(Severity.Fatal, days),
+        },
+      ],
+    };
   });
 }

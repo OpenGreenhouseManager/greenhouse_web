@@ -1,4 +1,4 @@
-<grn-nav-bar></grn-nav-bar>
+<grn-nav-bar />
 <main>
   <div class="heading">
     <div class="heading-left">
@@ -24,7 +24,7 @@
                   pInputText
                   type="text"
                   id="Title"
-                  [(ngModel)]="diary().title" />
+                  [formField]="diaryForm.title" />
               </div>
               <div class="editGroup">
                 <label for="Content">Content</label>
@@ -32,14 +32,14 @@
                   pTextarea
                   [autoResize]="true"
                   id="Content"
-                  [(ngModel)]="diary().content"></textarea>
+                  [formField]="diaryForm.content"></textarea>
               </div>
               <div class="editGroup">
                 <label for="Date">Date</label>
                 <p-datepicker
                   [style]="{ width: '100%' }"
                   inputId="calendar-24h"
-                  [(ngModel)]="diary().date"
+                  [formField]="diaryForm.date"
                   [showTime]="true"
                   [hourFormat]="'24'" />
               </div>

@@ -52,7 +52,7 @@ export default defineConfig(
         'warn',
         {
           type: 'attribute',
-          prefix: ['grn', 'app', 'alert', 'device', 'diary', 'graph'], // Allow multiple prefixes
+          prefix: 'grn',
           style: 'camelCase',
         },
       ],
@@ -60,7 +60,7 @@ export default defineConfig(
         'warn',
         {
           type: 'element',
-          prefix: ['grn', 'app', 'alert', 'device', 'diary', 'graph'], // Allow multiple prefixes
+          prefix: 'grn',
           style: 'kebab-case',
         },
       ],
@@ -80,10 +80,12 @@ export default defineConfig(
   },
   {
     files: ['**/*.html'],
-    extends: [...angular.configs.templateRecommended],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+    ],
     rules: {
       '@angular-eslint/template/no-negated-async': 'warn',
-      '@angular-eslint/template/use-track-by-function': 'off', // Turn off for development
     },
   },
   {

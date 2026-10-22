@@ -1,10 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardComponent } from '../card/card.component';
 import { GenerateOneTimeTokenRequestDto } from '../dtos/generate_one_time_token_request';
@@ -21,13 +19,11 @@ enum SettingsTabs {
   selector: 'grn-settings',
   imports: [
     NavBarComponent,
-    CommonModule,
     CardComponent,
     FormsModule,
     InputTextModule,
     ButtonDirective,
     InputGroupModule,
-    InputGroupAddonModule,
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',

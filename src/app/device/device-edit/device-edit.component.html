@@ -1,4 +1,4 @@
-<grn-nav-bar></grn-nav-bar>
+<grn-nav-bar />
 <main>
   <div class="heading">
     <div class="heading-left">
@@ -24,7 +24,7 @@
                   pInputText
                   type="text"
                   id="Name"
-                  [(ngModel)]="device().name" />
+                  [formField]="deviceForm.name" />
               </div>
               <div class="editGroup">
                 <label for="Description">Description</label>
@@ -32,7 +32,7 @@
                   pTextarea
                   [autoResize]="true"
                   id="Description"
-                  [(ngModel)]="device().description"></textarea>
+                  [formField]="deviceForm.description"></textarea>
               </div>
               <div class="editGroup">
                 <label for="Address">Address</label>
@@ -40,23 +40,23 @@
                   pInputText
                   type="text"
                   id="Address"
-                  [(ngModel)]="device().address" />
+                  [formField]="deviceForm.address" />
               </div>
               <div class="editGroup">
                 <label for="CanScript">Can Script</label>
                 <p-checkbox
                   id="CanScript"
-                  [(ngModel)]="device().can_script"
+                  [formField]="deviceForm.can_script"
                   [binary]="true"
-                  inputId="CanScript"></p-checkbox>
+                  inputId="CanScript" />
               </div>
               <div class="editGroup">
                 <label for="scraping">scraping</label>
                 <p-checkbox
                   id="scraping"
-                  [(ngModel)]="device().scraping"
+                  [formField]="deviceForm.scraping"
                   [binary]="true"
-                  inputId="scraping"></p-checkbox>
+                  inputId="scraping" />
               </div>
             </div>
           </div>

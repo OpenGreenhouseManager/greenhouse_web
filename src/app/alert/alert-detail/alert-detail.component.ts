@@ -1,13 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { catchError, of } from 'rxjs';
 import { NavBarComponent } from '../../nav_bar/nav_bar.component';
 import { AlertAliasService } from '../../services/alert-alias.service';
 import { AlertDetailInfoComponent } from '../alert-detail-info/alert-detail-info.component';
@@ -20,11 +17,7 @@ import { AlertService } from '../services/alert-service';
     NavBarComponent,
     AlertDetailListComponent,
     AlertDetailInfoComponent,
-    FormsModule,
-    InputTextModule,
     ButtonDirective,
-    InputGroupModule,
-    InputGroupAddonModule,
     MessageModule,
   ],
   templateUrl: './alert-detail.component.html',
@@ -42,30 +35,22 @@ export class AlertDetailComponent {
     if (!this.identifier || !this.dataSource) {
       return null;
     }
-    return this.searchForAlias(this.dataSource);
+    return this.alertAliasService.getAlias(this.dataSource);
   });
+  // undefined while loading, null on error
   alerts = toSignal(
-    this.alertService.queryAlerts({
-      identifier: this.identifier || undefined,
-      datasource_id: this.dataSource || undefined,
-    })
+    this.alertService
+      .queryAlerts({
+        identifier: this.identifier || undefined,
+        datasource_id: this.dataSource || undefined,
+      })
+      .pipe(catchError(() => of(null)))
   );
-
-  getDate(date: Date | undefined): string {
-    if (!date) {
-      return '';
-    }
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  }
 
   display(identifier: string): string {
     return identifier.length <= 16
       ? identifier
       : `${identifier.substring(0, 13)}...`;
-  }
-
-  searchForAlias(identifier: string): string | null {
-    return this.alertAliasService.getAliasSync(identifier);
   }
 
   goBack() {

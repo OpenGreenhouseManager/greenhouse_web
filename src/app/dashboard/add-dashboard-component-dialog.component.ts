@@ -1,12 +1,15 @@
 import {
   Component,
-  effect,
+  computed,
   inject,
   input,
+  linkedSignal,
   output,
   signal,
 } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { catchError, map, of } from 'rxjs';
 import { ButtonDirective } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
@@ -69,22 +72,22 @@ export interface DashboardComponentCreate {
       </div>
 
       @if (
-        selectedComponentType === 'graph' ||
-        selectedComponentType === 'latestValue' ||
-        selectedComponentType === 'compass'
+        selectedComponentType() === 'graph' ||
+        selectedComponentType() === 'latestValue' ||
+        selectedComponentType() === 'compass'
       ) {
         <grn-single-data-form
           [devices]="devices()"
           (selectedDevice)="singleData.set($event)" />
       }
 
-      @if (selectedComponentType === 'multiGraph') {
+      @if (selectedComponentType() === 'multiGraph') {
         <grn-multi-data-form
           [devices]="devices()"
           (selectedDevices)="multiData.set($event)" />
       }
 
-      @if (selectedComponentType === 'alertList') {
+      @if (selectedComponentType() === 'alertList') {
         <grn-alert-form (selectedDataSource)="dataSourceId.set($event)" />
       }
 
@@ -109,16 +112,35 @@ export interface DashboardComponentCreate {
 })
 export class AddDashboardComponentDialogComponent {
   visible = input<boolean>(false);
-  visibleSignal = signal(this.visible());
+  visibleSignal = linkedSignal(() => this.visible());
   dialogClose = output<void>();
   componentAdded = output<DashboardComponentCreate>();
   deviceService = inject(DeviceService);
 
-  selectedComponentType:
-    'graph' | 'multiGraph' | 'alertList' | 'latestValue' | 'compass' = 'graph';
-  devices = signal<DeviceResponseDto[]>([]);
+  // Reset to defaults whenever the dialog is opened or closed
+  selectedComponentType = linkedSignal<
+    boolean,
+    DashboardComponentCreate['type']
+  >({
+    source: this.visible,
+    computation: () => 'graph',
+  });
+  name = linkedSignal({ source: this.visible, computation: () => '' });
+
+  // Load all devices for autocomplete each time the dialog opens
+  private devicesResource = rxResource({
+    params: () => this.visible() || undefined,
+    stream: () =>
+      this.deviceService.getAllDevices().pipe(
+        map(res => res.devices ?? []),
+        catchError(() => of([]))
+      ),
+    defaultValue: [],
+  });
+  devices = computed<DeviceResponseDto[]>(() =>
+    this.devicesResource.hasValue() ? this.devicesResource.value() : []
+  );
   dataSourceId = signal<string | null>(null);
-  name = '';
 
   singleData = signal<{
     deviceId: string;
@@ -133,35 +155,17 @@ export class AddDashboardComponentDialogComponent {
     }[];
   } | null>(null);
 
-  constructor() {
-    effect(() => {
-      this.visibleSignal.set(this.visible());
-      if (this.visible()) {
-        this.resetForm();
-        this.loadAllDevices();
-      }
-    });
-  }
+  isFormValid = computed(() => {
+    const type = this.selectedComponentType();
+    if (!type) return false;
 
-  resetForm() {
-    this.selectedComponentType = 'graph';
-    this.name = '';
-  }
+    if (!this.name()) return false;
 
-  isFormValid(): boolean {
-    if (!this.selectedComponentType) return false;
-
-    if (!this.name) return false;
-
-    if (
-      this.selectedComponentType === 'graph' ||
-      this.selectedComponentType === 'latestValue' ||
-      this.selectedComponentType === 'compass'
-    ) {
+    if (type === 'graph' || type === 'latestValue' || type === 'compass') {
       return this.singleData() !== null;
     }
 
-    if (this.selectedComponentType === 'multiGraph') {
+    if (type === 'multiGraph') {
       // Require at least 2 valid device IDs
 
       const validCount =
@@ -170,7 +174,7 @@ export class AddDashboardComponentDialogComponent {
       return validCount >= 2;
     }
 
-    if (this.selectedComponentType === 'alertList') {
+    if (type === 'alertList') {
       const data = this.dataSourceId();
       if (!data) {
         return false;
@@ -178,44 +182,29 @@ export class AddDashboardComponentDialogComponent {
       return data.trim() !== '';
     }
     return false;
-  }
+  });
 
   onCloseDialog() {
     this.dialogClose.emit();
     this.visibleSignal.set(false);
   }
 
-  // Load all devices once for autocomplete
-  loadAllDevices() {
-    this.deviceService.getAllDevices().subscribe({
-      next: res => {
-        this.devices.set(res.devices ?? []);
-      },
-      error: () => {
-        this.devices.set([]);
-      },
-    });
-  }
-
   onSave() {
     if (!this.isFormValid()) return;
 
+    const type = this.selectedComponentType();
     const component: DashboardComponentCreate = {
-      type: this.selectedComponentType,
-      name: this.name.trim(),
+      type,
+      name: this.name().trim(),
     };
 
-    if (
-      this.selectedComponentType === 'graph' ||
-      this.selectedComponentType === 'latestValue' ||
-      this.selectedComponentType === 'compass'
-    ) {
+    if (type === 'graph' || type === 'latestValue' || type === 'compass') {
       const data = this.singleData();
       if (!data) {
         return;
       }
       component.graphData = [data];
-    } else if (this.selectedComponentType === 'multiGraph') {
+    } else if (type === 'multiGraph') {
       const data = this.multiData();
       if (!data) {
         return;
@@ -227,7 +216,7 @@ export class AddDashboardComponentDialogComponent {
           deviceId: e.deviceId.trim(),
           subProperty: e.subProperty.trim(),
         }));
-    } else if (this.selectedComponentType === 'alertList') {
+    } else if (type === 'alertList') {
       const data = this.dataSourceId();
       if (!data) {
         return;
